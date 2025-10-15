@@ -70,6 +70,67 @@ type AccountSearchResponse struct {
 	Rows     []Account `json:"rows"`
 }
 
+type Certificate struct {
+	Enabled          string `json:"enabled"`
+	Name             string `json:"name"`
+	Description      string `json:"description"`
+	AltNames         string `json:"altNames"`
+	Account          string `json:"account"`
+	ValidationMethod string `json:"validationMethod"`
+	AutoRenewal      string `json:"autoRenewal"`
+	RenewInterval    string `json:"renewInterval"`
+	KeyLength        string `json:"keyLength"`
+	OCSP             string `json:"ocsp"`
+	RestartActions   string `json:"restartActions"`
+	AliasMode        string `json:"aliasmode"`
+	DomainAlias      string `json:"domainalias"`
+	ChallengeAlias   string `json:"challengealias"`
+}
+
+type CertificateGet struct {
+	ID               string            `json:"id"`
+	Enabled          string            `json:"enabled"`
+	Name             string            `json:"name"`
+	Description      string            `json:"description"`
+	AltNames         []string          `json:"altNames"`
+	Account          map[string]Option `json:"account"`
+	ValidationMethod map[string]Option `json:"validationMethod"`
+	KeyLength        map[string]Option `json:"keyLength"`
+	OCSP             string            `json:"ocsp"`
+	RestartActions   []string          `json:"restartActions"`
+	AutoRenewal      string            `json:"autoRenewal"`
+	RenewInterval    string            `json:"renewInterval"`
+	AliasMode        map[string]Option `json:"aliasmode"`
+	DomainAlias      string            `json:"domainalias"`
+	ChallengeAlias   string            `json:"challengealias"`
+	CertRefID        string            `json:"certRefId"`
+	LastUpdate       string            `json:"lastUpdate"`
+	StatusCode       string            `json:"statusCode"`
+	StatusLastUpdate string            `json:"statusLastUpdate"`
+}
+
+type CertificateGetResponse struct {
+	Certificate CertificateGet `json:"certificate"`
+}
+
+type CertificateSearchItem struct {
+	UUID             string `json:"uuid"`
+	Enabled          string `json:"enabled"`
+	Name             string `json:"name"`
+	AltNames         string `json:"altNames"`
+	Description      string `json:"description"`
+	LastUpdate       string `json:"lastUpdate"`
+	StatusCode       string `json:"statusCode"`
+	StatusLastUpdate string `json:"statusLastUpdate"`
+}
+
+type CertificateSearchResult struct {
+	Rows     []CertificateSearchItem `json:"rows"`
+	RowCount int                     `json:"rowCount"`
+	Total    int                     `json:"total"`
+	Current  int                     `json:"current"`
+}
+
 type ChallengeCreateRequest struct {
 	Validation Validation `json:"validation"`
 }
@@ -823,6 +884,121 @@ func (c *Controller) ACMEClientEditChallengeType(ctx context.Context, uuid strin
 	result, err := api.Call(c.Client(), ctx, callOpts, resultData)
 	if err != nil {
 		return nil, fmt.Errorf("EditChallengeType call failed: %w", err)
+	}
+	return result, nil
+}
+
+// ACMEClientAddCert executes the AddCert RPC call of the ACMEClient controller
+func (c *Controller) ACMEClientAddCert(ctx context.Context, certificate Certificate) (*api.ActionResult, error) {
+
+	callParams := []string{}
+	bodyParams := make(map[string]interface{})
+
+	bodyParams["certificate"] = certificate
+
+	callOpts := api.RPCOpts{
+		BaseEndpoint:   "/acmeclient/certificates/add",
+		Method:         "POST",
+		PathParameters: callParams,
+		BodyParameters: bodyParams,
+	}
+
+	resultData := &api.ActionResult{}
+	result, err := api.Call(c.Client(), ctx, callOpts, resultData)
+	if err != nil {
+		return nil, fmt.Errorf("AddCert call failed: %w", err)
+	}
+	return result, nil
+}
+
+// ACMEClientSearchCert executes the SearchCert RPC call of the ACMEClient controller
+func (c *Controller) ACMEClientSearchCert(ctx context.Context) (*CertificateSearchResult, error) {
+
+	callParams := []string{}
+	bodyParams := make(map[string]interface{})
+
+	callOpts := api.RPCOpts{
+		BaseEndpoint:   "/acmeclient/certificates/search",
+		Method:         "POST",
+		PathParameters: callParams,
+		BodyParameters: bodyParams,
+	}
+
+	resultData := &CertificateSearchResult{}
+	result, err := api.Call(c.Client(), ctx, callOpts, resultData)
+	if err != nil {
+		return nil, fmt.Errorf("SearchCert call failed: %w", err)
+	}
+	return result, nil
+}
+
+// ACMEClientEditCert executes the EditCert RPC call of the ACMEClient controller
+func (c *Controller) ACMEClientEditCert(ctx context.Context, uuid string, certificate Certificate) (*api.ActionResult, error) {
+
+	callParams := []string{}
+	bodyParams := make(map[string]interface{})
+
+	callParams = append(callParams, uuid)
+
+	bodyParams["certificate"] = certificate
+
+	callOpts := api.RPCOpts{
+		BaseEndpoint:   "/acmeclient/certificates/update",
+		Method:         "POST",
+		PathParameters: callParams,
+		BodyParameters: bodyParams,
+	}
+
+	resultData := &api.ActionResult{}
+	result, err := api.Call(c.Client(), ctx, callOpts, resultData)
+	if err != nil {
+		return nil, fmt.Errorf("EditCert call failed: %w", err)
+	}
+	return result, nil
+}
+
+// ACMEClientDeleteCert executes the DeleteCert RPC call of the ACMEClient controller
+func (c *Controller) ACMEClientDeleteCert(ctx context.Context, uuid string) (*api.ActionResult, error) {
+
+	callParams := []string{}
+	bodyParams := make(map[string]interface{})
+
+	callParams = append(callParams, uuid)
+
+	callOpts := api.RPCOpts{
+		BaseEndpoint:   "/acmeclient/certificates/del",
+		Method:         "POST",
+		PathParameters: callParams,
+		BodyParameters: bodyParams,
+	}
+
+	resultData := &api.ActionResult{}
+	result, err := api.Call(c.Client(), ctx, callOpts, resultData)
+	if err != nil {
+		return nil, fmt.Errorf("DeleteCert call failed: %w", err)
+	}
+	return result, nil
+}
+
+// ACMEClientGetCert executes the GetCert RPC call of the ACMEClient controller
+func (c *Controller) ACMEClientGetCert(ctx context.Context, uuid string) (*CertificateGetResponse, error) {
+
+	callParams := []string{}
+	bodyParams := make(map[string]interface{})
+
+	callParams = append(callParams, uuid)
+
+	callOpts := api.RPCOpts{
+		BaseEndpoint:   "/acmeclient/certificates/get",
+		Method:         "GET",
+		PathParameters: callParams,
+		BodyParameters: bodyParams,
+	}
+
+	resultData := &CertificateGetResponse{}
+	result, err := api.Call(c.Client(), ctx, callOpts, resultData)
+	if err != nil {
+		return nil, fmt.Errorf("GetCert call failed: %w", err)
 	}
 	return result, nil
 }

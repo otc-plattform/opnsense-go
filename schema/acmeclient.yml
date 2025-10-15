@@ -1699,6 +1699,154 @@ rpc:
           type: ValidationGet
           key: validation
 
+      Certificate:
+        - name: Enabled
+          type: string
+          key: enabled
+        - name: Name
+          type: string
+          key: name
+        - name: Description
+          type: string
+          key: description
+        - name: AltNames
+          type: string
+          key: altNames
+        - name: Account
+          type: string
+          key: account
+        - name: ValidationMethod
+          type: string
+          key: validationMethod
+        - name: AutoRenewal
+          type: string
+          key: autoRenewal
+        - name: RenewInterval
+          type: string
+          key: renewInterval
+        - name: KeyLength
+          type: string
+          key: keyLength
+        - name: OCSP
+          type: string
+          key: ocsp
+        - name: RestartActions
+          type: string
+          key: restartActions
+        - name: AliasMode
+          type: string
+          key: aliasmode
+        - name: DomainAlias
+          type: string
+          key: domainalias
+        - name: ChallengeAlias
+          type: string
+          key: challengealias
+
+      CertificateSearchItem:
+        - name: UUID
+          type: string
+          key: uuid
+        - name: Enabled
+          type: string
+          key: enabled
+        - name: Name
+          type: string
+          key: name
+        - name: AltNames
+          type: string
+          key: altNames
+        - name: Description
+          type: string
+          key: description
+        - name: LastUpdate
+          type: string
+          key: lastUpdate
+        - name: StatusCode
+          type: string
+          key: statusCode
+        - name: StatusLastUpdate
+          type: string
+          key: statusLastUpdate
+
+      CertificateSearchResult:
+        - name: Rows
+          type: "[]CertificateSearchItem"
+          key: rows
+        - name: RowCount
+          type: int
+          key: rowCount
+        - name: Total
+          type: int
+          key: total
+        - name: Current
+          type: int
+          key: current
+
+      CertificateGet:
+        - name: ID
+          type: string
+          key: id
+        - name: Enabled
+          type: string
+          key: enabled
+        - name: Name
+          type: string
+          key: name
+        - name: Description
+          type: string
+          key: description
+        - name: AltNames
+          type: "[]string"
+          key: altNames
+        - name: Account
+          type: "map[string]Option"
+          key: account
+        - name: ValidationMethod
+          type: "map[string]Option"
+          key: validationMethod
+        - name: KeyLength
+          type: "map[string]Option"
+          key: keyLength
+        - name: OCSP
+          type: string
+          key: ocsp
+        - name: RestartActions
+          type: "[]string"
+          key: restartActions
+        - name: AutoRenewal
+          type: string
+          key: autoRenewal
+        - name: RenewInterval
+          type: string
+          key: renewInterval
+        - name: AliasMode
+          type: "map[string]Option"
+          key: aliasmode
+        - name: DomainAlias
+          type: string
+          key: domainalias
+        - name: ChallengeAlias
+          type: string
+          key: challengealias
+        - name: CertRefID
+          type: string
+          key: certRefId
+        - name: LastUpdate
+          type: string
+          key: lastUpdate
+        - name: StatusCode
+          type: string
+          key: statusCode
+        - name: StatusLastUpdate
+          type: string
+          key: statusLastUpdate
+
+      CertificateGetResponse:
+        - name: Certificate
+          type: CertificateGet
+          key: certificate
+
     rpc_calls:
       #
       # Account Calls
@@ -1783,3 +1931,45 @@ rpc:
             optional: false
             type: "Validation"
             bodyParameter: true
+
+      #
+      # Cert Calls
+      #
+      - name: "AddCert"
+        method: "POST"
+        endpoint: "/acmeclient/certificates/add"
+        result_type: "api.ActionResult"
+        params:
+          - name: "certificate"
+            optional: false
+            type: "Certificate"
+            bodyParameter: true
+      - name: "SearchCert"
+        method: "POST"
+        endpoint: "/acmeclient/certificates/search"
+        result_type: "CertificateSearchResult"
+      - name: "EditCert"
+        method: "POST"
+        endpoint: "/acmeclient/certificates/update"
+        result_type: "api.ActionResult"
+        params:
+          - name: "uuid"
+            optional: false
+          - name: "certificate"
+            optional: false
+            type: "Certificate"
+            bodyParameter: true
+      - name: "DeleteCert"
+        method: "POST"
+        endpoint: "/acmeclient/certificates/del"
+        result_type: "api.ActionResult"
+        params:
+          - name: "uuid"
+            optional: false
+      - name: "GetCert"
+        method: "GET"
+        endpoint: "/acmeclient/certificates/get"
+        result_type: "CertificateGetResponse"
+        params:
+          - name: "uuid"
+            optional: false
