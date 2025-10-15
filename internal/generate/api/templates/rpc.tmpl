@@ -24,10 +24,10 @@ type {{ $key }} struct {
 
 {{- $rpcContext := .RPC -}}
 {{ range .RPC.RPCCalls }}
-// {{ $rpcContext.Name }}{{ .Name }} executes the {{ .Name }} RPC call of the {{ $rpcContext.Name }} controller 
+// {{ $rpcContext.Name }}{{ .Name }} executes the {{ .Name }} RPC call of the {{ $rpcContext.Name }} controller
 func (c *Controller) {{ $rpcContext.Name }}{{ .Name }}(ctx context.Context
     {{- range .Parameters -}}
-        , {{ .Name }} {{ if .Optional }}*{{ end }}string
+        , {{ .Name }} {{ if .Optional }}*{{ end }}{{ if .Type }} {{ .Type }} {{ else }} string {{ end }}
     {{- end -}}
     ) (*{{ .ResultType }},error) {
 
@@ -41,7 +41,7 @@ func (c *Controller) {{ $rpcContext.Name }}{{ .Name }}(ctx context.Context
     callParams = append(callParams,*{{ .Name }})
     }
     {{- else }}
-    callParams = append(callParams,{{ .Name }}) 
+    callParams = append(callParams,{{ .Name }})
     {{- end }}
     {{- else }}
     bodyParams["{{ .Name }}"]={{ .Name }}
@@ -54,7 +54,7 @@ func (c *Controller) {{ $rpcContext.Name }}{{ .Name }}(ctx context.Context
         PathParameters: callParams,
         BodyParameters: bodyParams,
     }
-    
+
     resultData:=&{{ .ResultType }}{}
     result, err := api.Call(c.Client(), ctx, callOpts, resultData)
     if err != nil {

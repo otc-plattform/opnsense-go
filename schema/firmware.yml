@@ -1,0 +1,165 @@
+---
+name: firmware
+rpc:
+  - name: "Firmware"
+    filename: firmware
+    customTypes:
+      FirmwarePackage:
+        - name: Name
+          type: string
+          key: name
+        - name: Version
+          type: string
+          key: version
+        - name: Comment
+          type: string
+          key: comment
+        - name: Flatsize
+          type: string
+          key: flatsize
+        - name: Locked
+          type: string
+          key: locked
+        - name: Automatic
+          type: string
+          key: automatic
+        - name: License
+          type: string
+          key: license
+        - name: Repository
+          type: string
+          key: repository
+        - name: Origin
+          type: string
+          key: origin
+        - name: Provided
+          type: string
+          key: provided
+        - name: Installed
+          type: string
+          key: installed
+        - name: Path
+          type: string
+          key: path
+        - name: Configured
+          type: string
+          key: configured
+        - name: Tier
+          type: string
+          key: tier
+
+      FirmwareChangelogItem:
+        - name: Series
+          type: string
+          key: series
+        - name: Version
+          type: string
+          key: version
+        - name: Date
+          type: string
+          key: date
+
+      FirmwareProductInfo:
+        - name: ProductABI
+          type: string
+          key: product_abi
+        - name: ProductArch
+          type: string
+          key: product_arch
+        - name: ProductCheck
+          type: string
+          key: product_check
+        - name: ProductConflicts
+          type: string
+          key: product_conflicts
+        - name: ProductCopyrightOwner
+          type: string
+          key: product_copyright_owner
+        - name: ProductCopyrightURL
+          type: string
+          key: product_copyright_url
+        - name: ProductCopyrightYears
+          type: string
+          key: product_copyright_years
+        - name: ProductEmail
+          type: string
+          key: product_email
+        - name: ProductHash
+          type: string
+          key: product_hash
+        - name: ProductID
+          type: string
+          key: product_id
+        - name: ProductLatest
+          type: string
+          key: product_latest
+        - name: ProductLicense
+          type: "[]string"
+          key: product_license
+        - name: ProductLog
+          type: int
+          key: product_log
+        - name: ProductMirror
+          type: string
+          key: product_mirror
+        - name: ProductName
+          type: string
+          key: product_name
+        - name: ProductNickname
+          type: string
+          key: product_nickname
+        - name: ProductRepos
+          type: string
+          key: product_repos
+        - name: ProductSeries
+          type: string
+          key: product_series
+        - name: ProductTier
+          type: string
+          key: product_tier
+        - name: ProductTime
+          type: string
+          key: product_time
+        - name: ProductVersion
+          type: string
+          key: product_version
+        - name: ProductWebsite
+          type: string
+          key: product_website
+
+      FirmwareInfoResponse:
+        - name: ProductID
+          type: string
+          key: product_id
+        - name: ProductVersion
+          type: string
+          key: product_version
+        - name: Package
+          type: "[]FirmwarePackage"
+          key: package
+        - name: Changelog
+          type: "[]FirmwareChangelogItem"
+          key: changelog
+        - name: Product
+          type: FirmwareProductInfo
+          key: product
+
+    rpc_calls:
+      - name: "Info"
+        method: "GET"
+        endpoint: "/core/firmware/info"
+        result_type: "FirmwareInfoResponse"
+      - name: "Install"
+        method: "POST"
+        endpoint: "/core/firmware/install"
+        result_type: "api.ActionResult"
+        params:
+          - name: "pkg"
+            optional: false
+      - name: "Remove"
+        method: "POST"
+        endpoint: "/core/firmware/remove"
+        result_type: "api.ActionResult"
+        params:
+          - name: "pkg"
+            optional: false

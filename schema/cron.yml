@@ -1,0 +1,202 @@
+---
+name: cron
+rpc:
+  - name: "Settings"
+    filename: settings
+    customTypes:
+      CommandOption:
+        - name: Value
+          type: string
+          key: value
+        - name: Selected
+          type: int
+          key: selected
+      GetJob:
+        - name: Origin
+          type: string
+          key: origin
+        - name: Enabled
+          type: string
+          key: enabled
+        - name: Minutes
+          type: string
+          key: minutes
+        - name: Hours
+          type: string
+          key: hours
+        - name: Days
+          type: string
+          key: days
+        - name: Months
+          type: string
+          key: months
+        - name: Weekdays
+          type: string
+          key: weekdays
+        - name: Who
+          type: string
+          key: who
+        - name: Command
+          type: "map[string]CommandOption"
+          key: command
+        - name: Parameters
+          type: string
+          key: parameters
+        - name: Description
+          type: string
+          key: description
+      GetJobResponse:
+        - name: Job
+          type: GetJob
+          key: job
+      Item:
+        - name: UUID
+          type: string
+          key: uuid
+        - name: Origin
+          type: string
+          key: origin
+        - name: Enabled
+          type: string
+          key: enabled
+        - name: Minutes
+          type: string
+          key: minutes
+        - name: Hours
+          type: string
+          key: hours
+        - name: Days
+          type: string
+          key: days
+        - name: Months
+          type: string
+          key: months
+        - name: Weekdays
+          type: string
+          key: weekdays
+        - name: Who
+          type: string
+          key: who
+        - name: Command
+          type: string
+          key: command
+        - name: Parameters
+          type: string
+          key: parameters
+        - name: Description
+          type: string
+          key: description
+      AddJobRequest:
+        - name: Origin
+          type: string
+          key: origin
+        - name: Enabled
+          type: string
+          key: enabled
+        - name: Minutes
+          type: string
+          key: minutes
+        - name: Hours
+          type: string
+          key: hours
+        - name: Days
+          type: string
+          key: days
+        - name: Months
+          type: string
+          key: months
+        - name: Weekdays
+          type: string
+          key: weekdays
+        - name: Command
+          type: string
+          key: command
+        - name: Parameters
+          type: string
+          key: parameters
+        - name: Description
+          type: string
+          key: description
+      SetJobRequest:
+        - name: Origin
+          type: string
+          key: origin
+        - name: Enabled
+          type: string
+          key: enabled
+        - name: Minutes
+          type: string
+          key: minutes
+        - name: Hours
+          type: string
+          key: hours
+        - name: Days
+          type: string
+          key: days
+        - name: Months
+          type: string
+          key: months
+        - name: Weekdays
+          type: string
+          key: weekdays
+        - name: Command
+          type: string
+          key: command
+        - name: Parameters
+          type: string
+          key: parameters
+        - name: Description
+          type: string
+          key: description
+      SearchResponse:
+        - name: Total
+          type: int
+          key: total
+        - name: RowCount
+          type: int
+          key: rowCount
+        - name: Current
+          type: int
+          key: current
+        - name: Rows
+          type: "[]Item"
+          key: rows
+    rpc_calls:
+      - name: "AddJob"
+        method: "POST"
+        endpoint: "/cron/settings/add_job"
+        result_type: "api.ActionResult"
+        params:
+          - name: "job"
+            optional: false
+            type: "AddJobRequest"
+            bodyParameter: true
+      - name: "SetJob"
+        method: "POST"
+        endpoint: "/cron/settings/set_job"
+        result_type: "api.ActionResult"
+        params:
+          - name: "job"
+            optional: false
+            type: "SetJobRequest"
+            bodyParameter: true
+          - name: "uuid"
+            optional: false
+      - name: "SearchJobs"
+        method: "POST"
+        endpoint: "/cron/settings/search_jobs"
+        result_type: "SearchResponse"
+      - name: "GetJob"
+        method: "POST"
+        endpoint: "/cron/settings/get_job"
+        result_type: "GetJobResponse"
+        params:
+          - name: "uuid"
+            optional: false
+      - name: "DeleteJob"
+        method: "POST"
+        endpoint: "/cron/settings/del_job"
+        result_type: "api.ActionResult"
+        params:
+          - name: "uuid"
+            optional: false

@@ -1,0 +1,184 @@
+---
+name: acmeclient
+rpc:
+  - name: "ACMEClient"
+    filename: acmeclient
+    customTypes:
+      Account:
+        - name: UUID
+          type: string
+          key: string
+        - name: Enabled
+          type: string
+          key: enabled
+        - name: Name
+          type: string
+          key: name
+        - name: Description
+          type: string
+          key: description
+        - name: Email
+          type: string
+          key: email
+        - name: CA
+          type: string
+          key: ca
+        - name: CustomCA
+          type: string
+          key: custom_ca
+        - name: EABKID
+          type: string
+          key: eab_kid
+        - name: EABHMAC
+          type: string
+          key: eab_hmac
+      AccountCreateRequest:
+        - name: Enabled
+          type: string
+          key: enabled
+        - name: Name
+          type: string
+          key: name
+        - name: Description
+          type: string
+          key: description
+        - name: Email
+          type: string
+          key: email
+        - name: CA
+          type: string
+          key: ca
+        - name: CustomCA
+          type: string
+          key: custom_ca
+        - name: EABKID
+          type: string
+          key: eab_kid
+        - name: EABHMAC
+          type: string
+          key: eab_hmac
+      AccountEditRequest:
+        - name: Enabled
+          type: string
+          key: enabled
+        - name: Name
+          type: string
+          key: name
+        - name: Description
+          type: string
+          key: description
+        - name: Email
+          type: string
+          key: email
+        - name: CA
+          type: string
+          key: ca
+        - name: CustomCA
+          type: string
+          key: custom_ca
+        - name: EABKID
+          type: string
+          key: eab_kid
+        - name: EABHMAC
+          type: string
+          key: eab_hmac
+      Option:
+        - name: Value
+          type: string
+          key: value
+        - name: Selected
+          type: int
+          key: selected
+      AccountGet:
+        - name: ID
+          type: string
+          key: id
+        - name: Enabled
+          type: string
+          key: enabled
+        - name: Name
+          type: string
+          key: name
+        - name: Description
+          type: string
+          key: description
+        - name: Email
+          type: string
+          key: email
+        - name: CA
+          type: "map[string]Option"
+          key: ca
+        - name: CustomCA
+          type: string
+          key: custom_ca
+        - name: EABKID
+          type: string
+          key: eab_kid
+        - name: EABHMAC
+          type: string
+          key: eab_hmac
+        - name: Key
+          type: string
+          key: key
+        - name: StatusCode
+          type: string
+          key: statusCode
+        - name: StatusLastUpdate
+          type: string
+          key: statusLastUpdate
+      GetAccountResponse:
+        - name: Account
+          type: AccountGet
+          key: account
+      SearchAccountResponse:
+        - name: Total
+          type: int
+          key: total
+        - name: RowCount
+          type: int
+          key: rowCount
+        - name: Current
+          type: int
+          key: current
+        - name: Rows
+          type: "[]Account"
+          key: rows
+    rpc_calls:
+      - name: "AddAccount"
+        method: "POST"
+        endpoint: "/acmeclient/accounts/add"
+        result_type: "api.ActionResult"
+        params:
+          - name: "account"
+            optional: false
+            type: "AccountCreateRequest"
+            bodyParameter: true
+      - name: "EditAccount"
+        method: "POST"
+        endpoint: "/acmeclient/accounts/update"
+        result_type: "api.ActionResult"
+        params:
+          - name: "uuid"
+            optional: false
+          - name: "account"
+            optional: false
+            type: "AccountEditRequest"
+            bodyParameter: true
+      - name: "SearchAccount"
+        method: "POST"
+        endpoint: "/acmeclient/accounts/search"
+        result_type: "SearchAccountResponse"
+      - name: "GetAccount"
+        method: "GET"
+        endpoint: "/acmeclient/accounts/get"
+        result_type: "GetAccountResponse"
+        params:
+          - name: "uuid"
+            optional: false
+      - name: "DeleteAccount"
+        method: "POST"
+        endpoint: "/acmeclient/accounts/del"
+        result_type: "api.ActionResult"
+        params:
+          - name: "uuid"
+            optional: false

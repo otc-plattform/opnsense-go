@@ -3,11 +3,14 @@
 package opnsense
 
 import (
+	"github.com/browningluke/opnsense-go/pkg/acmeclient"
 	"github.com/browningluke/opnsense-go/pkg/api"
 	"github.com/browningluke/opnsense-go/pkg/bind"
 	"github.com/browningluke/opnsense-go/pkg/core"
+	"github.com/browningluke/opnsense-go/pkg/cron"
 	"github.com/browningluke/opnsense-go/pkg/diagnostics"
 	"github.com/browningluke/opnsense-go/pkg/firewall"
+	"github.com/browningluke/opnsense-go/pkg/firmware"
 	"github.com/browningluke/opnsense-go/pkg/interfaces"
 	"github.com/browningluke/opnsense-go/pkg/ipsec"
 	"github.com/browningluke/opnsense-go/pkg/kea"
@@ -19,10 +22,13 @@ import (
 
 // Client defines a client interface for the Proxmox Virtual Environment API.
 type Client interface {
+	Acmeclient() *acmeclient.Controller
 	Bind() *bind.Controller
 	Core() *core.Controller
+	Cron() *cron.Controller
 	Diagnostics() *diagnostics.Controller
 	Firewall() *firewall.Controller
+	Firmware() *firmware.Controller
 	Interfaces() *interfaces.Controller
 	Ipsec() *ipsec.Controller
 	Kea() *kea.Controller
@@ -41,6 +47,10 @@ func NewClient(a *api.Client) Client {
 	return &client{a: a}
 }
 
+func (c *client) Acmeclient() *acmeclient.Controller {
+	return &acmeclient.Controller{Api: c.a}
+}
+
 func (c *client) Bind() *bind.Controller {
 	return &bind.Controller{Api: c.a}
 }
@@ -49,12 +59,20 @@ func (c *client) Core() *core.Controller {
 	return &core.Controller{Api: c.a}
 }
 
+func (c *client) Cron() *cron.Controller {
+	return &cron.Controller{Api: c.a}
+}
+
 func (c *client) Diagnostics() *diagnostics.Controller {
 	return &diagnostics.Controller{Api: c.a}
 }
 
 func (c *client) Firewall() *firewall.Controller {
 	return &firewall.Controller{Api: c.a}
+}
+
+func (c *client) Firmware() *firmware.Controller {
+	return &firmware.Controller{Api: c.a}
 }
 
 func (c *client) Interfaces() *interfaces.Controller {
