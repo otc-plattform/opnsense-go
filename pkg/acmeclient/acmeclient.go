@@ -59,8 +59,34 @@ type AccountGet struct {
 	StatusLastUpdate string            `json:"statusLastUpdate"`
 }
 
-type GetAccountResponse struct {
+type AccountGetResponse struct {
 	Account AccountGet `json:"account"`
+}
+
+type AccountSearchResponse struct {
+	Total    int       `json:"total"`
+	RowCount int       `json:"rowCount"`
+	Current  int       `json:"current"`
+	Rows     []Account `json:"rows"`
+}
+
+type ChallengeCreateRequest struct {
+	Validation Validation `json:"validation"`
+}
+
+type ChallengeSearchItem struct {
+	UUID        string `json:"uuid"`
+	Enabled     string `json:"enabled"`
+	Name        string `json:"name"`
+	Method      string `json:"method"`
+	Description string `json:"description"`
+}
+
+type ChallengeSearchResponse struct {
+	Total    int                   `json:"total"`
+	RowCount int                   `json:"rowCount"`
+	Current  int                   `json:"current"`
+	Rows     []ChallengeSearchItem `json:"rows"`
 }
 
 type Option struct {
@@ -68,11 +94,507 @@ type Option struct {
 	Selected int    `json:"selected"`
 }
 
-type SearchAccountResponse struct {
-	Total    int       `json:"total"`
-	RowCount int       `json:"rowCount"`
-	Current  int       `json:"current"`
-	Rows     []Account `json:"rows"`
+type Validation struct {
+	Enabled                     string `json:"enabled"`
+	Name                        string `json:"name"`
+	Description                 string `json:"description"`
+	Method                      string `json:"method"`
+	HTTPService                 string `json:"http_service"`
+	HTTPOpnAutodiscovery        string `json:"http_opn_autodiscovery"`
+	HTTPOpnInterface            string `json:"http_opn_interface"`
+	HTTPOpnIPAddresses          string `json:"http_opn_ipaddresses"`
+	HTTPHAProxyInject           string `json:"http_haproxyInject"`
+	HTTPHAProxyFrontends        string `json:"http_haproxyFrontends"`
+	TLSALPNService              string `json:"tlsalpn_service"`
+	TLSALPNAcmeAutodiscovery    string `json:"tlsalpn_acme_autodiscovery"`
+	TLSALPNAcmeInterface        string `json:"tlsalpn_acme_interface"`
+	TLSALPNAcmeIPAddresses      string `json:"tlsalpn_acme_ipaddresses"`
+	DNSService                  string `json:"dns_service"`
+	DNSSleep                    string `json:"dns_sleep"`
+	DNSActive24Token            string `json:"dns_active24_token"`
+	DNSAdKey                    string `json:"dns_ad_key"`
+	DNSAliKey                   string `json:"dns_ali_key"`
+	DNSAliSecret                string `json:"dns_ali_secret"`
+	DNSAutodnsUser              string `json:"dns_autodns_user"`
+	DNSAutodnsPassword          string `json:"dns_autodns_password"`
+	DNSAutodnsContext           string `json:"dns_autodns_context"`
+	DNSAwsID                    string `json:"dns_aws_id"`
+	DNSAwsSecret                string `json:"dns_aws_secret"`
+	DNSAzureSubscriptionID      string `json:"dns_azuredns_subscriptionid"`
+	DNSAzureTenantID            string `json:"dns_azuredns_tenantid"`
+	DNSAzureAppID               string `json:"dns_azuredns_appid"`
+	DNSAzureClientSecret        string `json:"dns_azuredns_clientsecret"`
+	DNSBunnyAPIKey              string `json:"dns_bunny_api_key"`
+	DNSCFEmail                  string `json:"dns_cf_email"`
+	DNSCFKey                    string `json:"dns_cf_key"`
+	DNSCFAccountID              string `json:"dns_cf_account_id"`
+	DNSCFToken                  string `json:"dns_cf_token"`
+	DNSCFZoneID                 string `json:"dns_cf_zone_id"`
+	DNSClouDNSAuthID            string `json:"dns_cloudns_auth_id"`
+	DNSClouDNSSubAuthID         string `json:"dns_cloudns_sub_auth_id"`
+	DNSClouDNSAuthPassword      string `json:"dns_cloudns_auth_password"`
+	DNSCXKey                    string `json:"dns_cx_key"`
+	DNSCXSecret                 string `json:"dns_cx_secret"`
+	DNSCyonUser                 string `json:"dns_cyon_user"`
+	DNSCyonPassword             string `json:"dns_cyon_password"`
+	DNSDDNSSToken               string `json:"dns_ddnss_token"`
+	DNSDAKey                    string `json:"dns_da_key"`
+	DNSDAInsecure               string `json:"dns_da_insecure"`
+	DNSDGoNKey                  string `json:"dns_dgon_key"`
+	DNSDNSEXITAuthUser          string `json:"dns_dnsexit_auth_user"`
+	DNSDNSEXITAuthPass          string `json:"dns_dnsexit_auth_pass"`
+	DNSDNSEXITAPI               string `json:"dns_dnsexit_api"`
+	DNSDNSHomePassword          string `json:"dns_dnshome_password"`
+	DNSDNSHomeSubdomain         string `json:"dns_dnshome_subdomain"`
+	DNSDNSimpleToken            string `json:"dns_dnsimple_token"`
+	DNSDNSServicesUser          string `json:"dns_dnsservices_user"`
+	DNSDNSServicesPassword      string `json:"dns_dnsservices_password"`
+	DNSDOAPIToken               string `json:"dns_doapi_token"`
+	DNSDOPID                    string `json:"dns_do_pid"`
+	DNSDOPassword               string `json:"dns_do_password"`
+	DNSDomeneshopToken          string `json:"dns_domeneshop_token"`
+	DNSDomeneshopSecret         string `json:"dns_domeneshop_secret"`
+	DNSDPID                     string `json:"dns_dp_id"`
+	DNSDPKey                    string `json:"dns_dp_key"`
+	DNSDHKey                    string `json:"dns_dh_key"`
+	DNSDuckDNSToken             string `json:"dns_duckdns_token"`
+	DNSDynCustomer              string `json:"dns_dyn_customer"`
+	DNSDynUser                  string `json:"dns_dyn_user"`
+	DNSDynPassword              string `json:"dns_dyn_password"`
+	DNSDynuClientID             string `json:"dns_dynu_clientid"`
+	DNSDynuSecret               string `json:"dns_dynu_secret"`
+	DNSFreeDNSTokenUser         string `json:"dns_freedns_user"`
+	DNSFreeDNSPassword          string `json:"dns_freedns_password"`
+	DNSFornexAPIKey             string `json:"dns_fornex_api_key"`
+	DNSGandiLiveDNSToken        string `json:"dns_gandi_livedns_token"`
+	DNSGandiLiveDNSKey          string `json:"dns_gandi_livedns_key"`
+	DNSGCloudKey                string `json:"dns_gcloud_key"`
+	DNSGoDaddyKey               string `json:"dns_gd_key"`
+	DNSGoDaddySecret            string `json:"dns_gd_secret"`
+	DNSGoogleDomainsAccessToken string `json:"dns_googledomains_access_token"`
+	DNSGoogleDomainsZone        string `json:"dns_googledomains_zone"`
+	DNSHostingDEServer          string `json:"dns_hostingde_server"`
+	DNSHostingDEAPIKey          string `json:"dns_hostingde_apiKey"`
+	DNSHEUser                   string `json:"dns_he_user"`
+	DNSHEPassword               string `json:"dns_he_password"`
+	DNSInfobloxCredentials      string `json:"dns_infoblox_credentials"`
+	DNSInfobloxServer           string `json:"dns_infoblox_server"`
+	DNSINWXUser                 string `json:"dns_inwx_user"`
+	DNSINWXPassword             string `json:"dns_inwx_password"`
+	DNSINWXSharedSecret         string `json:"dns_inwx_shared_secret"`
+	DNSIonosPrefix              string `json:"dns_ionos_prefix"`
+	DNSIonosSecret              string `json:"dns_ionos_secret"`
+	DNSIPv64Token               string `json:"dns_ipv64_token"`
+	DNSISPConfigUser            string `json:"dns_ispconfig_user"`
+	DNSISPConfigPassword        string `json:"dns_ispconfig_password"`
+	DNSISPConfigAPI             string `json:"dns_ispconfig_api"`
+	DNSISPConfigInsecure        string `json:"dns_ispconfig_insecure"`
+	DNSJDID                     string `json:"dns_jd_id"`
+	DNSJDRegion                 string `json:"dns_jd_region"`
+	DNSJDSecret                 string `json:"dns_jd_secret"`
+	DNSJokerUsername            string `json:"dns_joker_username"`
+	DNSJokerPassword            string `json:"dns_joker_password"`
+	DNSKinghostUsername         string `json:"dns_kinghost_username"`
+	DNSKinghostPassword         string `json:"dns_kinghost_password"`
+	DNSKnotServer               string `json:"dns_knot_server"`
+	DNSKnotKey                  string `json:"dns_knot_key"`
+	DNSLexiconProvider          string `json:"dns_lexicon_provider"`
+	DNSLexiconUser              string `json:"dns_lexicon_user"`
+	DNSLexiconToken             string `json:"dns_lexicon_token"`
+	DNSLimacityAPIKey           string `json:"dns_limacity_apikey"`
+	DNSLinodeKey                string `json:"dns_linode_key"`
+	DNSLinodeV4Key              string `json:"dns_linode_v4_key"`
+	DNSLoopiaAPI                string `json:"dns_loopia_api"`
+	DNSLoopiaUser               string `json:"dns_loopia_user"`
+	DNSLoopiaPassword           string `json:"dns_loopia_password"`
+	DNSLuaEmail                 string `json:"dns_lua_email"`
+	DNSLuaKey                   string `json:"dns_lua_key"`
+	DNSMEKey                    string `json:"dns_me_key"`
+	DNSMESecret                 string `json:"dns_me_secret"`
+	DNSMIABUser                 string `json:"dns_miab_user"`
+	DNSMIABPassword             string `json:"dns_miab_password"`
+	DNSMIABServer               string `json:"dns_miab_server"`
+	DNSMyDNSJPMasterID          string `json:"dns_mydnsjp_masterid"`
+	DNSMyDNSJPPassword          string `json:"dns_mydnsjp_password"`
+	DNSMythicBeastsKey          string `json:"dns_mythic_beasts_key"`
+	DNSMythicBeastsSecret       string `json:"dns_mythic_beasts_secret"`
+	DNSNamecheapUser            string `json:"dns_namecheap_user"`
+	DNSNamecheapAPI             string `json:"dns_namecheap_api"`
+	DNSNamecheapSourceIP        string `json:"dns_namecheap_sourceip"`
+	DNSNamecomUser              string `json:"dns_namecom_user"`
+	DNSNamecomToken             string `json:"dns_namecom_token"`
+	DNSNamesiloKey              string `json:"dns_namesilo_key"`
+	DNSNetcupCID                string `json:"dns_netcup_cid"`
+	DNSNetcupKey                string `json:"dns_netcup_key"`
+	DNSNetcupPW                 string `json:"dns_netcup_pw"`
+	DNSNjallaToken              string `json:"dns_njalla_token"`
+	DNSNSOneKey                 string `json:"dns_nsone_key"`
+	DNSNSUpdateServer           string `json:"dns_nsupdate_server"`
+	DNSNSUpdateKey              string `json:"dns_nsupdate_key"`
+	DNSNSUpdateZone             string `json:"dns_nsupdate_zone"`
+	DNSOnlineKey                string `json:"dns_online_key"`
+	DNSOPNsenseHost             string `json:"dns_opnsense_host"`
+	DNSOPNsensePort             string `json:"dns_opnsense_port"`
+	DNSOPNsenseKey              string `json:"dns_opnsense_key"`
+	DNSOPNsenseToken            string `json:"dns_opnsense_token"`
+	DNSOPNsenseInsecure         string `json:"dns_opnsense_insecure"`
+	DNSOCIUser                  string `json:"dns_oci_cli_user"`
+	DNSOCITenancy               string `json:"dns_oci_cli_tenancy"`
+	DNSOCIRegion                string `json:"dns_oci_cli_region"`
+	DNSOCIKey                   string `json:"dns_oci_cli_key"`
+	DNSOVHAppKey                string `json:"dns_ovh_app_key"`
+	DNSOVHAppSecret             string `json:"dns_ovh_app_secret"`
+	DNSOVHConsumerKey           string `json:"dns_ovh_consumer_key"`
+	DNSOVHEndpoint              string `json:"dns_ovh_endpoint"`
+	DNSPDNSURL                  string `json:"dns_pdns_url"`
+	DNSPDNSServerID             string `json:"dns_pdns_serverid"`
+	DNSPDNSToken                string `json:"dns_pdns_token"`
+	DNSSLKey                    string `json:"dns_sl_key"`
+	DNSSelfhostUser             string `json:"dns_selfhost_user"`
+	DNSSelfhostPassword         string `json:"dns_selfhost_password"`
+	DNSSelfhostMap              string `json:"dns_selfhost_map"`
+	DNSServercowUsername        string `json:"dns_servercow_username"`
+	DNSServercowPassword        string `json:"dns_servercow_password"`
+	DNSTransIPUsername          string `json:"dns_transip_username"`
+	DNSTransIPKey               string `json:"dns_transip_key"`
+	DNSUDRUser                  string `json:"dns_udr_user"`
+	DNSUDRPassword              string `json:"dns_udr_password"`
+	DNSUnoKey                   string `json:"dns_uno_key"`
+	DNSUnoUser                  string `json:"dns_uno_user"`
+	DNSSimplyAPIKey             string `json:"dns_simply_api_key"`
+	DNSSimplyAccountName        string `json:"dns_simply_account_name"`
+	DNSVScaleKey                string `json:"dns_vscale_key"`
+	DNSVultrKey                 string `json:"dns_vultr_key"`
+	DNSYandexToken              string `json:"dns_yandex_token"`
+	DNSPleskXMLUser             string `json:"dns_pleskxml_user"`
+	DNSPleskXMLPass             string `json:"dns_pleskxml_pass"`
+	DNSPleskXMLURI              string `json:"dns_pleskxml_uri"`
+	DNSZiloreKey                string `json:"dns_zilore_key"`
+	DNSZMKey                    string `json:"dns_zm_key"`
+	DNSGDNSDKUser               string `json:"dns_gdnsdk_user"`
+	DNSGDNSDKPassword           string `json:"dns_gdnsdk_password"`
+	DNSAcmeDNSUser              string `json:"dns_acmedns_user"`
+	DNSAcmeDNSPassword          string `json:"dns_acmedns_password"`
+	DNSAcmeDNSSubdomain         string `json:"dns_acmedns_subdomain"`
+	DNSAcmeDNSBaseURL           string `json:"dns_acmedns_baseurl"`
+	DNSAcmeProxyEndpoint        string `json:"dns_acmeproxy_endpoint"`
+	DNSAcmeProxyUsername        string `json:"dns_acmeproxy_username"`
+	DNSAcmeProxyPassword        string `json:"dns_acmeproxy_password"`
+	DNSVariomediaKey            string `json:"dns_variomedia_key"`
+	DNSSchlundTechUser          string `json:"dns_schlundtech_user"`
+	DNSSchlundTechPassword      string `json:"dns_schlundtech_password"`
+	DNSEasyDNSAPIToken          string `json:"dns_easydns_apitoken"`
+	DNSEasyDNSAPIKey            string `json:"dns_easydns_apikey"`
+	DNSEuservUser               string `json:"dns_euserv_user"`
+	DNSEuservPassword           string `json:"dns_euserv_password"`
+	DNSLeasewebKey              string `json:"dns_leaseweb_key"`
+	DNSCNUser                   string `json:"dns_cn_user"`
+	DNSCNPassword               string `json:"dns_cn_password"`
+	DNSArvanToken               string `json:"dns_arvan_token"`
+	DNSArtfilesUsername         string `json:"dns_artfiles_username"`
+	DNSArtfilesPassword         string `json:"dns_artfiles_password"`
+	DNSHetznerToken             string `json:"dns_hetzner_token"`
+	DNS1984HostingUser          string `json:"dns_1984hosting_user"`
+	DNS1984HostingPassword      string `json:"dns_1984hosting_password"`
+	DNSKasLogin                 string `json:"dns_kas_login"`
+	DNSKasAuthData              string `json:"dns_kas_authdata"`
+	DNSKasAuthType              string `json:"dns_kas_authtype"`
+	DNSDeSECtoken               string `json:"dns_desec_token"`
+	DNSDeSECname                string `json:"dns_desec_name"`
+	DNSHexonetLogin             string `json:"dns_hexonet_login"`
+	DNSHexonetPassword          string `json:"dns_hexonet_password"`
+	DNSInfomaniakToken          string `json:"dns_infomaniak_token"`
+	DNSZoneUsername             string `json:"dns_zone_username"`
+	DNSZoneKey                  string `json:"dns_zone_key"`
+	DNSNederhostKey             string `json:"dns_nederhost_key"`
+	DNSPorkbunKey               string `json:"dns_porkbun_key"`
+	DNSPorkbunSecret            string `json:"dns_porkbun_secret"`
+	DNSDynv6Token               string `json:"dns_dynv6_token"`
+	DNSCPanelUser               string `json:"dns_cpanel_user"`
+	DNSCPanelToken              string `json:"dns_cpanel_token"`
+	DNSCPanelHostname           string `json:"dns_cpanel_hostname"`
+	DNSRegruUsername            string `json:"dns_regru_username"`
+	DNSRegruPassword            string `json:"dns_regru_password"`
+	DNSNICUsername              string `json:"dns_nic_username"`
+	DNSNICPassword              string `json:"dns_nic_password"`
+	DNSNICClient                string `json:"dns_nic_client"`
+	DNSNICSecret                string `json:"dns_nic_secret"`
+	DNSWorld4YouUsername        string `json:"dns_world4you_username"`
+	DNSWorld4YouPassword        string `json:"dns_world4you_password"`
+	DNSAuroraKey                string `json:"dns_aurora_key"`
+	DNSAuroraSecret             string `json:"dns_aurora_secret"`
+	DNSConoHaUser               string `json:"dns_conoha_user"`
+	DNSConoHaPassword           string `json:"dns_conoha_password"`
+	DNSConoHaTenantID           string `json:"dns_conoha_tenantid"`
+	DNSConoHaIDAPI              string `json:"dns_conoha_idapi"`
+	DNSConstellixKey            string `json:"dns_constellix_key"`
+	DNSConstellixSecret         string `json:"dns_constellix_secret"`
+	DNSExoscaleKey              string `json:"dns_exoscale_key"`
+	DNSExoscaleSecret           string `json:"dns_exoscale_secret"`
+	DNSInternetBSKey            string `json:"dns_internetbs_key"`
+	DNSInternetBSPassword       string `json:"dns_internetbs_password"`
+	DNSPointHQKey               string `json:"dns_pointhq_key"`
+	DNSPointHQEmail             string `json:"dns_pointhq_email"`
+	DNSRackspaceUser            string `json:"dns_rackspace_user"`
+	DNSRackspaceKey             string `json:"dns_rackspace_key"`
+	DNSRage4User                string `json:"dns_rage4_user"`
+	DNSRage4Token               string `json:"dns_rage4_token"`
+	DNSScalewayToken            string `json:"dns_scaleway_token"`
+}
+
+type ValidationGet struct {
+	ID                          string            `json:"id"`
+	Enabled                     string            `json:"enabled"`
+	Name                        string            `json:"name"`
+	Description                 string            `json:"description"`
+	Method                      map[string]Option `json:"method"`
+	HTTPService                 map[string]Option `json:"http_service"`
+	HTTPOpnAutodiscovery        string            `json:"http_opn_autodiscovery"`
+	HTTPOpnInterface            map[string]Option `json:"http_opn_interface"`
+	HTTPOpnIPAddresses          []string          `json:"http_opn_ipaddresses"`
+	HTTPHAProxyInject           string            `json:"http_haproxyInject"`
+	HTTPHAProxyFrontends        []string          `json:"http_haproxyFrontends"`
+	TLSALPNService              map[string]Option `json:"tlsalpn_service"`
+	TLSALPNAcmeAutodiscovery    string            `json:"tlsalpn_acme_autodiscovery"`
+	TLSALPNAcmeInterface        map[string]Option `json:"tlsalpn_acme_interface"`
+	TLSALPNAcmeIPAddresses      []string          `json:"tlsalpn_acme_ipaddresses"`
+	DNSService                  map[string]Option `json:"dns_service"`
+	DNSSleep                    string            `json:"dns_sleep"`
+	DNSActive24Token            string            `json:"dns_active24_token"`
+	DNSAdKey                    string            `json:"dns_ad_key"`
+	DNSAliKey                   string            `json:"dns_ali_key"`
+	DNSAliSecret                string            `json:"dns_ali_secret"`
+	DNSAutodnsUser              string            `json:"dns_autodns_user"`
+	DNSAutodnsPassword          string            `json:"dns_autodns_password"`
+	DNSAutodnsContext           string            `json:"dns_autodns_context"`
+	DNSAwsID                    string            `json:"dns_aws_id"`
+	DNSAwsSecret                string            `json:"dns_aws_secret"`
+	DNSAzureSubscriptionID      string            `json:"dns_azuredns_subscriptionid"`
+	DNSAzureTenantID            string            `json:"dns_azuredns_tenantid"`
+	DNSAzureAppID               string            `json:"dns_azuredns_appid"`
+	DNSAzureClientSecret        string            `json:"dns_azuredns_clientsecret"`
+	DNSBunnyAPIKey              string            `json:"dns_bunny_api_key"`
+	DNSCFEmail                  string            `json:"dns_cf_email"`
+	DNSCFKey                    string            `json:"dns_cf_key"`
+	DNSCFToken                  string            `json:"dns_cf_token"`
+	DNSCFAccountID              string            `json:"dns_cf_account_id"`
+	DNSCFZoneID                 string            `json:"dns_cf_zone_id"`
+	DNSClouDNSAuthID            string            `json:"dns_cloudns_auth_id"`
+	DNSClouDNSSubAuthID         string            `json:"dns_cloudns_sub_auth_id"`
+	DNSClouDNSAuthPassword      string            `json:"dns_cloudns_auth_password"`
+	DNSCXKey                    string            `json:"dns_cx_key"`
+	DNSCXSecret                 string            `json:"dns_cx_secret"`
+	DNSCyonUser                 string            `json:"dns_cyon_user"`
+	DNSCyonPassword             string            `json:"dns_cyon_password"`
+	DNSDAKey                    string            `json:"dns_da_key"`
+	DNSDAInsecure               string            `json:"dns_da_insecure"`
+	DNSDDNSSToken               string            `json:"dns_ddnss_token"`
+	DNSDGoNKey                  string            `json:"dns_dgon_key"`
+	DNSDNSEXITAuthUser          string            `json:"dns_dnsexit_auth_user"`
+	DNSDNSEXITAuthPass          string            `json:"dns_dnsexit_auth_pass"`
+	DNSDNSEXITAPI               string            `json:"dns_dnsexit_api"`
+	DNSDNSHomePassword          string            `json:"dns_dnshome_password"`
+	DNSDNSHomeSubdomain         string            `json:"dns_dnshome_subdomain"`
+	DNSDNSimpleToken            string            `json:"dns_dnsimple_token"`
+	DNSDNSServicesUser          string            `json:"dns_dnsservices_user"`
+	DNSDNSServicesPassword      string            `json:"dns_dnsservices_password"`
+	DNSDOAPIToken               string            `json:"dns_doapi_token"`
+	DNSDOPID                    string            `json:"dns_do_pid"`
+	DNSDOPassword               string            `json:"dns_do_password"`
+	DNSDomeneshopToken          string            `json:"dns_domeneshop_token"`
+	DNSDomeneshopSecret         string            `json:"dns_domeneshop_secret"`
+	DNSDPID                     string            `json:"dns_dp_id"`
+	DNSDPKey                    string            `json:"dns_dp_key"`
+	DNSDHKey                    string            `json:"dns_dh_key"`
+	DNSDuckDNSToken             string            `json:"dns_duckdns_token"`
+	DNSDynCustomer              string            `json:"dns_dyn_customer"`
+	DNSDynUser                  string            `json:"dns_dyn_user"`
+	DNSDynPassword              string            `json:"dns_dyn_password"`
+	DNSDynuClientID             string            `json:"dns_dynu_clientid"`
+	DNSDynuSecret               string            `json:"dns_dynu_secret"`
+	DNSFreeDNSUser              string            `json:"dns_freedns_user"`
+	DNSFreeDNSPassword          string            `json:"dns_freedns_password"`
+	DNSFornexAPIKey             string            `json:"dns_fornex_api_key"`
+	DNSGandiLiveDNSKey          string            `json:"dns_gandi_livedns_key"`
+	DNSGandiLiveDNSToken        string            `json:"dns_gandi_livedns_token"`
+	DNSGCloudKey                string            `json:"dns_gcloud_key"`
+	DNSGoogleDomainsAccessToken string            `json:"dns_googledomains_access_token"`
+	DNSGoogleDomainsZone        string            `json:"dns_googledomains_zone"`
+	DNSGoDaddyKey               string            `json:"dns_gd_key"`
+	DNSGoDaddySecret            string            `json:"dns_gd_secret"`
+	DNSHostingDEServer          string            `json:"dns_hostingde_server"`
+	DNSHostingDEAPIKey          string            `json:"dns_hostingde_apiKey"`
+	DNSHEUser                   string            `json:"dns_he_user"`
+	DNSHEPassword               string            `json:"dns_he_password"`
+	DNSInfobloxCredentials      string            `json:"dns_infoblox_credentials"`
+	DNSInfobloxServer           string            `json:"dns_infoblox_server"`
+	DNSINWXUser                 string            `json:"dns_inwx_user"`
+	DNSINWSPassword             string            `json:"dns_inws_password"`
+	DNSINWXPassword             string            `json:"dns_inwx_password"`
+	DNSINWXSharedSecret         string            `json:"dns_inwx_shared_secret"`
+	DNSIonosPrefix              string            `json:"dns_ionos_prefix"`
+	DNSIonosSecret              string            `json:"dns_ionos_secret"`
+	DNSIPv64Token               string            `json:"dns_ipv64_token"`
+	DNSISPConfigUser            string            `json:"dns_ispconfig_user"`
+	DNSISPConfigPassword        string            `json:"dns_ispconfig_password"`
+	DNSISPConfigAPI             string            `json:"dns_ispconfig_api"`
+	DNSISPConfigInsecure        string            `json:"dns_ispconfig_insecure"`
+	DNSJDID                     string            `json:"dns_jd_id"`
+	DNSJDRegion                 string            `json:"dns_jd_region"`
+	DNSJDSecret                 string            `json:"dns_jd_secret"`
+	DNSJokerUsername            string            `json:"dns_joker_username"`
+	DNSJokerPassword            string            `json:"dns_joker_password"`
+	DNSKinghostUsername         string            `json:"dns_kinghost_username"`
+	DNSKinghostPassword         string            `json:"dns_kinghost_password"`
+	DNSKnotServer               string            `json:"dns_knot_server"`
+	DNSKnotKey                  string            `json:"dns_knot_key"`
+	DNSLexiconProvider          map[string]Option `json:"dns_lexicon_provider"`
+	DNSLexiconUser              string            `json:"dns_lexicon_user"`
+	DNSLexiconToken             string            `json:"dns_lexicon_token"`
+	DNSLimacityAPIKey           string            `json:"dns_limacity_apikey"`
+	DNSLinodeKey                string            `json:"dns_linode_key"`
+	DNSLinodeV4Key              string            `json:"dns_linode_v4_key"`
+	DNSLoopiaAPI                string            `json:"dns_loopia_api"`
+	DNSLoopiaUser               string            `json:"dns_loopia_user"`
+	DNSLoopiaPassword           string            `json:"dns_loopia_password"`
+	DNSLuaEmail                 string            `json:"dns_lua_email"`
+	DNSLuaKey                   string            `json:"dns_lua_key"`
+	DNSMEKey                    string            `json:"dns_me_key"`
+	DNSMESecret                 string            `json:"dns_me_secret"`
+	DNSMIABUser                 string            `json:"dns_miab_user"`
+	DNSMIABPassword             string            `json:"dns_miab_password"`
+	DNSMIABServer               string            `json:"dns_miab_server"`
+	DNSMyDNSJPMasterID          string            `json:"dns_mydnsjp_masterid"`
+	DNSMyDNSJPPassword          string            `json:"dns_mydnsjp_password"`
+	DNSMythicBeastsKey          string            `json:"dns_mythic_beasts_key"`
+	DNSMythicBeastsSecret       string            `json:"dns_mythic_beasts_secret"`
+	DNSNamecheapUser            string            `json:"dns_namecheap_user"`
+	DNSNamecheapAPI             string            `json:"dns_namecheap_api"`
+	DNSNamecheapSourceIP        string            `json:"dns_namecheap_sourceip"`
+	DNSNamecomUser              string            `json:"dns_namecom_user"`
+	DNSNamecomToken             string            `json:"dns_namecom_token"`
+	DNSNamesiloKey              string            `json:"dns_namesilo_key"`
+	DNSNederhostKey             string            `json:"dns_nederhost_key"`
+	DNSNetcupCID                string            `json:"dns_netcup_cid"`
+	DNSNetcupKey                string            `json:"dns_netcup_key"`
+	DNSNetcupPW                 string            `json:"dns_netcup_pw"`
+	DNSNjallaToken              string            `json:"dns_njalla_token"`
+	DNSNSOneKey                 string            `json:"dns_nsone_key"`
+	DNSNSUpdateServer           string            `json:"dns_nsupdate_server"`
+	DNSNSUpdateZone             string            `json:"dns_nsupdate_zone"`
+	DNSNSUpdateKey              string            `json:"dns_nsupdate_key"`
+	DNSOCIUser                  string            `json:"dns_oci_cli_user"`
+	DNSOCITenancy               string            `json:"dns_oci_cli_tenancy"`
+	DNSOCIRegion                string            `json:"dns_oci_cli_region"`
+	DNSOCIKey                   string            `json:"dns_oci_cli_key"`
+	DNSOnlineKey                string            `json:"dns_online_key"`
+	DNSOPNsenseHost             string            `json:"dns_opnsense_host"`
+	DNSOPNsensePort             string            `json:"dns_opnsense_port"`
+	DNSOPNsenseKey              string            `json:"dns_opnsense_key"`
+	DNSOPNsenseToken            string            `json:"dns_opnsense_token"`
+	DNSOPNsenseInsecure         string            `json:"dns_opnsense_insecure"`
+	DNSOVHAppKey                string            `json:"dns_ovh_app_key"`
+	DNSOVHAppSecret             string            `json:"dns_ovh_app_secret"`
+	DNSOVHConsumerKey           string            `json:"dns_ovh_consumer_key"`
+	DNSOVHEndpoint              string            `json:"dns_ovh_endpoint"`
+	DNSPleskXMLUser             string            `json:"dns_pleskxml_user"`
+	DNSPleskXMLPass             string            `json:"dns_pleskxml_pass"`
+	DNSPleskXMLURI              string            `json:"dns_pleskxml_uri"`
+	DNSPDNSURL                  string            `json:"dns_pdns_url"`
+	DNSPDNSServerID             string            `json:"dns_pdns_serverid"`
+	DNSPDNSToken                string            `json:"dns_pdns_token"`
+	DNSPorkbunKey               string            `json:"dns_porkbun_key"`
+	DNSPorkbunSecret            string            `json:"dns_porkbun_secret"`
+	DNSSLKey                    string            `json:"dns_sl_key"`
+	DNSSelfhostUser             string            `json:"dns_selfhost_user"`
+	DNSSelfhostPassword         string            `json:"dns_selfhost_password"`
+	DNSSelfhostMap              string            `json:"dns_selfhost_map"`
+	DNSServercowUsername        string            `json:"dns_servercow_username"`
+	DNSServercowPassword        string            `json:"dns_servercow_password"`
+	DNSSimplyAPIKey             string            `json:"dns_simply_api_key"`
+	DNSSimplyAccountName        string            `json:"dns_simply_account_name"`
+	DNSTransIPUsername          string            `json:"dns_transip_username"`
+	DNSTransIPKey               string            `json:"dns_transip_key"`
+	DNSUDRUser                  string            `json:"dns_udr_user"`
+	DNSUDRPassword              string            `json:"dns_udr_password"`
+	DNSUnoKey                   string            `json:"dns_uno_key"`
+	DNSUnoUser                  string            `json:"dns_uno_user"`
+	DNSVScaleKey                string            `json:"dns_vscale_key"`
+	DNSVultrKey                 string            `json:"dns_vultr_key"`
+	DNSYandexToken              string            `json:"dns_yandex_token"`
+	DNSZiloreKey                string            `json:"dns_zilore_key"`
+	DNSZMKey                    string            `json:"dns_zm_key"`
+	DNSGDNSDKUser               string            `json:"dns_gdnsdk_user"`
+	DNSGDNSDKPassword           string            `json:"dns_gdnsdk_password"`
+	DNSAcmeDNSUser              string            `json:"dns_acmedns_user"`
+	DNSAcmeDNSPassword          string            `json:"dns_acmedns_password"`
+	DNSAcmeDNSSubdomain         string            `json:"dns_acmedns_subdomain"`
+	DNSAcmeDNSUpdateURL         string            `json:"dns_acmedns_updateurl"`
+	DNSAcmeDNSBaseURL           string            `json:"dns_acmedns_baseurl"`
+	DNSAcmeProxyEndpoint        string            `json:"dns_acmeproxy_endpoint"`
+	DNSAcmeProxyUsername        string            `json:"dns_acmeproxy_username"`
+	DNSAcmeProxyPassword        string            `json:"dns_acmeproxy_password"`
+	DNSVariomediaKey            string            `json:"dns_variomedia_key"`
+	DNSSchlundTechUser          string            `json:"dns_schlundtech_user"`
+	DNSSchlundTechPassword      string            `json:"dns_schlundtech_password"`
+	DNSEasyDNSAPIToken          string            `json:"dns_easydns_apitoken"`
+	DNSEasyDNSAPIKey            string            `json:"dns_easydns_apikey"`
+	DNSEuservUser               string            `json:"dns_euserv_user"`
+	DNSEuservPassword           string            `json:"dns_euserv_password"`
+	DNSLeasewebKey              string            `json:"dns_leaseweb_key"`
+	DNSCNUser                   string            `json:"dns_cn_user"`
+	DNSCNPassword               string            `json:"dns_cn_password"`
+	DNSArvanToken               string            `json:"dns_arvan_token"`
+	DNSArtfilesUsername         string            `json:"dns_artfiles_username"`
+	DNSArtfilesPassword         string            `json:"dns_artfiles_password"`
+	DNSHetznerToken             string            `json:"dns_hetzner_token"`
+	DNSHexonetLogin             string            `json:"dns_hexonet_login"`
+	DNSHexonetPassword          string            `json:"dns_hexonet_password"`
+	DNS1984HostingUser          string            `json:"dns_1984hosting_user"`
+	DNS1984HostingPassword      string            `json:"dns_1984hosting_password"`
+	DNSKasLogin                 string            `json:"dns_kas_login"`
+	DNSKasAuthData              string            `json:"dns_kas_authdata"`
+	DNSKasAuthType              map[string]Option `json:"dns_kas_authtype"`
+	DNSDeSECToken               string            `json:"dns_desec_token"`
+	DNSDeSECName                string            `json:"dns_desec_name"`
+	DNSInfomaniakToken          string            `json:"dns_infomaniak_token"`
+	DNSZoneUsername             string            `json:"dns_zone_username"`
+	DNSZoneKey                  string            `json:"dns_zone_key"`
+	DNSDynv6Token               string            `json:"dns_dynv6_token"`
+	DNSCPanelUser               string            `json:"dns_cpanel_user"`
+	DNSCPanelToken              string            `json:"dns_cpanel_token"`
+	DNSCPanelHostname           string            `json:"dns_cpanel_hostname"`
+	DNSRegruUsername            string            `json:"dns_regru_username"`
+	DNSRegruPassword            string            `json:"dns_regru_password"`
+	DNSNICUsername              string            `json:"dns_nic_username"`
+	DNSNICPassword              string            `json:"dns_nic_password"`
+	DNSNICClient                string            `json:"dns_nic_client"`
+	DNSNICSecret                string            `json:"dns_nic_secret"`
+	DNSWorld4YouUsername        string            `json:"dns_world4you_username"`
+	DNSWorld4YouPassword        string            `json:"dns_world4you_password"`
+	DNSAuroraKey                string            `json:"dns_aurora_key"`
+	DNSAuroraSecret             string            `json:"dns_aurora_secret"`
+	DNSConoHaUser               string            `json:"dns_conoha_user"`
+	DNSConoHaPassword           string            `json:"dns_conoha_password"`
+	DNSConoHaTenantID           string            `json:"dns_conoha_tenantid"`
+	DNSConoHaIDAPI              string            `json:"dns_conoha_idapi"`
+	DNSConstellixKey            string            `json:"dns_constellix_key"`
+	DNSConstellixSecret         string            `json:"dns_constellix_secret"`
+	DNSExoscaleKey              string            `json:"dns_exoscale_key"`
+	DNSExoscaleSecret           string            `json:"dns_exoscale_secret"`
+	DNSInternetBSKey            string            `json:"dns_internetbs_key"`
+	DNSInternetBSPassword       string            `json:"dns_internetbs_password"`
+	DNSPointHQKey               string            `json:"dns_pointhq_key"`
+	DNSPointHQEmail             string            `json:"dns_pointhq_email"`
+	DNSRackspaceUser            string            `json:"dns_rackspace_user"`
+	DNSRackspaceKey             string            `json:"dns_rackspace_key"`
+	DNSRage4Token               string            `json:"dns_rage4_token"`
+	DNSRage4User                string            `json:"dns_rage4_user"`
+	DNSScalewayToken            string            `json:"dns_scaleway_token"`
+}
+
+type ValidationGetResponse struct {
+	Validation ValidationGet `json:"validation"`
 }
 
 // ACMEClientAddAccount executes the AddAccount RPC call of the ACMEClient controller
@@ -124,7 +646,7 @@ func (c *Controller) ACMEClientEditAccount(ctx context.Context, uuid string, acc
 }
 
 // ACMEClientSearchAccount executes the SearchAccount RPC call of the ACMEClient controller
-func (c *Controller) ACMEClientSearchAccount(ctx context.Context) (*SearchAccountResponse, error) {
+func (c *Controller) ACMEClientSearchAccount(ctx context.Context) (*AccountSearchResponse, error) {
 
 	callParams := []string{}
 	bodyParams := make(map[string]interface{})
@@ -136,7 +658,7 @@ func (c *Controller) ACMEClientSearchAccount(ctx context.Context) (*SearchAccoun
 		BodyParameters: bodyParams,
 	}
 
-	resultData := &SearchAccountResponse{}
+	resultData := &AccountSearchResponse{}
 	result, err := api.Call(c.Client(), ctx, callOpts, resultData)
 	if err != nil {
 		return nil, fmt.Errorf("SearchAccount call failed: %w", err)
@@ -145,7 +667,7 @@ func (c *Controller) ACMEClientSearchAccount(ctx context.Context) (*SearchAccoun
 }
 
 // ACMEClientGetAccount executes the GetAccount RPC call of the ACMEClient controller
-func (c *Controller) ACMEClientGetAccount(ctx context.Context, uuid string) (*GetAccountResponse, error) {
+func (c *Controller) ACMEClientGetAccount(ctx context.Context, uuid string) (*AccountGetResponse, error) {
 
 	callParams := []string{}
 	bodyParams := make(map[string]interface{})
@@ -159,7 +681,7 @@ func (c *Controller) ACMEClientGetAccount(ctx context.Context, uuid string) (*Ge
 		BodyParameters: bodyParams,
 	}
 
-	resultData := &GetAccountResponse{}
+	resultData := &AccountGetResponse{}
 	result, err := api.Call(c.Client(), ctx, callOpts, resultData)
 	if err != nil {
 		return nil, fmt.Errorf("GetAccount call failed: %w", err)
@@ -186,6 +708,121 @@ func (c *Controller) ACMEClientDeleteAccount(ctx context.Context, uuid string) (
 	result, err := api.Call(c.Client(), ctx, callOpts, resultData)
 	if err != nil {
 		return nil, fmt.Errorf("DeleteAccount call failed: %w", err)
+	}
+	return result, nil
+}
+
+// ACMEClientAddChallengeType executes the AddChallengeType RPC call of the ACMEClient controller
+func (c *Controller) ACMEClientAddChallengeType(ctx context.Context, validation Validation) (*api.ActionResult, error) {
+
+	callParams := []string{}
+	bodyParams := make(map[string]interface{})
+
+	bodyParams["validation"] = validation
+
+	callOpts := api.RPCOpts{
+		BaseEndpoint:   "/acmeclient/validations/add",
+		Method:         "POST",
+		PathParameters: callParams,
+		BodyParameters: bodyParams,
+	}
+
+	resultData := &api.ActionResult{}
+	result, err := api.Call(c.Client(), ctx, callOpts, resultData)
+	if err != nil {
+		return nil, fmt.Errorf("AddChallengeType call failed: %w", err)
+	}
+	return result, nil
+}
+
+// ACMEClientSearchChallengeType executes the SearchChallengeType RPC call of the ACMEClient controller
+func (c *Controller) ACMEClientSearchChallengeType(ctx context.Context) (*ChallengeSearchResponse, error) {
+
+	callParams := []string{}
+	bodyParams := make(map[string]interface{})
+
+	callOpts := api.RPCOpts{
+		BaseEndpoint:   "/acmeclient/validations/search",
+		Method:         "POST",
+		PathParameters: callParams,
+		BodyParameters: bodyParams,
+	}
+
+	resultData := &ChallengeSearchResponse{}
+	result, err := api.Call(c.Client(), ctx, callOpts, resultData)
+	if err != nil {
+		return nil, fmt.Errorf("SearchChallengeType call failed: %w", err)
+	}
+	return result, nil
+}
+
+// ACMEClientGetChallengeType executes the GetChallengeType RPC call of the ACMEClient controller
+func (c *Controller) ACMEClientGetChallengeType(ctx context.Context, uuid string) (*ValidationGetResponse, error) {
+
+	callParams := []string{}
+	bodyParams := make(map[string]interface{})
+
+	callParams = append(callParams, uuid)
+
+	callOpts := api.RPCOpts{
+		BaseEndpoint:   "/acmeclient/validations/get",
+		Method:         "GET",
+		PathParameters: callParams,
+		BodyParameters: bodyParams,
+	}
+
+	resultData := &ValidationGetResponse{}
+	result, err := api.Call(c.Client(), ctx, callOpts, resultData)
+	if err != nil {
+		return nil, fmt.Errorf("GetChallengeType call failed: %w", err)
+	}
+	return result, nil
+}
+
+// ACMEClientDeleteChallengeType executes the DeleteChallengeType RPC call of the ACMEClient controller
+func (c *Controller) ACMEClientDeleteChallengeType(ctx context.Context, uuid string) (*api.ActionResult, error) {
+
+	callParams := []string{}
+	bodyParams := make(map[string]interface{})
+
+	callParams = append(callParams, uuid)
+
+	callOpts := api.RPCOpts{
+		BaseEndpoint:   "/acmeclient/validations/del",
+		Method:         "POST",
+		PathParameters: callParams,
+		BodyParameters: bodyParams,
+	}
+
+	resultData := &api.ActionResult{}
+	result, err := api.Call(c.Client(), ctx, callOpts, resultData)
+	if err != nil {
+		return nil, fmt.Errorf("DeleteChallengeType call failed: %w", err)
+	}
+	return result, nil
+}
+
+// ACMEClientEditChallengeType executes the EditChallengeType RPC call of the ACMEClient controller
+func (c *Controller) ACMEClientEditChallengeType(ctx context.Context, uuid string, validation Validation) (*api.ActionResult, error) {
+
+	callParams := []string{}
+	bodyParams := make(map[string]interface{})
+
+	callParams = append(callParams, uuid)
+
+	bodyParams["validation"] = validation
+
+	callOpts := api.RPCOpts{
+		BaseEndpoint:   "/acmeclient/validations/update",
+		Method:         "POST",
+		PathParameters: callParams,
+		BodyParameters: bodyParams,
+	}
+
+	resultData := &api.ActionResult{}
+	result, err := api.Call(c.Client(), ctx, callOpts, resultData)
+	if err != nil {
+		return nil, fmt.Errorf("EditChallengeType call failed: %w", err)
 	}
 	return result, nil
 }
