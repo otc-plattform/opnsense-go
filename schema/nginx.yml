@@ -727,6 +727,242 @@ rpc:
           type: int
           key: current
 
+      UpstreamServer:
+        - name: Description
+          type: string
+          key: description
+        - name: Server
+          type: string
+          key: server
+        - name: Port
+          type: string
+          key: port
+        - name: Priority
+          type: string
+          key: priority
+        - name: MaxConns
+          type: string
+          key: max_conns
+        - name: MaxFails
+          type: string
+          key: max_fails
+        - name: FailTimeout
+          type: string
+          key: fail_timeout
+        - name: NoUse
+          type: string
+          key: no_use
+
+      UpstreamServerSearchItem:
+        - name: UUID
+          type: string
+          key: uuid
+        - name: Description
+          type: string
+          key: description
+        - name: Server
+          type: string
+          key: server
+        - name: Port
+          type: string
+          key: port
+        - name: Priority
+          type: string
+          key: priority
+
+      UpstreamServerSearchResult:
+        - name: Rows
+          type: "[]UpstreamServerSearchItem"
+          key: rows
+        - name: RowCount
+          type: int
+          key: rowCount
+        - name: Total
+          type: int
+          key: total
+        - name: Current
+          type: int
+          key: current
+
+      UpstreamServerGetItem:
+        - name: Description
+          type: string
+          key: description
+        - name: Server
+          type: string
+          key: server
+        - name: Port
+          type: string
+          key: port
+        - name: Priority
+          type: string
+          key: priority
+        - name: MaxConns
+          type: string
+          key: max_conns
+        - name: MaxFails
+          type: string
+          key: max_fails
+        - name: FailTimeout
+          type: string
+          key: fail_timeout
+        - name: NoUse
+          type: "map[string]Option"
+          key: no_use
+
+      UpstreamServerGetResponse:
+        - name: UpstreamServer
+          type: UpstreamServerGetItem
+          key: upstream_server
+
+      Upstream:
+        - name: Description
+          type: string
+          key: description
+        - name: ServerEntries
+          type: string
+          key: serverentries
+        - name: LoadBalancingAlgorithm
+          type: string
+          key: load_balancing_algorithm
+        - name: ProxyProtocol
+          type: string
+          key: proxy_protocol
+        - name: Keepalive
+          type: string
+          key: keepalive
+        - name: KeepaliveRequests
+          type: string
+          key: keepalive_requests
+        - name: KeepaliveTimeout
+          type: string
+          key: keepalive_timeout
+        - name: HostPort
+          type: string
+          key: host_port
+        - name: XForwardedHostVerbatim
+          type: string
+          key: x_forwarded_host_verbatim
+        - name: TLSEnable
+          type: string
+          key: tls_enable
+        - name: TLSClientCertificate
+          type: string
+          key: tls_client_certificate
+        - name: TLSNameOverride
+          type: string
+          key: tls_name_override
+        - name: TLSProtocolVersions
+          type: string
+          key: tls_protocol_versions
+        - name: TLSSessionReuse
+          type: string
+          key: tls_session_reuse
+        - name: TLSTrustedCertificate
+          type: string
+          key: tls_trusted_certificate
+        - name: TLSVerify
+          type: string
+          key: tls_verify
+        - name: TLSVerifyDepth
+          type: string
+          key: tls_verify_depth
+        - name: Store
+          type: string
+          key: store
+
+      UpstreamSearchItem:
+        - name: UUID
+          type: string
+          key: uuid
+        - name: Description
+          type: string
+          key: description
+        - name: ServerEntries
+          type: string
+          key: serverentries
+        - name: TLSEnable
+          type: string
+          key: tls_enable
+        - name: LoadBalancingAlgorithm
+          type: string
+          key: load_balancing_algorithm
+
+      UpstreamSearchResult:
+        - name: Rows
+          type: "[]UpstreamSearchItem"
+          key: rows
+        - name: RowCount
+          type: int
+          key: rowCount
+        - name: Total
+          type: int
+          key: total
+        - name: Current
+          type: int
+          key: current
+
+      UpstreamGetItem:
+        - name: Description
+          type: string
+          key: description
+        - name: ServerEntries
+          type: "map[string]Option"
+          key: serverentries
+        - name: LoadBalancingAlgorithm
+          type: "map[string]Option"
+          key: load_balancing_algorithm
+        - name: Keepalive
+          type: string
+          key: keepalive
+        - name: KeepaliveRequests
+          type: string
+          key: keepalive_requests
+        - name: KeepaliveTimeout
+          type: string
+          key: keepalive_timeout
+        - name: HostPort
+          type: string
+          key: host_port
+        - name: XForwardedHostVerbatim
+          type: string
+          key: x_forwarded_host_verbatim
+        - name: ProxyProtocol
+          type: string
+          key: proxy_protocol
+        - name: Store
+          type: string
+          key: store
+        - name: TLSEnable
+          type: string
+          key: tls_enable
+        - name: TLSClientCertificate
+          type: "map[string]Option"
+          key: tls_client_certificate
+        - name: TLSNameOverride
+          type: string
+          key: tls_name_override
+        - name: TLSProtocolVersions
+          type: "map[string]Option"
+          key: tls_protocol_versions
+        - name: TLSSessionReuse
+          type: string
+          key: tls_session_reuse
+        - name: TLSTrustedCertificate
+          type: "map[string]Option"
+          key: tls_trusted_certificate
+        - name: TLSVerify
+          type: string
+          key: tls_verify
+        - name: TLSVerifyDepth
+          type: string
+          key: tls_verify_depth
+
+      UpstreamGetResponse:
+        - name: Upstream
+          type: UpstreamGetItem
+          key: upstream
+
     rpc_calls:
       #
       # Settings
@@ -825,6 +1061,90 @@ rpc:
         method: "POST"
         endpoint: "/nginx/settings/delhttpserver"
         result_type: "api.ActionResult"
+        params:
+          - name: "uuid"
+            optional: false
+
+      #
+      # Upstream Server
+      #
+      - name: "AddUpstreamServer"
+        method: "POST"
+        endpoint: "/nginx/settings/addupstreamserver"
+        result_type: "api.ActionResult"
+        params:
+          - name: "upstream_server"
+            optional: false
+            type: "UpstreamServer"
+            bodyParameter: true
+      - name: "SearchUpstreamServer"
+        method: "POST"
+        endpoint: "/nginx/settings/searchupstreamserver"
+        result_type: "UpstreamServerSearchResult"
+      - name: "DeleteUpstreamServer"
+        method: "POST"
+        endpoint: "/nginx/settings/delupstreamserver"
+        result_type: "api.ActionResult"
+        params:
+          - name: "uuid"
+            optional: false
+      - name: "EditUpstreamServer"
+        method: "POST"
+        endpoint: "/nginx/settings/setupstreamserver"
+        result_type: "api.ActionResult"
+        params:
+          - name: "uuid"
+            optional: false
+          - name: "upstream_server"
+            optional: false
+            type: "UpstreamServer"
+            bodyParameter: true
+      - name: "GetUpstreamServer"
+        method: "GET"
+        endpoint: "/nginx/settings/getupstreamserver"
+        result_type: "UpstreamServerGetResponse"
+        params:
+          - name: "uuid"
+            optional: false
+
+      #
+      # Upstream
+      #
+      - name: "AddUpstream"
+        method: "POST"
+        endpoint: "/nginx/settings/addupstream"
+        result_type: "api.ActionResult"
+        params:
+          - name: "upstream"
+            optional: false
+            type: "Upstream"
+            bodyParameter: true
+      - name: "SearchUpstream"
+        method: "POST"
+        endpoint: "/nginx/settings/searchupstream"
+        result_type: "UpstreamSearchResult"
+      - name: "DeleteUpstream"
+        method: "POST"
+        endpoint: "/nginx/settings/delupstream"
+        result_type: "api.ActionResult"
+        params:
+          - name: "uuid"
+            optional: false
+      - name: "EditUpstream"
+        method: "POST"
+        endpoint: "/nginx/settings/setupstream"
+        result_type: "api.ActionResult"
+        params:
+          - name: "uuid"
+            optional: false
+          - name: "upstream"
+            optional: false
+            type: "Upstream"
+            bodyParameter: true
+      - name: "GetUpstream"
+        method: "GET"
+        endpoint: "/nginx/settings/getupstream"
+        result_type: "UpstreamGetResponse"
         params:
           - name: "uuid"
             optional: false

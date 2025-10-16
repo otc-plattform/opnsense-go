@@ -286,6 +286,108 @@ type SettingsSetRequest struct {
 	General General `json:"general"`
 }
 
+type Upstream struct {
+	Description            string `json:"description"`
+	ServerEntries          string `json:"serverentries"`
+	LoadBalancingAlgorithm string `json:"load_balancing_algorithm"`
+	ProxyProtocol          string `json:"proxy_protocol"`
+	Keepalive              string `json:"keepalive"`
+	KeepaliveRequests      string `json:"keepalive_requests"`
+	KeepaliveTimeout       string `json:"keepalive_timeout"`
+	HostPort               string `json:"host_port"`
+	XForwardedHostVerbatim string `json:"x_forwarded_host_verbatim"`
+	TLSEnable              string `json:"tls_enable"`
+	TLSClientCertificate   string `json:"tls_client_certificate"`
+	TLSNameOverride        string `json:"tls_name_override"`
+	TLSProtocolVersions    string `json:"tls_protocol_versions"`
+	TLSSessionReuse        string `json:"tls_session_reuse"`
+	TLSTrustedCertificate  string `json:"tls_trusted_certificate"`
+	TLSVerify              string `json:"tls_verify"`
+	TLSVerifyDepth         string `json:"tls_verify_depth"`
+	Store                  string `json:"store"`
+}
+
+type UpstreamGetItem struct {
+	Description            string            `json:"description"`
+	ServerEntries          map[string]Option `json:"serverentries"`
+	LoadBalancingAlgorithm map[string]Option `json:"load_balancing_algorithm"`
+	Keepalive              string            `json:"keepalive"`
+	KeepaliveRequests      string            `json:"keepalive_requests"`
+	KeepaliveTimeout       string            `json:"keepalive_timeout"`
+	HostPort               string            `json:"host_port"`
+	XForwardedHostVerbatim string            `json:"x_forwarded_host_verbatim"`
+	ProxyProtocol          string            `json:"proxy_protocol"`
+	Store                  string            `json:"store"`
+	TLSEnable              string            `json:"tls_enable"`
+	TLSClientCertificate   map[string]Option `json:"tls_client_certificate"`
+	TLSNameOverride        string            `json:"tls_name_override"`
+	TLSProtocolVersions    map[string]Option `json:"tls_protocol_versions"`
+	TLSSessionReuse        string            `json:"tls_session_reuse"`
+	TLSTrustedCertificate  map[string]Option `json:"tls_trusted_certificate"`
+	TLSVerify              string            `json:"tls_verify"`
+	TLSVerifyDepth         string            `json:"tls_verify_depth"`
+}
+
+type UpstreamGetResponse struct {
+	Upstream UpstreamGetItem `json:"upstream"`
+}
+
+type UpstreamSearchItem struct {
+	UUID                   string `json:"uuid"`
+	Description            string `json:"description"`
+	ServerEntries          string `json:"serverentries"`
+	TLSEnable              string `json:"tls_enable"`
+	LoadBalancingAlgorithm string `json:"load_balancing_algorithm"`
+}
+
+type UpstreamSearchResult struct {
+	Rows     []UpstreamSearchItem `json:"rows"`
+	RowCount int                  `json:"rowCount"`
+	Total    int                  `json:"total"`
+	Current  int                  `json:"current"`
+}
+
+type UpstreamServer struct {
+	Description string `json:"description"`
+	Server      string `json:"server"`
+	Port        string `json:"port"`
+	Priority    string `json:"priority"`
+	MaxConns    string `json:"max_conns"`
+	MaxFails    string `json:"max_fails"`
+	FailTimeout string `json:"fail_timeout"`
+	NoUse       string `json:"no_use"`
+}
+
+type UpstreamServerGetItem struct {
+	Description string            `json:"description"`
+	Server      string            `json:"server"`
+	Port        string            `json:"port"`
+	Priority    string            `json:"priority"`
+	MaxConns    string            `json:"max_conns"`
+	MaxFails    string            `json:"max_fails"`
+	FailTimeout string            `json:"fail_timeout"`
+	NoUse       map[string]Option `json:"no_use"`
+}
+
+type UpstreamServerGetResponse struct {
+	UpstreamServer UpstreamServerGetItem `json:"upstream_server"`
+}
+
+type UpstreamServerSearchItem struct {
+	UUID        string `json:"uuid"`
+	Description string `json:"description"`
+	Server      string `json:"server"`
+	Port        string `json:"port"`
+	Priority    string `json:"priority"`
+}
+
+type UpstreamServerSearchResult struct {
+	Rows     []UpstreamServerSearchItem `json:"rows"`
+	RowCount int                        `json:"rowCount"`
+	Total    int                        `json:"total"`
+	Current  int                        `json:"current"`
+}
+
 // NginxGetSettings executes the GetSettings RPC call of the Nginx controller
 func (c *Controller) NginxGetSettings(ctx context.Context) (*SettingsGetResponse, error) {
 
@@ -556,6 +658,236 @@ func (c *Controller) NginxDeleteHTTPServer(ctx context.Context, uuid string) (*a
 	result, err := api.Call(c.Client(), ctx, callOpts, resultData)
 	if err != nil {
 		return nil, fmt.Errorf("DeleteHTTPServer call failed: %w", err)
+	}
+	return result, nil
+}
+
+// NginxAddUpstreamServer executes the AddUpstreamServer RPC call of the Nginx controller
+func (c *Controller) NginxAddUpstreamServer(ctx context.Context, upstream_server UpstreamServer) (*api.ActionResult, error) {
+
+	callParams := []string{}
+	bodyParams := make(map[string]interface{})
+
+	bodyParams["upstream_server"] = upstream_server
+
+	callOpts := api.RPCOpts{
+		BaseEndpoint:   "/nginx/settings/addupstreamserver",
+		Method:         "POST",
+		PathParameters: callParams,
+		BodyParameters: bodyParams,
+	}
+
+	resultData := &api.ActionResult{}
+	result, err := api.Call(c.Client(), ctx, callOpts, resultData)
+	if err != nil {
+		return nil, fmt.Errorf("AddUpstreamServer call failed: %w", err)
+	}
+	return result, nil
+}
+
+// NginxSearchUpstreamServer executes the SearchUpstreamServer RPC call of the Nginx controller
+func (c *Controller) NginxSearchUpstreamServer(ctx context.Context) (*UpstreamServerSearchResult, error) {
+
+	callParams := []string{}
+	bodyParams := make(map[string]interface{})
+
+	callOpts := api.RPCOpts{
+		BaseEndpoint:   "/nginx/settings/searchupstreamserver",
+		Method:         "POST",
+		PathParameters: callParams,
+		BodyParameters: bodyParams,
+	}
+
+	resultData := &UpstreamServerSearchResult{}
+	result, err := api.Call(c.Client(), ctx, callOpts, resultData)
+	if err != nil {
+		return nil, fmt.Errorf("SearchUpstreamServer call failed: %w", err)
+	}
+	return result, nil
+}
+
+// NginxDeleteUpstreamServer executes the DeleteUpstreamServer RPC call of the Nginx controller
+func (c *Controller) NginxDeleteUpstreamServer(ctx context.Context, uuid string) (*api.ActionResult, error) {
+
+	callParams := []string{}
+	bodyParams := make(map[string]interface{})
+
+	callParams = append(callParams, uuid)
+
+	callOpts := api.RPCOpts{
+		BaseEndpoint:   "/nginx/settings/delupstreamserver",
+		Method:         "POST",
+		PathParameters: callParams,
+		BodyParameters: bodyParams,
+	}
+
+	resultData := &api.ActionResult{}
+	result, err := api.Call(c.Client(), ctx, callOpts, resultData)
+	if err != nil {
+		return nil, fmt.Errorf("DeleteUpstreamServer call failed: %w", err)
+	}
+	return result, nil
+}
+
+// NginxEditUpstreamServer executes the EditUpstreamServer RPC call of the Nginx controller
+func (c *Controller) NginxEditUpstreamServer(ctx context.Context, uuid string, upstream_server UpstreamServer) (*api.ActionResult, error) {
+
+	callParams := []string{}
+	bodyParams := make(map[string]interface{})
+
+	callParams = append(callParams, uuid)
+
+	bodyParams["upstream_server"] = upstream_server
+
+	callOpts := api.RPCOpts{
+		BaseEndpoint:   "/nginx/settings/setupstreamserver",
+		Method:         "POST",
+		PathParameters: callParams,
+		BodyParameters: bodyParams,
+	}
+
+	resultData := &api.ActionResult{}
+	result, err := api.Call(c.Client(), ctx, callOpts, resultData)
+	if err != nil {
+		return nil, fmt.Errorf("EditUpstreamServer call failed: %w", err)
+	}
+	return result, nil
+}
+
+// NginxGetUpstreamServer executes the GetUpstreamServer RPC call of the Nginx controller
+func (c *Controller) NginxGetUpstreamServer(ctx context.Context, uuid string) (*UpstreamServerGetResponse, error) {
+
+	callParams := []string{}
+	bodyParams := make(map[string]interface{})
+
+	callParams = append(callParams, uuid)
+
+	callOpts := api.RPCOpts{
+		BaseEndpoint:   "/nginx/settings/getupstreamserver",
+		Method:         "GET",
+		PathParameters: callParams,
+		BodyParameters: bodyParams,
+	}
+
+	resultData := &UpstreamServerGetResponse{}
+	result, err := api.Call(c.Client(), ctx, callOpts, resultData)
+	if err != nil {
+		return nil, fmt.Errorf("GetUpstreamServer call failed: %w", err)
+	}
+	return result, nil
+}
+
+// NginxAddUpstream executes the AddUpstream RPC call of the Nginx controller
+func (c *Controller) NginxAddUpstream(ctx context.Context, upstream Upstream) (*api.ActionResult, error) {
+
+	callParams := []string{}
+	bodyParams := make(map[string]interface{})
+
+	bodyParams["upstream"] = upstream
+
+	callOpts := api.RPCOpts{
+		BaseEndpoint:   "/nginx/settings/addupstream",
+		Method:         "POST",
+		PathParameters: callParams,
+		BodyParameters: bodyParams,
+	}
+
+	resultData := &api.ActionResult{}
+	result, err := api.Call(c.Client(), ctx, callOpts, resultData)
+	if err != nil {
+		return nil, fmt.Errorf("AddUpstream call failed: %w", err)
+	}
+	return result, nil
+}
+
+// NginxSearchUpstream executes the SearchUpstream RPC call of the Nginx controller
+func (c *Controller) NginxSearchUpstream(ctx context.Context) (*UpstreamSearchResult, error) {
+
+	callParams := []string{}
+	bodyParams := make(map[string]interface{})
+
+	callOpts := api.RPCOpts{
+		BaseEndpoint:   "/nginx/settings/searchupstream",
+		Method:         "POST",
+		PathParameters: callParams,
+		BodyParameters: bodyParams,
+	}
+
+	resultData := &UpstreamSearchResult{}
+	result, err := api.Call(c.Client(), ctx, callOpts, resultData)
+	if err != nil {
+		return nil, fmt.Errorf("SearchUpstream call failed: %w", err)
+	}
+	return result, nil
+}
+
+// NginxDeleteUpstream executes the DeleteUpstream RPC call of the Nginx controller
+func (c *Controller) NginxDeleteUpstream(ctx context.Context, uuid string) (*api.ActionResult, error) {
+
+	callParams := []string{}
+	bodyParams := make(map[string]interface{})
+
+	callParams = append(callParams, uuid)
+
+	callOpts := api.RPCOpts{
+		BaseEndpoint:   "/nginx/settings/delupstream",
+		Method:         "POST",
+		PathParameters: callParams,
+		BodyParameters: bodyParams,
+	}
+
+	resultData := &api.ActionResult{}
+	result, err := api.Call(c.Client(), ctx, callOpts, resultData)
+	if err != nil {
+		return nil, fmt.Errorf("DeleteUpstream call failed: %w", err)
+	}
+	return result, nil
+}
+
+// NginxEditUpstream executes the EditUpstream RPC call of the Nginx controller
+func (c *Controller) NginxEditUpstream(ctx context.Context, uuid string, upstream Upstream) (*api.ActionResult, error) {
+
+	callParams := []string{}
+	bodyParams := make(map[string]interface{})
+
+	callParams = append(callParams, uuid)
+
+	bodyParams["upstream"] = upstream
+
+	callOpts := api.RPCOpts{
+		BaseEndpoint:   "/nginx/settings/setupstream",
+		Method:         "POST",
+		PathParameters: callParams,
+		BodyParameters: bodyParams,
+	}
+
+	resultData := &api.ActionResult{}
+	result, err := api.Call(c.Client(), ctx, callOpts, resultData)
+	if err != nil {
+		return nil, fmt.Errorf("EditUpstream call failed: %w", err)
+	}
+	return result, nil
+}
+
+// NginxGetUpstream executes the GetUpstream RPC call of the Nginx controller
+func (c *Controller) NginxGetUpstream(ctx context.Context, uuid string) (*UpstreamGetResponse, error) {
+
+	callParams := []string{}
+	bodyParams := make(map[string]interface{})
+
+	callParams = append(callParams, uuid)
+
+	callOpts := api.RPCOpts{
+		BaseEndpoint:   "/nginx/settings/getupstream",
+		Method:         "GET",
+		PathParameters: callParams,
+		BodyParameters: bodyParams,
+	}
+
+	resultData := &UpstreamGetResponse{}
+	result, err := api.Call(c.Client(), ctx, callOpts, resultData)
+	if err != nil {
+		return nil, fmt.Errorf("GetUpstream call failed: %w", err)
 	}
 	return result, nil
 }
