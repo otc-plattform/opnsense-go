@@ -1,0 +1,830 @@
+---
+name: nginx
+rpc:
+  - name: "Nginx"
+    filename: nginx
+    customTypes:
+      General:
+        - name: Enabled
+          type: string
+          key: enabled
+        - name: BanTTL
+          type: string
+          key: ban_ttl
+
+      Settings:
+        - name: General
+          type: General
+          key: general
+
+      SettingsGetResponse:
+        - name: NGinx
+          type: Settings
+          key: nginx
+
+      SettingsSetRequest:
+        - name: General
+          type: General
+          key: general
+
+      Location:
+        - name: AdvancedACL
+          type: string
+          key: advanced_acl
+        - name: AuthBasic
+          type: string
+          key: authbasic
+        - name: AuthBasicUserFile
+          type: string
+          key: authbasicuserfile
+        - name: AutoIndex
+          type: string
+          key: autoindex
+        - name: BodyBufferSize
+          type: string
+          key: body_buffer_size
+        - name: CacheBackgroundUpdate
+          type: string
+          key: cache_background_update
+        - name: CacheLock
+          type: string
+          key: cache_lock
+        - name: CacheMethods
+          type: string
+          key: cache_methods
+        - name: CacheMinUses
+          type: string
+          key: cache_min_uses
+        - name: CachePath
+          type: string
+          key: cache_path
+        - name: CacheRevalidate
+          type: string
+          key: cache_revalidate
+        - name: CacheUseStale
+          type: string
+          key: cache_use_stale
+        - name: CacheValid
+          type: string
+          key: cache_valid
+        - name: CustomPolicy
+          type: string
+          key: custom_policy
+        - name: Description
+          type: string
+          key: description
+        - name: EnableLearningMode
+          type: string
+          key: enable_learning_mode
+        - name: EnableSecRules
+          type: string
+          key: enable_secrules
+        - name: ErrorPages
+          type: string
+          key: errorpages
+        - name: ForceHTTPS
+          type: string
+          key: force_https
+        - name: Honeypot
+          type: string
+          key: honeypot
+        - name: Index
+          type: string
+          key: index
+        - name: IPACL
+          type: string
+          key: ip_acl
+        - name: LimitRequestConnections
+          type: string
+          key: limit_request_connections
+        - name: MatchType
+          type: string
+          key: matchtype
+        - name: MaxBodySize
+          type: string
+          key: max_body_size
+        - name: PathPrefix
+          type: string
+          key: path_prefix
+        - name: PHPEnable
+          type: string
+          key: php_enable
+        - name: PHPOverrideScriptName
+          type: string
+          key: php_override_scriptname
+        - name: ProxyBufferSize
+          type: string
+          key: proxy_buffer_size
+        - name: ProxyBuffering
+          type: string
+          key: proxy_buffering
+        - name: ProxyBuffersCount
+          type: string
+          key: proxy_buffers_count
+        - name: ProxyBuffersSize
+          type: string
+          key: proxy_buffers_size
+        - name: ProxyBusyBuffersSize
+          type: string
+          key: proxy_busy_buffers_size
+        - name: ProxyIgnoreClientAbort
+          type: string
+          key: proxy_ignore_client_abort
+        - name: ProxyMaxTempFileSize
+          type: string
+          key: proxy_max_temp_file_size
+        - name: ProxyReadTimeout
+          type: string
+          key: proxy_read_timeout
+        - name: ProxyRequestBuffering
+          type: string
+          key: proxy_request_buffering
+        - name: ProxySendTimeout
+          type: string
+          key: proxy_send_timeout
+        - name: ProxySSLServerName
+          type: string
+          key: proxy_ssl_server_name
+        - name: Rewrites
+          type: string
+          key: rewrites
+        - name: Root
+          type: string
+          key: root
+        - name: Satisfy
+          type: string
+          key: satisfy
+        - name: SecRulesErrorPage
+          type: string
+          key: secrules_errorpage
+        - name: SQLiBlockScore
+          type: string
+          key: sqli_block_score
+        - name: Upstream
+          type: string
+          key: upstream
+        - name: UpstreamKeepalive
+          type: string
+          key: upstream_keepalive
+        - name: URLPattern
+          type: string
+          key: urlpattern
+        - name: WebSocket
+          type: string
+          key: websocket
+        - name: XSSBlockScore
+          type: string
+          key: xss_block_score
+
+      LocationSearchItem:
+        - name: UUID
+          type: string
+          key: uuid
+        - name: Description
+          type: string
+          key: description
+        - name: URLPattern
+          type: string
+          key: urlpattern
+        - name: PathPrefix
+          type: string
+          key: path_prefix
+        - name: MatchType
+          type: string
+          key: matchtype
+        - name: Upstream
+          type: string
+          key: upstream
+        - name: EnableSecRules
+          type: string
+          key: enable_secrules
+        - name: EnableLearningMode
+          type: string
+          key: enable_learning_mode
+        - name: ForceHTTPS
+          type: string
+          key: force_https
+        - name: XSSBlockScore
+          type: string
+          key: xss_block_score
+        - name: SQLiBlockScore
+          type: string
+          key: sqli_block_score
+        - name: CustomPolicy
+          type: string
+          key: custom_policy
+        - name: WAFStatus
+          type: string
+          key: waf_status
+
+      LocationSearchResult:
+        - name: Rows
+          type: "[]LocationSearchItem"
+          key: rows
+        - name: RowCount
+          type: int
+          key: rowCount
+        - name: Total
+          type: int
+          key: total
+        - name: Current
+          type: int
+          key: current
+
+      Option:
+        - name: Value
+          type: string
+          key: value
+        - name: Selected
+          type: int
+          key: selected
+
+      LocationGetLocation:
+        - name: Description
+          type: string
+          key: description
+        - name: URLPattern
+          type: string
+          key: urlpattern
+        - name: MatchType
+          type: "map[string]Option"
+          key: matchtype
+        - name: EnableSecRules
+          type: string
+          key: enable_secrules
+        - name: EnableLearningMode
+          type: string
+          key: enable_learning_mode
+        - name: SecRulesErrorPage
+          type: "map[string]Option"
+          key: secrules_errorpage
+        - name: XSSBlockScore
+          type: string
+          key: xss_block_score
+        - name: SQLiBlockScore
+          type: string
+          key: sqli_block_score
+        - name: CustomPolicy
+          type: "[]string"
+          key: custom_policy
+        - name: Upstream
+          type: "map[string]Option"
+          key: upstream
+        - name: PathPrefix
+          type: string
+          key: path_prefix
+        - name: CachePath
+          type: "map[string]Option"
+          key: cache_path
+        - name: CacheUseStale
+          type: "map[string]Option"
+          key: cache_use_stale
+        - name: CacheMethods
+          type: "map[string]Option"
+          key: cache_methods
+        - name: CacheMinUses
+          type: string
+          key: cache_min_uses
+        - name: CacheValid
+          type: string
+          key: cache_valid
+        - name: CacheBackgroundUpdate
+          type: string
+          key: cache_background_update
+        - name: CacheLock
+          type: string
+          key: cache_lock
+        - name: CacheRevalidate
+          type: string
+          key: cache_revalidate
+        - name: Root
+          type: string
+          key: root
+        - name: Rewrites
+          type: "[]string"
+          key: rewrites
+        - name: Index
+          type: "[]string"
+          key: index
+        - name: AutoIndex
+          type: string
+          key: autoindex
+        - name: AuthBasic
+          type: string
+          key: authbasic
+        - name: AuthBasicUserFile
+          type: "map[string]Option"
+          key: authbasicuserfile
+        - name: AdvancedACL
+          type: string
+          key: advanced_acl
+        - name: ForceHTTPS
+          type: string
+          key: force_https
+        - name: PHPEnable
+          type: string
+          key: php_enable
+        - name: PHPOverrideScriptName
+          type: string
+          key: php_override_scriptname
+        - name: LimitRequestConnections
+          type: "[]string"
+          key: limit_request_connections
+        - name: MaxBodySize
+          type: string
+          key: max_body_size
+        - name: BodyBufferSize
+          type: string
+          key: body_buffer_size
+        - name: Honeypot
+          type: string
+          key: honeypot
+        - name: Websocket
+          type: string
+          key: websocket
+        - name: UpstreamKeepalive
+          type: string
+          key: upstream_keepalive
+        - name: ProxyBufferSize
+          type: string
+          key: proxy_buffer_size
+        - name: ProxyBuffersCount
+          type: string
+          key: proxy_buffers_count
+        - name: ProxyBuffersSize
+          type: string
+          key: proxy_buffers_size
+        - name: ProxyBusyBuffersSize
+          type: string
+          key: proxy_busy_buffers_size
+        - name: ProxyIgnoreClientAbort
+          type: string
+          key: proxy_ignore_client_abort
+        - name: ProxyRequestBuffering
+          type: string
+          key: proxy_request_buffering
+        - name: ProxyBuffering
+          type: string
+          key: proxy_buffering
+        - name: ProxyReadTimeout
+          type: string
+          key: proxy_read_timeout
+        - name: ProxySendTimeout
+          type: string
+          key: proxy_send_timeout
+        - name: IPACL
+          type: "map[string]Option"
+          key: ip_acl
+        - name: Satisfy
+          type: "map[string]Option"
+          key: satisfy
+        - name: ProxyMaxTempFileSize
+          type: string
+          key: proxy_max_temp_file_size
+        - name: ProxySSLServerName
+          type: string
+          key: proxy_ssl_server_name
+        - name: ErrorPages
+          type: "[]string"
+          key: errorpages
+
+      LocationGetResponse:
+        - name: Location
+          type: LocationGetLocation
+          key: location
+
+      HTTPServer:
+        - name: ListenHTTPAddress
+          type: string
+          key: listen_http_address
+        - name: ListenHTTPSAddress
+          type: string
+          key: listen_https_address
+        - name: DefaultServer
+          type: string
+          key: default_server
+        - name: TLSRejectHandshake
+          type: string
+          key: tls_reject_handshake
+        - name: SyslogTargets
+          type: string
+          key: syslog_targets
+        - name: ProxyProtocol
+          type: string
+          key: proxy_protocol
+        - name: TrustedProxies
+          type: string
+          key: trusted_proxies
+        - name: TrustedProxiesAlias
+          type: string
+          key: trusted_proxies_alias
+        - name: RealIPSource
+          type: string
+          key: real_ip_source
+        - name: ServerName
+          type: string
+          key: servername
+        - name: Locations
+          type: string
+          key: locations
+        - name: Rewrites
+          type: string
+          key: rewrites
+        - name: Root
+          type: string
+          key: root
+        - name: MaxBodySize
+          type: string
+          key: max_body_size
+        - name: BodyBufferSize
+          type: string
+          key: body_buffer_size
+        - name: Certificate
+          type: string
+          key: certificate
+        - name: CA
+          type: string
+          key: ca
+        - name: VerifyClient
+          type: string
+          key: verify_client
+        - name: ZeroRTT
+          type: string
+          key: zero_rtt
+        - name: AccessLogFormat
+          type: string
+          key: access_log_format
+        - name: ErrorLogLevel
+          type: string
+          key: error_log_level
+        - name: LogHandshakes
+          type: string
+          key: log_handshakes
+        - name: EnableACMESupport
+          type: string
+          key: enable_acme_support
+        - name: Charset
+          type: string
+          key: charset
+        - name: HTTPSOnly
+          type: string
+          key: https_only
+        - name: TLSProtocols
+          type: string
+          key: tls_protocols
+        - name: TLSCiphers
+          type: string
+          key: tls_ciphers
+        - name: TLSECDHCurve
+          type: string
+          key: tls_ecdh_curve
+        - name: TLSPreferServerCiphers
+          type: string
+          key: tls_prefer_server_ciphers
+        - name: Resolver
+          type: string
+          key: resolver
+        - name: OCSPStapling
+          type: string
+          key: ocsp_stapling
+        - name: OCSPVerify
+          type: string
+          key: ocsp_verify
+        - name: BlockNonpublicData
+          type: string
+          key: block_nonpublic_data
+        - name: DisableGzip
+          type: string
+          key: disable_gzip
+        - name: DisableBotProtection
+          type: string
+          key: disable_bot_protection
+        - name: IPACL
+          type: string
+          key: ip_acl
+        - name: AdvancedACLServer
+          type: string
+          key: advanced_acl_server
+        - name: Satisfy
+          type: string
+          key: satisfy
+        - name: NaxsiWhitelistSrcIP
+          type: string
+          key: naxsi_whitelist_srcip
+        - name: NaxsiExtensiveLog
+          type: string
+          key: naxsi_extensive_log
+        - name: Sendfile
+          type: string
+          key: sendfile
+        - name: ClientHeaderBufferSize
+          type: string
+          key: client_header_buffer_size
+        - name: LargeClientHeaderBuffersNumber
+          type: string
+          key: large_client_header_buffers_number
+        - name: LargeClientHeaderBuffersSize
+          type: string
+          key: large_client_header_buffers_size
+        - name: SecurityHeader
+          type: string
+          key: security_header
+        - name: LimitRequestConnections
+          type: string
+          key: limit_request_connections
+        - name: ErrorPages
+          type: string
+          key: errorpages
+
+      HTTPServerGetServer:
+        - name: ServerName
+          type: "map[string]Option"
+          key: servername
+        - name: SyslogTargets
+          type: "[]string"
+          key: syslog_targets
+        - name: ListenHTTPAddress
+          type: "map[string]Option"
+          key: listen_http_address
+        - name: ListenHTTPSAddress
+          type: "map[string]Option"
+          key: listen_https_address
+        - name: DefaultServer
+          type: string
+          key: default_server
+        - name: TLSRejectHandshake
+          type: string
+          key: tls_reject_handshake
+        - name: ProxyProtocol
+          type: string
+          key: proxy_protocol
+        - name: TrustedProxies
+          type: "[]string"
+          key: trusted_proxies
+        - name: TrustedProxiesAlias
+          type: "map[string]Option"
+          key: trusted_proxies_alias
+        - name: RealIPSource
+          type: "map[string]Option"
+          key: real_ip_source
+        - name: Locations
+          type: "map[string]Option"
+          key: locations
+        - name: Rewrites
+          type: "[]string"
+          key: rewrites
+        - name: Root
+          type: string
+          key: root
+        - name: Certificate
+          type: "map[string]Option"
+          key: certificate
+        - name: CA
+          type: "map[string]Option"
+          key: ca
+        - name: VerifyClient
+          type: "map[string]Option"
+          key: verify_client
+        - name: AccessLogFormat
+          type: "map[string]Option"
+          key: access_log_format
+        - name: ErrorLogLevel
+          type: "map[string]Option"
+          key: error_log_level
+        - name: LogHandshakes
+          type: string
+          key: log_handshakes
+        - name: EnableACMESupport
+          type: string
+          key: enable_acme_support
+        - name: Charset
+          type: "map[string]Option"
+          key: charset
+        - name: HTTPSOnly
+          type: string
+          key: https_only
+        - name: TLSProtocols
+          type: "map[string]Option"
+          key: tls_protocols
+        - name: TLSCiphers
+          type: string
+          key: tls_ciphers
+        - name: TLSECDHCurve
+          type: string
+          key: tls_ecdh_curve
+        - name: TLSPreferServerCiphers
+          type: string
+          key: tls_prefer_server_ciphers
+        - name: Resolver
+          type: "map[string]Option"
+          key: resolver
+        - name: OCSPStapling
+          type: string
+          key: ocsp_stapling
+        - name: OCSPVerify
+          type: string
+          key: ocsp_verify
+        - name: BlockNonpublicData
+          type: string
+          key: block_nonpublic_data
+        - name: DisableBotProtection
+          type: string
+          key: disable_bot_protection
+        - name: DisableGzip
+          type: string
+          key: disable_gzip
+        - name: NaxsiWhitelistSrcIP
+          type: "[]string"
+          key: naxsi_whitelist_srcip
+        - name: NaxsiExtensiveLog
+          type: string
+          key: naxsi_extensive_log
+        - name: Sendfile
+          type: string
+          key: sendfile
+        - name: ClientHeaderBufferSize
+          type: string
+          key: client_header_buffer_size
+        - name: LargeClientHeaderBuffersNumber
+          type: string
+          key: large_client_header_buffers_number
+        - name: LargeClientHeaderBuffersSize
+          type: string
+          key: large_client_header_buffers_size
+        - name: SecurityHeader
+          type: "map[string]Option"
+          key: security_header
+        - name: LimitRequestConnections
+          type: "[]string"
+          key: limit_request_connections
+        - name: MaxBodySize
+          type: string
+          key: max_body_size
+        - name: BodyBufferSize
+          type: string
+          key: body_buffer_size
+        - name: IPACL
+          type: "map[string]Option"
+          key: ip_acl
+        - name: AdvancedACLServer
+          type: "map[string]Option"
+          key: advanced_acl_server
+        - name: Satisfy
+          type: "map[string]Option"
+          key: satisfy
+        - name: ZeroRTT
+          type: string
+          key: zero_rtt
+        - name: ErrorPages
+          type: "[]string"
+          key: errorpages
+
+      HTTPServerGetResponse:
+        - name: HTTPServer
+          type: HTTPServerGetServer
+          key: httpserver
+
+      HTTPServerSearchItem:
+        - name: UUID
+          type: string
+          key: uuid
+        - name: ServerName
+          type: string
+          key: servername
+        - name: Locations
+          type: string
+          key: locations
+        - name: Root
+          type: string
+          key: root
+        - name: HTTPSOnly
+          type: string
+          key: https_only
+        - name: Certificate
+          type: string
+          key: certificate
+        - name: ListenHTTPAddress
+          type: string
+          key: listen_http_address
+        - name: ListenHTTPSAddress
+          type: string
+          key: listen_https_address
+        - name: DefaultServer
+          type: string
+          key: default_server
+
+      HTTPServerSearchResult:
+        - name: Rows
+          type: "[]HTTPServerSearchItem"
+          key: rows
+        - name: RowCount
+          type: int
+          key: rowCount
+        - name: Total
+          type: int
+          key: total
+        - name: Current
+          type: int
+          key: current
+
+    rpc_calls:
+      #
+      # Settings
+      #
+      - name: "GetSettings"
+        method: "GET"
+        endpoint: "/nginx/settings/get"
+        result_type: "SettingsGetResponse"
+      - name: "SetSettings"
+        method: "POST"
+        endpoint: "/nginx/settings/set"
+        result_type: "api.ActionResult"
+        params:
+          - name: "nginx"
+            optional: false
+            type: "SettingsSetRequest"
+            bodyParameter: true
+
+      #
+      # Location
+      #
+      - name: "AddLocation"
+        method: "POST"
+        endpoint: "/nginx/settings/addlocation"
+        result_type: "api.ActionResult"
+        params:
+          - name: "location"
+            optional: false
+            type: "Location"
+            bodyParameter: true
+      - name: "SearchLocation"
+        method: "POST"
+        endpoint: "/nginx/settings/searchlocation"
+        result_type: "LocationSearchResult"
+      - name: "GetLocation"
+        method: "GET"
+        endpoint: "/nginx/settings/getlocation"
+        result_type: "LocationGetResponse"
+        params:
+          - name: "uuid"
+            optional: false
+      - name: "EditLocation"
+        method: "POST"
+        endpoint: "/nginx/settings/setlocation"
+        result_type: "api.ActionResult"
+        params:
+          - name: "uuid"
+            optional: false
+          - name: "location"
+            optional: false
+            type: "Location"
+            bodyParameter: true
+      - name: "DeleteLocation"
+        method: "POST"
+        endpoint: "/nginx/settings/dellocation"
+        result_type: "api.ActionResult"
+        params:
+          - name: "uuid"
+            optional: false
+
+      #
+      # HTTP Server
+      #
+      - name: "AddHTTPServer"
+        method: "POST"
+        endpoint: "/nginx/settings/addhttpserver"
+        result_type: "api.ActionResult"
+        params:
+          - name: "httpserver"
+            optional: false
+            type: "HTTPServer"
+            bodyParameter: true
+      - name: "SearchHTTPServer"
+        method: "POST"
+        endpoint: "/nginx/settings/searchhttpserver"
+        result_type: "HTTPServerSearchResult"
+      - name: "GetHTTPServer"
+        method: "GET"
+        endpoint: "/nginx/settings/gethttpserver"
+        result_type: "HTTPServerGetResponse"
+        params:
+          - name: "uuid"
+            optional: false
+      - name: "EditHTTPServer"
+        method: "POST"
+        endpoint: "/nginx/settings/sethttpserver"
+        result_type: "api.ActionResult"
+        params:
+          - name: "uuid"
+            optional: false
+          - name: "httpserver"
+            optional: false
+            type: "HTTPServer"
+            bodyParameter: true
+      - name: "DeleteHTTPServer"
+        method: "POST"
+        endpoint: "/nginx/settings/delhttpserver"
+        result_type: "api.ActionResult"
+        params:
+          - name: "uuid"
+            optional: false
