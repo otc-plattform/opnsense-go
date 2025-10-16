@@ -1847,6 +1847,92 @@ rpc:
           type: CertificateGet
           key: certificate
 
+      Settings:
+        - name: Enabled
+          type: string
+          key: enabled
+        - name: AutoRenewal
+          type: string
+          key: autoRenewal
+        - name: UpdateCron
+          type: "map[string]Option"
+          key: UpdateCron
+        - name: Environment
+          type: "map[string]Option"
+          key: environment
+        - name: ChallengePort
+          type: string
+          key: challengePort
+        - name: TLSChallengePort
+          type: string
+          key: TLSchallengePort
+        - name: RestartTimeout
+          type: string
+          key: restartTimeout
+        - name: HAProxyIntegration
+          type: string
+          key: haproxyIntegration
+        - name: HAProxyAclRef
+          type: "map[string]Option"
+          key: haproxyAclRef
+        - name: HAProxyActionRef
+          type: "map[string]Option"
+          key: haproxyActionRef
+        - name: HAProxyServerRef
+          type: "map[string]Option"
+          key: haproxyServerRef
+        - name: HAProxyBackendRef
+          type: "map[string]Option"
+          key: haproxyBackendRef
+        - name: LogLevel
+          type: "map[string]Option"
+          key: logLevel
+        - name: ShowIntro
+          type: string
+          key: showIntro
+
+      SettingsContainer:
+        - name: Settings
+          type: Settings
+          key: settings
+
+      SettingsGetResponse:
+        - name: ACMEClient
+          type: SettingsContainer
+          key: acmeclient
+        # TODO: other values
+
+      SettingsSetSettings:
+        - name: Enabled
+          type: string
+          key: enabled
+        - name: AutoRenewal
+          type: string
+          key: autoRenewal
+        - name: HAProxyIntegration
+          type: string
+          key: haproxyIntegration
+        - name: LogLevel
+          type: string
+          key: logLevel
+        - name: ShowIntro
+          type: string
+          key: showIntro
+        - name: ChallengePort
+          type: string
+          key: challengePort
+        - name: TLSChallengePort
+          type: string
+          key: TLSchallengePort
+        - name: RestartTimeout
+          type: string
+          key: restartTimeout
+
+      SettingsSetRequest:
+        - name: Settings
+          type: SettingsSetSettings
+          key: settings
+
     rpc_calls:
       #
       # Account Calls
@@ -1973,3 +2059,20 @@ rpc:
         params:
           - name: "uuid"
             optional: false
+
+      #
+      # Settings
+      #
+      - name: "GetSettings"
+        method: "GET"
+        endpoint: "/acmeclient/settings/get"
+        result_type: "SettingsGetResponse"
+      - name: "SetSettings"
+        method: "POST"
+        endpoint: "/acmeclient/settings/set"
+        result_type: "api.ActionResult"
+        params:
+          - name: "acmeclient"
+            optional: false
+            type: "SettingsSetRequest"
+            bodyParameter: true

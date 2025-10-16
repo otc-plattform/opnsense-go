@@ -155,6 +155,46 @@ type Option struct {
 	Selected int    `json:"selected"`
 }
 
+type Settings struct {
+	Enabled            string            `json:"enabled"`
+	AutoRenewal        string            `json:"autoRenewal"`
+	UpdateCron         map[string]Option `json:"UpdateCron"`
+	Environment        map[string]Option `json:"environment"`
+	ChallengePort      string            `json:"challengePort"`
+	TLSChallengePort   string            `json:"TLSchallengePort"`
+	RestartTimeout     string            `json:"restartTimeout"`
+	HAProxyIntegration string            `json:"haproxyIntegration"`
+	HAProxyAclRef      map[string]Option `json:"haproxyAclRef"`
+	HAProxyActionRef   map[string]Option `json:"haproxyActionRef"`
+	HAProxyServerRef   map[string]Option `json:"haproxyServerRef"`
+	HAProxyBackendRef  map[string]Option `json:"haproxyBackendRef"`
+	LogLevel           map[string]Option `json:"logLevel"`
+	ShowIntro          string            `json:"showIntro"`
+}
+
+type SettingsContainer struct {
+	Settings Settings `json:"settings"`
+}
+
+type SettingsGetResponse struct {
+	ACMEClient SettingsContainer `json:"acmeclient"`
+}
+
+type SettingsSetRequest struct {
+	Settings SettingsSetSettings `json:"settings"`
+}
+
+type SettingsSetSettings struct {
+	Enabled            string `json:"enabled"`
+	AutoRenewal        string `json:"autoRenewal"`
+	HAProxyIntegration string `json:"haproxyIntegration"`
+	LogLevel           string `json:"logLevel"`
+	ShowIntro          string `json:"showIntro"`
+	ChallengePort      string `json:"challengePort"`
+	TLSChallengePort   string `json:"TLSchallengePort"`
+	RestartTimeout     string `json:"restartTimeout"`
+}
+
 type Validation struct {
 	Enabled                     string `json:"enabled"`
 	Name                        string `json:"name"`
@@ -999,6 +1039,50 @@ func (c *Controller) ACMEClientGetCert(ctx context.Context, uuid string) (*Certi
 	result, err := api.Call(c.Client(), ctx, callOpts, resultData)
 	if err != nil {
 		return nil, fmt.Errorf("GetCert call failed: %w", err)
+	}
+	return result, nil
+}
+
+// ACMEClientGetSettings executes the GetSettings RPC call of the ACMEClient controller
+func (c *Controller) ACMEClientGetSettings(ctx context.Context) (*SettingsGetResponse, error) {
+
+	callParams := []string{}
+	bodyParams := make(map[string]interface{})
+
+	callOpts := api.RPCOpts{
+		BaseEndpoint:   "/acmeclient/settings/get",
+		Method:         "GET",
+		PathParameters: callParams,
+		BodyParameters: bodyParams,
+	}
+
+	resultData := &SettingsGetResponse{}
+	result, err := api.Call(c.Client(), ctx, callOpts, resultData)
+	if err != nil {
+		return nil, fmt.Errorf("GetSettings call failed: %w", err)
+	}
+	return result, nil
+}
+
+// ACMEClientSetSettings executes the SetSettings RPC call of the ACMEClient controller
+func (c *Controller) ACMEClientSetSettings(ctx context.Context, acmeclient SettingsSetRequest) (*api.ActionResult, error) {
+
+	callParams := []string{}
+	bodyParams := make(map[string]interface{})
+
+	bodyParams["acmeclient"] = acmeclient
+
+	callOpts := api.RPCOpts{
+		BaseEndpoint:   "/acmeclient/settings/set",
+		Method:         "POST",
+		PathParameters: callParams,
+		BodyParameters: bodyParams,
+	}
+
+	resultData := &api.ActionResult{}
+	result, err := api.Call(c.Client(), ctx, callOpts, resultData)
+	if err != nil {
+		return nil, fmt.Errorf("SetSettings call failed: %w", err)
 	}
 	return result, nil
 }
