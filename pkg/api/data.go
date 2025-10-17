@@ -64,5 +64,7 @@ func (p *RPCOpts) Body() (string, error) {
 }
 
 type ActionResult struct {
-	Result string `json:"result"`
+	Result      string            `json:"result"`
+	UUID        string            `json:"uuid"`
+	Validations map[string]string `json:"validations"`
 }
