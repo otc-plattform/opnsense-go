@@ -70,6 +70,141 @@ type AccountSearchResponse struct {
 	Rows     []Account `json:"rows"`
 }
 
+type Action struct {
+	Enabled               string `json:"enabled"`
+	Name                  string `json:"name"`
+	Description           string `json:"description"`
+	Type                  string `json:"type"`
+	SFTPHost              string `json:"sftp_host"`
+	SFTPPort              string `json:"sftp_port"`
+	SFTPHostKey           string `json:"sftp_host_key"`
+	SFTPUser              string `json:"sftp_user"`
+	SFTPIdentityType      string `json:"sftp_identity_type"`
+	SFTPRemotePath        string `json:"sftp_remote_path"`
+	SFTPChmod             string `json:"sftp_chmod"`
+	SFTPChmodKey          string `json:"sftp_chmod_key"`
+	SFTPChgrp             string `json:"sftp_chgrp"`
+	SFTPFilenameCert      string `json:"sftp_filename_cert"`
+	SFTPFilenameKey       string `json:"sftp_filename_key"`
+	SFTPFilenameCA        string `json:"sftp_filename_ca"`
+	SFTPFilenameFullchain string `json:"sftp_filename_fullchain"`
+	RemoteSSHHost         string `json:"remote_ssh_host"`
+	RemoteSSHPort         string `json:"remote_ssh_port"`
+	RemoteSSHKey          string `json:"remote_ssh_key"`
+	RemoteSSHUser         string `json:"remote_ssh_user"`
+	RemoteSSHIdentityType string `json:"remote_ssh_identity_type"`
+	RemoteSSHCommand      string `json:"remote_ssh_command"`
+	ConfigdGenericCommand string `json:"configd_generic_command"`
+	SynologyDSMHostname   string `json:"acme_synology_dsm_hostname"`
+	SynologyDSMPort       string `json:"acme_synology_dsm_port"`
+	SynologyDSMScheme     string `json:"acme_synology_dsm_scheme"`
+	SynologyDSMUsername   string `json:"acme_synology_dsm_username"`
+	SynologyDSMPassword   string `json:"acme_synology_dsm_password"`
+	SynologyDSMDeviceID   string `json:"acme_synology_dsm_deviceid"`
+	SynologyDSMDeviceName string `json:"acme_synology_dsm_devicename"`
+	SynologyDSMOTPCode    string `json:"acme_synology_dsm_otpcode"`
+	SynologyDSMCreate     string `json:"acme_synology_dsm_create"`
+	FritzBoxURL           string `json:"acme_fritzbox_url"`
+	FritzBoxUsername      string `json:"acme_fritzbox_username"`
+	FritzBoxPassword      string `json:"acme_fritzbox_password"`
+	PANOSUsername         string `json:"acme_panos_username"`
+	PANOSPassword         string `json:"acme_panos_password"`
+	PANOSHost             string `json:"acme_panos_host"`
+	ProxmoxVEUser         string `json:"acme_proxmoxve_user"`
+	ProxmoxVEServer       string `json:"acme_proxmoxve_server"`
+	ProxmoxVEPort         string `json:"acme_proxmoxve_port"`
+	ProxmoxVENodeName     string `json:"acme_proxmoxve_nodename"`
+	ProxmoxVERealm        string `json:"acme_proxmoxve_realm"`
+	ProxmoxVETokenID      string `json:"acme_proxmoxve_tokenid"`
+	ProxmoxVETokenKey     string `json:"acme_proxmoxve_tokenkey"`
+	TrueNASAPIKey         string `json:"acme_truenas_apikey"`
+	TrueNASHostname       string `json:"acme_truenas_hostname"`
+	TrueNASScheme         string `json:"acme_truenas_scheme"`
+	UnifiKeystore         string `json:"acme_unifi_keystore"`
+	VaultURL              string `json:"acme_vault_url"`
+	VaultPrefix           string `json:"acme_vault_prefix"`
+	VaultToken            string `json:"acme_vault_token"`
+	VaultKVV2             string `json:"acme_vault_kvv2"`
+}
+
+type ActionGet struct {
+	ID                    string            `json:"id"`
+	Enabled               string            `json:"enabled"`
+	Name                  string            `json:"name"`
+	Description           string            `json:"description"`
+	Type                  map[string]Option `json:"type"`
+	SFTPHost              string            `json:"sftp_host"`
+	SFTPHostKey           string            `json:"sftp_host_key"`
+	SFTPPort              string            `json:"sftp_port"`
+	SFTPUser              string            `json:"sftp_user"`
+	SFTPIdentityType      map[string]Option `json:"sftp_identity_type"`
+	SFTPRemotePath        string            `json:"sftp_remote_path"`
+	SFTPChgrp             string            `json:"sftp_chgrp"`
+	SFTPChmod             string            `json:"sftp_chmod"`
+	SFTPChmodKey          string            `json:"sftp_chmod_key"`
+	SFTPFilenameCert      string            `json:"sftp_filename_cert"`
+	SFTPFilenameKey       string            `json:"sftp_filename_key"`
+	SFTPFilenameCA        string            `json:"sftp_filename_ca"`
+	SFTPFilenameFullchain string            `json:"sftp_filename_fullchain"`
+	RemoteSSHHost         string            `json:"remote_ssh_host"`
+	RemoteSSHHostKey      string            `json:"remote_ssh_host_key"`
+	RemoteSSHPort         string            `json:"remote_ssh_port"`
+	RemoteSSHUser         string            `json:"remote_ssh_user"`
+	RemoteSSHIdentityType map[string]Option `json:"remote_ssh_identity_type"`
+	RemoteSSHCommand      string            `json:"remote_ssh_command"`
+	Configd               map[string]Option `json:"configd"`
+	ConfigdGenericCommand map[string]Option `json:"configd_generic_command"`
+	SynologyDSMHostname   string            `json:"acme_synology_dsm_hostname"`
+	SynologyDSMPort       string            `json:"acme_synology_dsm_port"`
+	SynologyDSMScheme     map[string]Option `json:"acme_synology_dsm_scheme"`
+	SynologyDSMUsername   string            `json:"acme_synology_dsm_username"`
+	SynologyDSMPassword   string            `json:"acme_synology_dsm_password"`
+	SynologyDSMCreate     string            `json:"acme_synology_dsm_create"`
+	SynologyDSMDeviceID   string            `json:"acme_synology_dsm_deviceid"`
+	SynologyDSMDeviceName string            `json:"acme_synology_dsm_devicename"`
+	SynologyDSMOTPCode    string            `json:"acme_synology_dsm_otpcode"`
+	FritzBoxURL           string            `json:"acme_fritzbox_url"`
+	FritzBoxUsername      string            `json:"acme_fritzbox_username"`
+	FritzBoxPassword      string            `json:"acme_fritzbox_password"`
+	PANOSUsername         string            `json:"acme_panos_username"`
+	PANOSPassword         string            `json:"acme_panos_password"`
+	PANOSHost             string            `json:"acme_panos_host"`
+	ProxmoxVEUser         string            `json:"acme_proxmoxve_user"`
+	ProxmoxVEServer       string            `json:"acme_proxmoxve_server"`
+	ProxmoxVEPort         string            `json:"acme_proxmoxve_port"`
+	ProxmoxVENodeName     string            `json:"acme_proxmoxve_nodename"`
+	ProxmoxVERealm        string            `json:"acme_proxmoxve_realm"`
+	ProxmoxVETokenID      string            `json:"acme_proxmoxve_tokenid"`
+	ProxmoxVETokenKey     string            `json:"acme_proxmoxve_tokenkey"`
+	TrueNASAPIKey         string            `json:"acme_truenas_apikey"`
+	TrueNASHostname       string            `json:"acme_truenas_hostname"`
+	TrueNASScheme         map[string]Option `json:"acme_truenas_scheme"`
+	UnifiKeystore         string            `json:"acme_unifi_keystore"`
+	VaultURL              string            `json:"acme_vault_url"`
+	VaultPrefix           string            `json:"acme_vault_prefix"`
+	VaultToken            string            `json:"acme_vault_token"`
+	VaultKVV2             string            `json:"acme_vault_kvv2"`
+}
+
+type ActionGetResponse struct {
+	Action ActionGet `json:"action"`
+}
+
+type ActionSearchItem struct {
+	UUID        string `json:"uuid"`
+	Enabled     string `json:"enabled"`
+	Name        string `json:"name"`
+	Type        string `json:"type"`
+	Description string `json:"description"`
+}
+
+type ActionSearchResult struct {
+	Total    int                `json:"total"`
+	RowCount int                `json:"rowCount"`
+	Current  int                `json:"current"`
+	Rows     []ActionSearchItem `json:"rows"`
+}
+
 type Certificate struct {
 	Enabled          string `json:"enabled"`
 	Name             string `json:"name"`
@@ -1083,6 +1218,121 @@ func (c *Controller) ACMEClientSetSettings(ctx context.Context, acmeclient Setti
 	result, err := api.Call(c.Client(), ctx, callOpts, resultData)
 	if err != nil {
 		return nil, fmt.Errorf("SetSettings call failed: %w", err)
+	}
+	return result, nil
+}
+
+// ACMEClientAddAutomation executes the AddAutomation RPC call of the ACMEClient controller
+func (c *Controller) ACMEClientAddAutomation(ctx context.Context, action Action) (*api.ActionResult, error) {
+
+	callParams := []string{}
+	bodyParams := make(map[string]interface{})
+
+	bodyParams["action"] = action
+
+	callOpts := api.RPCOpts{
+		BaseEndpoint:   "/acmeclient/actions/add",
+		Method:         "POST",
+		PathParameters: callParams,
+		BodyParameters: bodyParams,
+	}
+
+	resultData := &api.ActionResult{}
+	result, err := api.Call(c.Client(), ctx, callOpts, resultData)
+	if err != nil {
+		return nil, fmt.Errorf("AddAutomation call failed: %w", err)
+	}
+	return result, nil
+}
+
+// ACMEClientSearchAutomation executes the SearchAutomation RPC call of the ACMEClient controller
+func (c *Controller) ACMEClientSearchAutomation(ctx context.Context) (*ActionSearchResult, error) {
+
+	callParams := []string{}
+	bodyParams := make(map[string]interface{})
+
+	callOpts := api.RPCOpts{
+		BaseEndpoint:   "/acmeclient/actions/search",
+		Method:         "POST",
+		PathParameters: callParams,
+		BodyParameters: bodyParams,
+	}
+
+	resultData := &ActionSearchResult{}
+	result, err := api.Call(c.Client(), ctx, callOpts, resultData)
+	if err != nil {
+		return nil, fmt.Errorf("SearchAutomation call failed: %w", err)
+	}
+	return result, nil
+}
+
+// ACMEClientEditAutomation executes the EditAutomation RPC call of the ACMEClient controller
+func (c *Controller) ACMEClientEditAutomation(ctx context.Context, uuid string, action Action) (*api.ActionResult, error) {
+
+	callParams := []string{}
+	bodyParams := make(map[string]interface{})
+
+	callParams = append(callParams, uuid)
+
+	bodyParams["action"] = action
+
+	callOpts := api.RPCOpts{
+		BaseEndpoint:   "/acmeclient/actions/update",
+		Method:         "POST",
+		PathParameters: callParams,
+		BodyParameters: bodyParams,
+	}
+
+	resultData := &api.ActionResult{}
+	result, err := api.Call(c.Client(), ctx, callOpts, resultData)
+	if err != nil {
+		return nil, fmt.Errorf("EditAutomation call failed: %w", err)
+	}
+	return result, nil
+}
+
+// ACMEClientDeleteAutomation executes the DeleteAutomation RPC call of the ACMEClient controller
+func (c *Controller) ACMEClientDeleteAutomation(ctx context.Context, uuid string) (*api.ActionResult, error) {
+
+	callParams := []string{}
+	bodyParams := make(map[string]interface{})
+
+	callParams = append(callParams, uuid)
+
+	callOpts := api.RPCOpts{
+		BaseEndpoint:   "/acmeclient/actions/del",
+		Method:         "POST",
+		PathParameters: callParams,
+		BodyParameters: bodyParams,
+	}
+
+	resultData := &api.ActionResult{}
+	result, err := api.Call(c.Client(), ctx, callOpts, resultData)
+	if err != nil {
+		return nil, fmt.Errorf("DeleteAutomation call failed: %w", err)
+	}
+	return result, nil
+}
+
+// ACMEClientGetAutomation executes the GetAutomation RPC call of the ACMEClient controller
+func (c *Controller) ACMEClientGetAutomation(ctx context.Context, uuid string) (*ActionGetResponse, error) {
+
+	callParams := []string{}
+	bodyParams := make(map[string]interface{})
+
+	callParams = append(callParams, uuid)
+
+	callOpts := api.RPCOpts{
+		BaseEndpoint:   "/acmeclient/actions/get",
+		Method:         "GET",
+		PathParameters: callParams,
+		BodyParameters: bodyParams,
+	}
+
+	resultData := &ActionGetResponse{}
+	result, err := api.Call(c.Client(), ctx, callOpts, resultData)
+	if err != nil {
+		return nil, fmt.Errorf("GetAutomation call failed: %w", err)
 	}
 	return result, nil
 }

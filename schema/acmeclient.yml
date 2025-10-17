@@ -1847,6 +1847,9 @@ rpc:
           type: CertificateGet
           key: certificate
 
+      #
+      # Settings Types
+      #
       Settings:
         - name: Enabled
           type: string
@@ -1932,6 +1935,420 @@ rpc:
         - name: Settings
           type: SettingsSetSettings
           key: settings
+
+      #
+      # Automation Types
+      #
+      Action:
+        - name: Enabled
+          type: string
+          key: enabled
+        - name: Name
+          type: string
+          key: name
+        - name: Description
+          type: string
+          key: description
+        - name: Type
+          type: string
+          key: type
+
+        # SFTP upload
+        - name: SFTPHost
+          type: string
+          key: sftp_host
+        - name: SFTPPort
+          type: string
+          key: sftp_port
+        - name: SFTPHostKey
+          type: string
+          key: sftp_host_key
+        - name: SFTPUser
+          type: string
+          key: sftp_user
+        - name: SFTPIdentityType
+          type: string
+          key: sftp_identity_type
+        - name: SFTPRemotePath
+          type: string
+          key: sftp_remote_path
+        - name: SFTPChmod
+          type: string
+          key: sftp_chmod
+        - name: SFTPChmodKey
+          type: string
+          key: sftp_chmod_key
+        - name: SFTPChgrp
+          type: string
+          key: sftp_chgrp
+        - name: SFTPFilenameCert
+          type: string
+          key: sftp_filename_cert
+        - name: SFTPFilenameKey
+          type: string
+          key: sftp_filename_key
+        - name: SFTPFilenameCA
+          type: string
+          key: sftp_filename_ca
+        - name: SFTPFilenameFullchain
+          type: string
+          key: sftp_filename_fullchain
+
+        # Remote SSH
+        - name: RemoteSSHHost
+          type: string
+          key: remote_ssh_host
+        - name: RemoteSSHPort
+          type: string
+          key: remote_ssh_port
+        - name: RemoteSSHKey
+          type: string
+          key: remote_ssh_key
+        - name: RemoteSSHUser
+          type: string
+          key: remote_ssh_user
+        - name: RemoteSSHIdentityType
+          type: string
+          key: remote_ssh_identity_type
+        - name: RemoteSSHCommand
+          type: string
+          key: remote_ssh_command
+
+        # configd generic command
+        - name: ConfigdGenericCommand
+          type: string
+          key: configd_generic_command
+
+        # Synology DSM
+        - name: SynologyDSMHostname
+          type: string
+          key: acme_synology_dsm_hostname
+        - name: SynologyDSMPort
+          type: string
+          key: acme_synology_dsm_port
+        - name: SynologyDSMScheme
+          type: string
+          key: acme_synology_dsm_scheme
+        - name: SynologyDSMUsername
+          type: string
+          key: acme_synology_dsm_username
+        - name: SynologyDSMPassword
+          type: string
+          key: acme_synology_dsm_password
+        - name: SynologyDSMDeviceID
+          type: string
+          key: acme_synology_dsm_deviceid
+        - name: SynologyDSMDeviceName
+          type: string
+          key: acme_synology_dsm_devicename
+        - name: SynologyDSMOTPCode
+          type: string
+          key: acme_synology_dsm_otpcode
+        - name: SynologyDSMCreate
+          type: string
+          key: acme_synology_dsm_create
+
+        # FRITZ!Box
+        - name: FritzBoxURL
+          type: string
+          key: acme_fritzbox_url
+        - name: FritzBoxUsername
+          type: string
+          key: acme_fritzbox_username
+        - name: FritzBoxPassword
+          type: string
+          key: acme_fritzbox_password
+
+        # Palo Alto Networks
+        - name: PANOSUsername
+          type: string
+          key: acme_panos_username
+        - name: PANOSPassword
+          type: string
+          key: acme_panos_password
+        - name: PANOSHost
+          type: string
+          key: acme_panos_host
+
+        # Proxmox VE
+        - name: ProxmoxVEUser
+          type: string
+          key: acme_proxmoxve_user
+        - name: ProxmoxVEServer
+          type: string
+          key: acme_proxmoxve_server
+        - name: ProxmoxVEPort
+          type: string
+          key: acme_proxmoxve_port
+        - name: ProxmoxVENodeName
+          type: string
+          key: acme_proxmoxve_nodename
+        - name: ProxmoxVERealm
+          type: string
+          key: acme_proxmoxve_realm
+        - name: ProxmoxVETokenID
+          type: string
+          key: acme_proxmoxve_tokenid
+        - name: ProxmoxVETokenKey
+          type: string
+          key: acme_proxmoxve_tokenkey
+
+        # TrueNAS
+        - name: TrueNASAPIKey
+          type: string
+          key: acme_truenas_apikey
+        - name: TrueNASHostname
+          type: string
+          key: acme_truenas_hostname
+        - name: TrueNASScheme
+          type: string
+          key: acme_truenas_scheme
+
+        # Unifi
+        - name: UnifiKeystore
+          type: string
+          key: acme_unifi_keystore
+
+        # HashiCorp Vault
+        - name: VaultURL
+          type: string
+          key: acme_vault_url
+        - name: VaultPrefix
+          type: string
+          key: acme_vault_prefix
+        - name: VaultToken
+          type: string
+          key: acme_vault_token
+        - name: VaultKVV2
+          type: string
+          key: acme_vault_kvv2
+
+      ActionGet:
+        - name: ID
+          type: string
+          key: id
+        - name: Enabled
+          type: string
+          key: enabled
+        - name: Name
+          type: string
+          key: name
+        - name: Description
+          type: string
+          key: description
+
+        - name: Type
+          type: "map[string]Option"
+          key: type
+
+        # SFTP upload
+        - name: SFTPHost
+          type: string
+          key: sftp_host
+        - name: SFTPHostKey
+          type: string
+          key: sftp_host_key
+        - name: SFTPPort
+          type: string
+          key: sftp_port
+        - name: SFTPUser
+          type: string
+          key: sftp_user
+        - name: SFTPIdentityType
+          type: "map[string]Option"
+          key: sftp_identity_type
+        - name: SFTPRemotePath
+          type: string
+          key: sftp_remote_path
+        - name: SFTPChgrp
+          type: string
+          key: sftp_chgrp
+        - name: SFTPChmod
+          type: string
+          key: sftp_chmod
+        - name: SFTPChmodKey
+          type: string
+          key: sftp_chmod_key
+        - name: SFTPFilenameCert
+          type: string
+          key: sftp_filename_cert
+        - name: SFTPFilenameKey
+          type: string
+          key: sftp_filename_key
+        - name: SFTPFilenameCA
+          type: string
+          key: sftp_filename_ca
+        - name: SFTPFilenameFullchain
+          type: string
+          key: sftp_filename_fullchain
+
+        # Remote SSH
+        - name: RemoteSSHHost
+          type: string
+          key: remote_ssh_host
+        - name: RemoteSSHHostKey
+          type: string
+          key: remote_ssh_host_key
+        - name: RemoteSSHPort
+          type: string
+          key: remote_ssh_port
+        - name: RemoteSSHUser
+          type: string
+          key: remote_ssh_user
+        - name: RemoteSSHIdentityType
+          type: "map[string]Option"
+          key: remote_ssh_identity_type
+        - name: RemoteSSHCommand
+          type: string
+          key: remote_ssh_command
+
+        # configd actions
+        - name: Configd
+          type: "map[string]Option"
+          key: configd
+        - name: ConfigdGenericCommand
+          type: "map[string]Option"
+          key: configd_generic_command
+
+        # Synology DSM
+        - name: SynologyDSMHostname
+          type: string
+          key: acme_synology_dsm_hostname
+        - name: SynologyDSMPort
+          type: string
+          key: acme_synology_dsm_port
+        - name: SynologyDSMScheme
+          type: "map[string]Option"
+          key: acme_synology_dsm_scheme
+        - name: SynologyDSMUsername
+          type: string
+          key: acme_synology_dsm_username
+        - name: SynologyDSMPassword
+          type: string
+          key: acme_synology_dsm_password
+        - name: SynologyDSMCreate
+          type: string
+          key: acme_synology_dsm_create
+        - name: SynologyDSMDeviceID
+          type: string
+          key: acme_synology_dsm_deviceid
+        - name: SynologyDSMDeviceName
+          type: string
+          key: acme_synology_dsm_devicename
+        - name: SynologyDSMOTPCode
+          type: string
+          key: acme_synology_dsm_otpcode
+
+        # FRITZ!Box
+        - name: FritzBoxURL
+          type: string
+          key: acme_fritzbox_url
+        - name: FritzBoxUsername
+          type: string
+          key: acme_fritzbox_username
+        - name: FritzBoxPassword
+          type: string
+          key: acme_fritzbox_password
+
+        # Palo Alto Networks
+        - name: PANOSUsername
+          type: string
+          key: acme_panos_username
+        - name: PANOSPassword
+          type: string
+          key: acme_panos_password
+        - name: PANOSHost
+          type: string
+          key: acme_panos_host
+
+        # Proxmox VE
+        - name: ProxmoxVEUser
+          type: string
+          key: acme_proxmoxve_user
+        - name: ProxmoxVEServer
+          type: string
+          key: acme_proxmoxve_server
+        - name: ProxmoxVEPort
+          type: string
+          key: acme_proxmoxve_port
+        - name: ProxmoxVENodeName
+          type: string
+          key: acme_proxmoxve_nodename
+        - name: ProxmoxVERealm
+          type: string
+          key: acme_proxmoxve_realm
+        - name: ProxmoxVETokenID
+          type: string
+          key: acme_proxmoxve_tokenid
+        - name: ProxmoxVETokenKey
+          type: string
+          key: acme_proxmoxve_tokenkey
+
+        # TrueNAS
+        - name: TrueNASAPIKey
+          type: string
+          key: acme_truenas_apikey
+        - name: TrueNASHostname
+          type: string
+          key: acme_truenas_hostname
+        - name: TrueNASScheme
+          type: "map[string]Option"
+          key: acme_truenas_scheme
+
+        # Unifi
+        - name: UnifiKeystore
+          type: string
+          key: acme_unifi_keystore
+
+        # HashiCorp Vault
+        - name: VaultURL
+          type: string
+          key: acme_vault_url
+        - name: VaultPrefix
+          type: string
+          key: acme_vault_prefix
+        - name: VaultToken
+          type: string
+          key: acme_vault_token
+        - name: VaultKVV2
+          type: string
+          key: acme_vault_kvv2
+
+      ActionSearchItem:
+        - name: UUID
+          type: string
+          key: uuid
+        - name: Enabled
+          type: string
+          key: enabled
+        - name: Name
+          type: string
+          key: name
+        - name: Type
+          type: string
+          key: type
+        - name: Description
+          type: string
+          key: description
+
+      ActionSearchResult:
+        - name: Total
+          type: int
+          key: total
+        - name: RowCount
+          type: int
+          key: rowCount
+        - name: Current
+          type: int
+          key: current
+        - name: Rows
+          type: "[]ActionSearchItem"
+          key: rows
+
+      ActionGetResponse:
+        - name: Action
+          type: ActionGet
+          key: action
 
     rpc_calls:
       #
@@ -2076,3 +2493,45 @@ rpc:
             optional: false
             type: "SettingsSetRequest"
             bodyParameter: true
+
+      #
+      # Automation Calls
+      #
+      - name: "AddAutomation"
+        method: "POST"
+        endpoint: "/acmeclient/actions/add"
+        result_type: "api.ActionResult"
+        params:
+          - name: "action"
+            optional: false
+            type: "Action"
+            bodyParameter: true
+      - name: "SearchAutomation"
+        method: "POST"
+        endpoint: "/acmeclient/actions/search"
+        result_type: "ActionSearchResult"
+      - name: "EditAutomation"
+        method: "POST"
+        endpoint: "/acmeclient/actions/update"
+        result_type: "api.ActionResult"
+        params:
+          - name: "uuid"
+            optional: false
+          - name: "action"
+            optional: false
+            type: "Action"
+            bodyParameter: true
+      - name: "DeleteAutomation"
+        method: "POST"
+        endpoint: "/acmeclient/actions/del"
+        result_type: "api.ActionResult"
+        params:
+          - name: "uuid"
+            optional: false
+      - name: "GetAutomation"
+        method: "GET"
+        endpoint: "/acmeclient/actions/get"
+        result_type: "ActionGetResponse"
+        params:
+          - name: "uuid"
+            optional: false
