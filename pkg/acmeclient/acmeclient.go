@@ -11,7 +11,7 @@ import (
 // Data structs
 
 type Account struct {
-	UUID        string `json:"string"`
+	UUID        string `json:"id"`
 	Enabled     string `json:"enabled"`
 	Name        string `json:"name"`
 	Description string `json:"description"`
@@ -92,7 +92,7 @@ type CertificateGet struct {
 	Enabled          string            `json:"enabled"`
 	Name             string            `json:"name"`
 	Description      string            `json:"description"`
-	AltNames         []string          `json:"altNames"`
+	AltNames         map[string]Option `json:"altNames"`
 	Account          map[string]Option `json:"account"`
 	ValidationMethod map[string]Option `json:"validationMethod"`
 	KeyLength        map[string]Option `json:"keyLength"`

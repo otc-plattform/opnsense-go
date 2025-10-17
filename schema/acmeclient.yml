@@ -18,7 +18,7 @@ rpc:
       Account:
         - name: UUID
           type: string
-          key: string
+          key: id
         - name: Enabled
           type: string
           key: enabled
@@ -1797,7 +1797,7 @@ rpc:
           type: string
           key: description
         - name: AltNames
-          type: "[]string"
+          type: "map[string]Option"
           key: altNames
         - name: Account
           type: "map[string]Option"

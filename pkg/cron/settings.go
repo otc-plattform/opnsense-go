@@ -10,19 +10,6 @@ import (
 
 // Data structs
 
-type AddJobRequest struct {
-	Origin      string `json:"origin"`
-	Enabled     string `json:"enabled"`
-	Minutes     string `json:"minutes"`
-	Hours       string `json:"hours"`
-	Days        string `json:"days"`
-	Months      string `json:"months"`
-	Weekdays    string `json:"weekdays"`
-	Command     string `json:"command"`
-	Parameters  string `json:"parameters"`
-	Description string `json:"description"`
-}
-
 type CommandOption struct {
 	Value    string `json:"value"`
 	Selected int    `json:"selected"`
@@ -61,14 +48,7 @@ type Item struct {
 	Description string `json:"description"`
 }
 
-type SearchResponse struct {
-	Total    int    `json:"total"`
-	RowCount int    `json:"rowCount"`
-	Current  int    `json:"current"`
-	Rows     []Item `json:"rows"`
-}
-
-type SetJobRequest struct {
+type JobRequest struct {
 	Origin      string `json:"origin"`
 	Enabled     string `json:"enabled"`
 	Minutes     string `json:"minutes"`
@@ -81,8 +61,15 @@ type SetJobRequest struct {
 	Description string `json:"description"`
 }
 
+type SearchResponse struct {
+	Total    int    `json:"total"`
+	RowCount int    `json:"rowCount"`
+	Current  int    `json:"current"`
+	Rows     []Item `json:"rows"`
+}
+
 // SettingsAddJob executes the AddJob RPC call of the Settings controller
-func (c *Controller) SettingsAddJob(ctx context.Context, job AddJobRequest) (*api.ActionResult, error) {
+func (c *Controller) SettingsAddJob(ctx context.Context, job JobRequest) (*api.ActionResult, error) {
 
 	callParams := []string{}
 	bodyParams := make(map[string]interface{})
@@ -105,7 +92,7 @@ func (c *Controller) SettingsAddJob(ctx context.Context, job AddJobRequest) (*ap
 }
 
 // SettingsSetJob executes the SetJob RPC call of the Settings controller
-func (c *Controller) SettingsSetJob(ctx context.Context, job SetJobRequest, uuid string) (*api.ActionResult, error) {
+func (c *Controller) SettingsSetJob(ctx context.Context, job JobRequest, uuid string) (*api.ActionResult, error) {
 
 	callParams := []string{}
 	bodyParams := make(map[string]interface{})

@@ -86,38 +86,7 @@ rpc:
         - name: Description
           type: string
           key: description
-      AddJobRequest:
-        - name: Origin
-          type: string
-          key: origin
-        - name: Enabled
-          type: string
-          key: enabled
-        - name: Minutes
-          type: string
-          key: minutes
-        - name: Hours
-          type: string
-          key: hours
-        - name: Days
-          type: string
-          key: days
-        - name: Months
-          type: string
-          key: months
-        - name: Weekdays
-          type: string
-          key: weekdays
-        - name: Command
-          type: string
-          key: command
-        - name: Parameters
-          type: string
-          key: parameters
-        - name: Description
-          type: string
-          key: description
-      SetJobRequest:
+      JobRequest:
         - name: Origin
           type: string
           key: origin
@@ -169,7 +138,7 @@ rpc:
         params:
           - name: "job"
             optional: false
-            type: "AddJobRequest"
+            type: "JobRequest"
             bodyParameter: true
       - name: "SetJob"
         method: "POST"
@@ -178,7 +147,7 @@ rpc:
         params:
           - name: "job"
             optional: false
-            type: "SetJobRequest"
+            type: "JobRequest"
             bodyParameter: true
           - name: "uuid"
             optional: false
