@@ -1,6 +1,7 @@
 package api
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"net/url"
@@ -67,4 +68,41 @@ type ActionResult struct {
 	Result      string            `json:"result"`
 	UUID        string            `json:"uuid"`
 	Validations map[string]string `json:"validations"`
+}
+
+type Option struct {
+	Value    string `json:"value"`
+	Selected int    `json:"selected"`
+}
+
+type FieldOptions map[string]Option
+
+func (o *FieldOptions) UnmarshalJSON(b []byte) error {
+	b = bytes.TrimSpace(b)
+
+	if bytes.Equal(b, []byte("null")) || len(b) == 0 {
+		*o = nil
+		return nil
+	}
+
+	switch b[0] {
+	case '{':
+		var m map[string]Option
+		if err := json.Unmarshal(b, &m); err != nil {
+			return err
+		}
+		*o = m
+		return nil
+
+	case '[':
+		// Accept exactly the empty array as "empty map"
+		if bytes.Equal(b, []byte("[]")) {
+			*o = FieldOptions{}
+			return nil
+		}
+		return fmt.Errorf("Options: expected object or empty array, got %s", b)
+
+	default:
+		return fmt.Errorf("Options: invalid JSON starting with %q", b[0])
+	}
 }

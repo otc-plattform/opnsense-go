@@ -4,13 +4,6 @@ rpc:
   - name: "Settings"
     filename: settings
     customTypes:
-      CommandOption:
-        - name: Value
-          type: string
-          key: value
-        - name: Selected
-          type: int
-          key: selected
       GetJob:
         - name: Origin
           type: string
@@ -37,7 +30,7 @@ rpc:
           type: string
           key: who
         - name: Command
-          type: "map[string]CommandOption"
+          type: "api.FieldOptions"
           key: command
         - name: Parameters
           type: string

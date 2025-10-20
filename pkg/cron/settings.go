@@ -10,23 +10,18 @@ import (
 
 // Data structs
 
-type CommandOption struct {
-	Value    string `json:"value"`
-	Selected int    `json:"selected"`
-}
-
 type GetJob struct {
-	Origin      string                   `json:"origin"`
-	Enabled     string                   `json:"enabled"`
-	Minutes     string                   `json:"minutes"`
-	Hours       string                   `json:"hours"`
-	Days        string                   `json:"days"`
-	Months      string                   `json:"months"`
-	Weekdays    string                   `json:"weekdays"`
-	Who         string                   `json:"who"`
-	Command     map[string]CommandOption `json:"command"`
-	Parameters  string                   `json:"parameters"`
-	Description string                   `json:"description"`
+	Origin      string           `json:"origin"`
+	Enabled     string           `json:"enabled"`
+	Minutes     string           `json:"minutes"`
+	Hours       string           `json:"hours"`
+	Days        string           `json:"days"`
+	Months      string           `json:"months"`
+	Weekdays    string           `json:"weekdays"`
+	Who         string           `json:"who"`
+	Command     api.FieldOptions `json:"command"`
+	Parameters  string           `json:"parameters"`
+	Description string           `json:"description"`
 }
 
 type GetJobResponse struct {

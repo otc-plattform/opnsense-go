@@ -231,14 +231,6 @@ rpc:
           type: int
           key: current
 
-      Option:
-        - name: Value
-          type: string
-          key: value
-        - name: Selected
-          type: int
-          key: selected
-
       LocationGetLocation:
         - name: Description
           type: string
@@ -247,7 +239,7 @@ rpc:
           type: string
           key: urlpattern
         - name: MatchType
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: matchtype
         - name: EnableSecRules
           type: string
@@ -256,7 +248,7 @@ rpc:
           type: string
           key: enable_learning_mode
         - name: SecRulesErrorPage
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: secrules_errorpage
         - name: XSSBlockScore
           type: string
@@ -268,19 +260,19 @@ rpc:
           type: "[]string"
           key: custom_policy
         - name: Upstream
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: upstream
         - name: PathPrefix
           type: string
           key: path_prefix
         - name: CachePath
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: cache_path
         - name: CacheUseStale
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: cache_use_stale
         - name: CacheMethods
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: cache_methods
         - name: CacheMinUses
           type: string
@@ -313,7 +305,7 @@ rpc:
           type: string
           key: authbasic
         - name: AuthBasicUserFile
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: authbasicuserfile
         - name: AdvancedACL
           type: string
@@ -373,10 +365,10 @@ rpc:
           type: string
           key: proxy_send_timeout
         - name: IPACL
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: ip_acl
         - name: Satisfy
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: satisfy
         - name: ProxyMaxTempFileSize
           type: string
@@ -538,16 +530,16 @@ rpc:
 
       HTTPServerGetServer:
         - name: ServerName
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: servername
         - name: SyslogTargets
           type: "[]string"
           key: syslog_targets
         - name: ListenHTTPAddress
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: listen_http_address
         - name: ListenHTTPSAddress
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: listen_https_address
         - name: DefaultServer
           type: string
@@ -562,13 +554,13 @@ rpc:
           type: "[]string"
           key: trusted_proxies
         - name: TrustedProxiesAlias
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: trusted_proxies_alias
         - name: RealIPSource
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: real_ip_source
         - name: Locations
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: locations
         - name: Rewrites
           type: "[]string"
@@ -577,19 +569,19 @@ rpc:
           type: string
           key: root
         - name: Certificate
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: certificate
         - name: CA
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: ca
         - name: VerifyClient
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: verify_client
         - name: AccessLogFormat
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: access_log_format
         - name: ErrorLogLevel
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: error_log_level
         - name: LogHandshakes
           type: string
@@ -598,13 +590,13 @@ rpc:
           type: string
           key: enable_acme_support
         - name: Charset
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: charset
         - name: HTTPSOnly
           type: string
           key: https_only
         - name: TLSProtocols
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: tls_protocols
         - name: TLSCiphers
           type: string
@@ -616,7 +608,7 @@ rpc:
           type: string
           key: tls_prefer_server_ciphers
         - name: Resolver
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: resolver
         - name: OCSPStapling
           type: string
@@ -652,7 +644,7 @@ rpc:
           type: string
           key: large_client_header_buffers_size
         - name: SecurityHeader
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: security_header
         - name: LimitRequestConnections
           type: "[]string"
@@ -664,13 +656,13 @@ rpc:
           type: string
           key: body_buffer_size
         - name: IPACL
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: ip_acl
         - name: AdvancedACLServer
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: advanced_acl_server
         - name: Satisfy
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: satisfy
         - name: ZeroRTT
           type: string
@@ -807,7 +799,7 @@ rpc:
           type: string
           key: fail_timeout
         - name: NoUse
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: no_use
 
       UpstreamServerGetResponse:
@@ -907,10 +899,10 @@ rpc:
           type: string
           key: description
         - name: ServerEntries
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: serverentries
         - name: LoadBalancingAlgorithm
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: load_balancing_algorithm
         - name: Keepalive
           type: string
@@ -937,19 +929,19 @@ rpc:
           type: string
           key: tls_enable
         - name: TLSClientCertificate
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: tls_client_certificate
         - name: TLSNameOverride
           type: string
           key: tls_name_override
         - name: TLSProtocolVersions
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: tls_protocol_versions
         - name: TLSSessionReuse
           type: string
           key: tls_session_reuse
         - name: TLSTrustedCertificate
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: tls_trusted_certificate
         - name: TLSVerify
           type: string

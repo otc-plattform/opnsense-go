@@ -70,53 +70,53 @@ type HTTPServerGetResponse struct {
 }
 
 type HTTPServerGetServer struct {
-	ServerName                     map[string]Option `json:"servername"`
-	SyslogTargets                  []string          `json:"syslog_targets"`
-	ListenHTTPAddress              map[string]Option `json:"listen_http_address"`
-	ListenHTTPSAddress             map[string]Option `json:"listen_https_address"`
-	DefaultServer                  string            `json:"default_server"`
-	TLSRejectHandshake             string            `json:"tls_reject_handshake"`
-	ProxyProtocol                  string            `json:"proxy_protocol"`
-	TrustedProxies                 []string          `json:"trusted_proxies"`
-	TrustedProxiesAlias            map[string]Option `json:"trusted_proxies_alias"`
-	RealIPSource                   map[string]Option `json:"real_ip_source"`
-	Locations                      map[string]Option `json:"locations"`
-	Rewrites                       []string          `json:"rewrites"`
-	Root                           string            `json:"root"`
-	Certificate                    map[string]Option `json:"certificate"`
-	CA                             map[string]Option `json:"ca"`
-	VerifyClient                   map[string]Option `json:"verify_client"`
-	AccessLogFormat                map[string]Option `json:"access_log_format"`
-	ErrorLogLevel                  map[string]Option `json:"error_log_level"`
-	LogHandshakes                  string            `json:"log_handshakes"`
-	EnableACMESupport              string            `json:"enable_acme_support"`
-	Charset                        map[string]Option `json:"charset"`
-	HTTPSOnly                      string            `json:"https_only"`
-	TLSProtocols                   map[string]Option `json:"tls_protocols"`
-	TLSCiphers                     string            `json:"tls_ciphers"`
-	TLSECDHCurve                   string            `json:"tls_ecdh_curve"`
-	TLSPreferServerCiphers         string            `json:"tls_prefer_server_ciphers"`
-	Resolver                       map[string]Option `json:"resolver"`
-	OCSPStapling                   string            `json:"ocsp_stapling"`
-	OCSPVerify                     string            `json:"ocsp_verify"`
-	BlockNonpublicData             string            `json:"block_nonpublic_data"`
-	DisableBotProtection           string            `json:"disable_bot_protection"`
-	DisableGzip                    string            `json:"disable_gzip"`
-	NaxsiWhitelistSrcIP            []string          `json:"naxsi_whitelist_srcip"`
-	NaxsiExtensiveLog              string            `json:"naxsi_extensive_log"`
-	Sendfile                       string            `json:"sendfile"`
-	ClientHeaderBufferSize         string            `json:"client_header_buffer_size"`
-	LargeClientHeaderBuffersNumber string            `json:"large_client_header_buffers_number"`
-	LargeClientHeaderBuffersSize   string            `json:"large_client_header_buffers_size"`
-	SecurityHeader                 map[string]Option `json:"security_header"`
-	LimitRequestConnections        []string          `json:"limit_request_connections"`
-	MaxBodySize                    string            `json:"max_body_size"`
-	BodyBufferSize                 string            `json:"body_buffer_size"`
-	IPACL                          map[string]Option `json:"ip_acl"`
-	AdvancedACLServer              map[string]Option `json:"advanced_acl_server"`
-	Satisfy                        map[string]Option `json:"satisfy"`
-	ZeroRTT                        string            `json:"zero_rtt"`
-	ErrorPages                     []string          `json:"errorpages"`
+	ServerName                     api.FieldOptions `json:"servername"`
+	SyslogTargets                  []string         `json:"syslog_targets"`
+	ListenHTTPAddress              api.FieldOptions `json:"listen_http_address"`
+	ListenHTTPSAddress             api.FieldOptions `json:"listen_https_address"`
+	DefaultServer                  string           `json:"default_server"`
+	TLSRejectHandshake             string           `json:"tls_reject_handshake"`
+	ProxyProtocol                  string           `json:"proxy_protocol"`
+	TrustedProxies                 []string         `json:"trusted_proxies"`
+	TrustedProxiesAlias            api.FieldOptions `json:"trusted_proxies_alias"`
+	RealIPSource                   api.FieldOptions `json:"real_ip_source"`
+	Locations                      api.FieldOptions `json:"locations"`
+	Rewrites                       []string         `json:"rewrites"`
+	Root                           string           `json:"root"`
+	Certificate                    api.FieldOptions `json:"certificate"`
+	CA                             api.FieldOptions `json:"ca"`
+	VerifyClient                   api.FieldOptions `json:"verify_client"`
+	AccessLogFormat                api.FieldOptions `json:"access_log_format"`
+	ErrorLogLevel                  api.FieldOptions `json:"error_log_level"`
+	LogHandshakes                  string           `json:"log_handshakes"`
+	EnableACMESupport              string           `json:"enable_acme_support"`
+	Charset                        api.FieldOptions `json:"charset"`
+	HTTPSOnly                      string           `json:"https_only"`
+	TLSProtocols                   api.FieldOptions `json:"tls_protocols"`
+	TLSCiphers                     string           `json:"tls_ciphers"`
+	TLSECDHCurve                   string           `json:"tls_ecdh_curve"`
+	TLSPreferServerCiphers         string           `json:"tls_prefer_server_ciphers"`
+	Resolver                       api.FieldOptions `json:"resolver"`
+	OCSPStapling                   string           `json:"ocsp_stapling"`
+	OCSPVerify                     string           `json:"ocsp_verify"`
+	BlockNonpublicData             string           `json:"block_nonpublic_data"`
+	DisableBotProtection           string           `json:"disable_bot_protection"`
+	DisableGzip                    string           `json:"disable_gzip"`
+	NaxsiWhitelistSrcIP            []string         `json:"naxsi_whitelist_srcip"`
+	NaxsiExtensiveLog              string           `json:"naxsi_extensive_log"`
+	Sendfile                       string           `json:"sendfile"`
+	ClientHeaderBufferSize         string           `json:"client_header_buffer_size"`
+	LargeClientHeaderBuffersNumber string           `json:"large_client_header_buffers_number"`
+	LargeClientHeaderBuffersSize   string           `json:"large_client_header_buffers_size"`
+	SecurityHeader                 api.FieldOptions `json:"security_header"`
+	LimitRequestConnections        []string         `json:"limit_request_connections"`
+	MaxBodySize                    string           `json:"max_body_size"`
+	BodyBufferSize                 string           `json:"body_buffer_size"`
+	IPACL                          api.FieldOptions `json:"ip_acl"`
+	AdvancedACLServer              api.FieldOptions `json:"advanced_acl_server"`
+	Satisfy                        api.FieldOptions `json:"satisfy"`
+	ZeroRTT                        string           `json:"zero_rtt"`
+	ErrorPages                     []string         `json:"errorpages"`
 }
 
 type HTTPServerSearchItem struct {
@@ -191,55 +191,55 @@ type Location struct {
 }
 
 type LocationGetLocation struct {
-	Description             string            `json:"description"`
-	URLPattern              string            `json:"urlpattern"`
-	MatchType               map[string]Option `json:"matchtype"`
-	EnableSecRules          string            `json:"enable_secrules"`
-	EnableLearningMode      string            `json:"enable_learning_mode"`
-	SecRulesErrorPage       map[string]Option `json:"secrules_errorpage"`
-	XSSBlockScore           string            `json:"xss_block_score"`
-	SQLiBlockScore          string            `json:"sqli_block_score"`
-	CustomPolicy            []string          `json:"custom_policy"`
-	Upstream                map[string]Option `json:"upstream"`
-	PathPrefix              string            `json:"path_prefix"`
-	CachePath               map[string]Option `json:"cache_path"`
-	CacheUseStale           map[string]Option `json:"cache_use_stale"`
-	CacheMethods            map[string]Option `json:"cache_methods"`
-	CacheMinUses            string            `json:"cache_min_uses"`
-	CacheValid              string            `json:"cache_valid"`
-	CacheBackgroundUpdate   string            `json:"cache_background_update"`
-	CacheLock               string            `json:"cache_lock"`
-	CacheRevalidate         string            `json:"cache_revalidate"`
-	Root                    string            `json:"root"`
-	Rewrites                []string          `json:"rewrites"`
-	Index                   []string          `json:"index"`
-	AutoIndex               string            `json:"autoindex"`
-	AuthBasic               string            `json:"authbasic"`
-	AuthBasicUserFile       map[string]Option `json:"authbasicuserfile"`
-	AdvancedACL             string            `json:"advanced_acl"`
-	ForceHTTPS              string            `json:"force_https"`
-	PHPEnable               string            `json:"php_enable"`
-	PHPOverrideScriptName   string            `json:"php_override_scriptname"`
-	LimitRequestConnections []string          `json:"limit_request_connections"`
-	MaxBodySize             string            `json:"max_body_size"`
-	BodyBufferSize          string            `json:"body_buffer_size"`
-	Honeypot                string            `json:"honeypot"`
-	Websocket               string            `json:"websocket"`
-	UpstreamKeepalive       string            `json:"upstream_keepalive"`
-	ProxyBufferSize         string            `json:"proxy_buffer_size"`
-	ProxyBuffersCount       string            `json:"proxy_buffers_count"`
-	ProxyBuffersSize        string            `json:"proxy_buffers_size"`
-	ProxyBusyBuffersSize    string            `json:"proxy_busy_buffers_size"`
-	ProxyIgnoreClientAbort  string            `json:"proxy_ignore_client_abort"`
-	ProxyRequestBuffering   string            `json:"proxy_request_buffering"`
-	ProxyBuffering          string            `json:"proxy_buffering"`
-	ProxyReadTimeout        string            `json:"proxy_read_timeout"`
-	ProxySendTimeout        string            `json:"proxy_send_timeout"`
-	IPACL                   map[string]Option `json:"ip_acl"`
-	Satisfy                 map[string]Option `json:"satisfy"`
-	ProxyMaxTempFileSize    string            `json:"proxy_max_temp_file_size"`
-	ProxySSLServerName      string            `json:"proxy_ssl_server_name"`
-	ErrorPages              []string          `json:"errorpages"`
+	Description             string           `json:"description"`
+	URLPattern              string           `json:"urlpattern"`
+	MatchType               api.FieldOptions `json:"matchtype"`
+	EnableSecRules          string           `json:"enable_secrules"`
+	EnableLearningMode      string           `json:"enable_learning_mode"`
+	SecRulesErrorPage       api.FieldOptions `json:"secrules_errorpage"`
+	XSSBlockScore           string           `json:"xss_block_score"`
+	SQLiBlockScore          string           `json:"sqli_block_score"`
+	CustomPolicy            []string         `json:"custom_policy"`
+	Upstream                api.FieldOptions `json:"upstream"`
+	PathPrefix              string           `json:"path_prefix"`
+	CachePath               api.FieldOptions `json:"cache_path"`
+	CacheUseStale           api.FieldOptions `json:"cache_use_stale"`
+	CacheMethods            api.FieldOptions `json:"cache_methods"`
+	CacheMinUses            string           `json:"cache_min_uses"`
+	CacheValid              string           `json:"cache_valid"`
+	CacheBackgroundUpdate   string           `json:"cache_background_update"`
+	CacheLock               string           `json:"cache_lock"`
+	CacheRevalidate         string           `json:"cache_revalidate"`
+	Root                    string           `json:"root"`
+	Rewrites                []string         `json:"rewrites"`
+	Index                   []string         `json:"index"`
+	AutoIndex               string           `json:"autoindex"`
+	AuthBasic               string           `json:"authbasic"`
+	AuthBasicUserFile       api.FieldOptions `json:"authbasicuserfile"`
+	AdvancedACL             string           `json:"advanced_acl"`
+	ForceHTTPS              string           `json:"force_https"`
+	PHPEnable               string           `json:"php_enable"`
+	PHPOverrideScriptName   string           `json:"php_override_scriptname"`
+	LimitRequestConnections []string         `json:"limit_request_connections"`
+	MaxBodySize             string           `json:"max_body_size"`
+	BodyBufferSize          string           `json:"body_buffer_size"`
+	Honeypot                string           `json:"honeypot"`
+	Websocket               string           `json:"websocket"`
+	UpstreamKeepalive       string           `json:"upstream_keepalive"`
+	ProxyBufferSize         string           `json:"proxy_buffer_size"`
+	ProxyBuffersCount       string           `json:"proxy_buffers_count"`
+	ProxyBuffersSize        string           `json:"proxy_buffers_size"`
+	ProxyBusyBuffersSize    string           `json:"proxy_busy_buffers_size"`
+	ProxyIgnoreClientAbort  string           `json:"proxy_ignore_client_abort"`
+	ProxyRequestBuffering   string           `json:"proxy_request_buffering"`
+	ProxyBuffering          string           `json:"proxy_buffering"`
+	ProxyReadTimeout        string           `json:"proxy_read_timeout"`
+	ProxySendTimeout        string           `json:"proxy_send_timeout"`
+	IPACL                   api.FieldOptions `json:"ip_acl"`
+	Satisfy                 api.FieldOptions `json:"satisfy"`
+	ProxyMaxTempFileSize    string           `json:"proxy_max_temp_file_size"`
+	ProxySSLServerName      string           `json:"proxy_ssl_server_name"`
+	ErrorPages              []string         `json:"errorpages"`
 }
 
 type LocationGetResponse struct {
@@ -267,11 +267,6 @@ type LocationSearchResult struct {
 	RowCount int                  `json:"rowCount"`
 	Total    int                  `json:"total"`
 	Current  int                  `json:"current"`
-}
-
-type Option struct {
-	Value    string `json:"value"`
-	Selected int    `json:"selected"`
 }
 
 type Settings struct {
@@ -308,24 +303,24 @@ type Upstream struct {
 }
 
 type UpstreamGetItem struct {
-	Description            string            `json:"description"`
-	ServerEntries          map[string]Option `json:"serverentries"`
-	LoadBalancingAlgorithm map[string]Option `json:"load_balancing_algorithm"`
-	Keepalive              string            `json:"keepalive"`
-	KeepaliveRequests      string            `json:"keepalive_requests"`
-	KeepaliveTimeout       string            `json:"keepalive_timeout"`
-	HostPort               string            `json:"host_port"`
-	XForwardedHostVerbatim string            `json:"x_forwarded_host_verbatim"`
-	ProxyProtocol          string            `json:"proxy_protocol"`
-	Store                  string            `json:"store"`
-	TLSEnable              string            `json:"tls_enable"`
-	TLSClientCertificate   map[string]Option `json:"tls_client_certificate"`
-	TLSNameOverride        string            `json:"tls_name_override"`
-	TLSProtocolVersions    map[string]Option `json:"tls_protocol_versions"`
-	TLSSessionReuse        string            `json:"tls_session_reuse"`
-	TLSTrustedCertificate  map[string]Option `json:"tls_trusted_certificate"`
-	TLSVerify              string            `json:"tls_verify"`
-	TLSVerifyDepth         string            `json:"tls_verify_depth"`
+	Description            string           `json:"description"`
+	ServerEntries          api.FieldOptions `json:"serverentries"`
+	LoadBalancingAlgorithm api.FieldOptions `json:"load_balancing_algorithm"`
+	Keepalive              string           `json:"keepalive"`
+	KeepaliveRequests      string           `json:"keepalive_requests"`
+	KeepaliveTimeout       string           `json:"keepalive_timeout"`
+	HostPort               string           `json:"host_port"`
+	XForwardedHostVerbatim string           `json:"x_forwarded_host_verbatim"`
+	ProxyProtocol          string           `json:"proxy_protocol"`
+	Store                  string           `json:"store"`
+	TLSEnable              string           `json:"tls_enable"`
+	TLSClientCertificate   api.FieldOptions `json:"tls_client_certificate"`
+	TLSNameOverride        string           `json:"tls_name_override"`
+	TLSProtocolVersions    api.FieldOptions `json:"tls_protocol_versions"`
+	TLSSessionReuse        string           `json:"tls_session_reuse"`
+	TLSTrustedCertificate  api.FieldOptions `json:"tls_trusted_certificate"`
+	TLSVerify              string           `json:"tls_verify"`
+	TLSVerifyDepth         string           `json:"tls_verify_depth"`
 }
 
 type UpstreamGetResponse struct {
@@ -359,14 +354,14 @@ type UpstreamServer struct {
 }
 
 type UpstreamServerGetItem struct {
-	Description string            `json:"description"`
-	Server      string            `json:"server"`
-	Port        string            `json:"port"`
-	Priority    string            `json:"priority"`
-	MaxConns    string            `json:"max_conns"`
-	MaxFails    string            `json:"max_fails"`
-	FailTimeout string            `json:"fail_timeout"`
-	NoUse       map[string]Option `json:"no_use"`
+	Description string           `json:"description"`
+	Server      string           `json:"server"`
+	Port        string           `json:"port"`
+	Priority    string           `json:"priority"`
+	MaxConns    string           `json:"max_conns"`
+	MaxFails    string           `json:"max_fails"`
+	FailTimeout string           `json:"fail_timeout"`
+	NoUse       api.FieldOptions `json:"no_use"`
 }
 
 type UpstreamServerGetResponse struct {

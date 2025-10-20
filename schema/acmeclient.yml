@@ -4,14 +4,6 @@ rpc:
   - name: "ACMEClient"
     filename: acmeclient
     customTypes:
-      Option:
-        - name: Value
-          type: string
-          key: value
-        - name: Selected
-          type: int
-          key: selected
-
       #
       # Account Types
       #
@@ -113,7 +105,7 @@ rpc:
           type: string
           key: email
         - name: CA
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: ca
         - name: CustomCA
           type: string
@@ -952,18 +944,18 @@ rpc:
           key: description
 
         - name: Method
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: method
 
         # HTTP-01
         - name: HTTPService
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: http_service
         - name: HTTPOpnAutodiscovery
           type: string
           key: http_opn_autodiscovery
         - name: HTTPOpnInterface
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: http_opn_interface
         - name: HTTPOpnIPAddresses
           type: "[]string"
@@ -977,13 +969,13 @@ rpc:
 
         # TLS-ALPN-01
         - name: TLSALPNService
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: tlsalpn_service
         - name: TLSALPNAcmeAutodiscovery
           type: string
           key: tlsalpn_acme_autodiscovery
         - name: TLSALPNAcmeInterface
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: tlsalpn_acme_interface
         - name: TLSALPNAcmeIPAddresses
           type: "[]string"
@@ -991,7 +983,7 @@ rpc:
 
         # DNS-01
         - name: DNSService
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: dns_service
         - name: DNSSleep
           type: string
@@ -1264,7 +1256,7 @@ rpc:
           key: dns_knot_key
 
         - name: DNSLexiconProvider
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: dns_lexicon_provider
         - name: DNSLexiconUser
           type: string
@@ -1583,7 +1575,7 @@ rpc:
           type: string
           key: dns_kas_authdata
         - name: DNSKasAuthType
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: dns_kas_authtype
         - name: DNSDeSECToken
           type: string
@@ -1797,22 +1789,22 @@ rpc:
           type: string
           key: description
         - name: AltNames
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: altNames
         - name: Account
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: account
         - name: ValidationMethod
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: validationMethod
         - name: KeyLength
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: keyLength
         - name: OCSP
           type: string
           key: ocsp
         - name: RestartActions
-          type: "[]string"
+          type: "api.FieldOptions"
           key: restartActions
         - name: AutoRenewal
           type: string
@@ -1821,7 +1813,7 @@ rpc:
           type: string
           key: renewInterval
         - name: AliasMode
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: aliasmode
         - name: DomainAlias
           type: string
@@ -1858,10 +1850,10 @@ rpc:
           type: string
           key: autoRenewal
         - name: UpdateCron
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: UpdateCron
         - name: Environment
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: environment
         - name: ChallengePort
           type: string
@@ -1876,19 +1868,19 @@ rpc:
           type: string
           key: haproxyIntegration
         - name: HAProxyAclRef
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: haproxyAclRef
         - name: HAProxyActionRef
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: haproxyActionRef
         - name: HAProxyServerRef
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: haproxyServerRef
         - name: HAProxyBackendRef
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: haproxyBackendRef
         - name: LogLevel
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: logLevel
         - name: ShowIntro
           type: string
@@ -2138,7 +2130,7 @@ rpc:
           key: description
 
         - name: Type
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: type
 
         # SFTP upload
@@ -2155,7 +2147,7 @@ rpc:
           type: string
           key: sftp_user
         - name: SFTPIdentityType
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: sftp_identity_type
         - name: SFTPRemotePath
           type: string
@@ -2196,7 +2188,7 @@ rpc:
           type: string
           key: remote_ssh_user
         - name: RemoteSSHIdentityType
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: remote_ssh_identity_type
         - name: RemoteSSHCommand
           type: string
@@ -2204,10 +2196,10 @@ rpc:
 
         # configd actions
         - name: Configd
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: configd
         - name: ConfigdGenericCommand
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: configd_generic_command
 
         # Synology DSM
@@ -2218,7 +2210,7 @@ rpc:
           type: string
           key: acme_synology_dsm_port
         - name: SynologyDSMScheme
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: acme_synology_dsm_scheme
         - name: SynologyDSMUsername
           type: string
@@ -2292,7 +2284,7 @@ rpc:
           type: string
           key: acme_truenas_hostname
         - name: TrueNASScheme
-          type: "map[string]Option"
+          type: "api.FieldOptions"
           key: acme_truenas_scheme
 
         # Unifi
