@@ -1,0 +1,354 @@
+---
+name: gateway
+rpc:
+  - name: "Settings"
+    filename: settings
+    customTypes:
+      GetGateway:
+        - name: Disabled
+          type: string
+          key: disabled
+        - name: Name
+          type: string
+          key: name
+        - name: Description
+          type: string
+          key: descr
+        - name: Interface
+          type: "api.FieldOptions"
+          key: interface
+        - name: IPProtocol
+          type: "api.FieldOptions"
+          key: ipprotocol
+        - name: Gateway
+          type: string
+          key: gateway
+        - name: DefaultGW
+          type: string
+          key: defaultgw
+        - name: FarGW
+          type: string
+          key: fargw
+        - name: MonitorDisable
+          type: string
+          key: monitor_disable
+        - name: MonitorNoRoute
+          type: string
+          key: monitor_noroute
+        - name: MonitorKillStates
+          type: string
+          key: monitor_killstates
+        - name: MonitorKillStatesPriority
+          type: string
+          key: monitor_killstates_priority
+        - name: Monitor
+          type: string
+          key: monitor
+        - name: ForceDown
+          type: string
+          key: force_down
+        - name: Priority
+          type: string
+          key: priority
+        - name: Weight
+          type: string
+          key: weight
+        - name: LatencyLow
+          type: string
+          key: latencylow
+        - name: LatencyHigh
+          type: string
+          key: latencyhigh
+        - name: LossLow
+          type: string
+          key: losslow
+        - name: LossHigh
+          type: string
+          key: losshigh
+        - name: Interval
+          type: string
+          key: interval
+        - name: TimePeriod
+          type: string
+          key: time_period
+        - name: LossInterval
+          type: string
+          key: loss_interval
+        - name: DataLength
+          type: string
+          key: data_length
+
+      GetGatewayResponse:
+        - name: Gateway
+          type: GetGateway
+          key: gateway_item
+
+      Item:
+        - name: Interface
+          type: string
+          key: interface
+        - name: Weight
+          type: api.IntLike
+          key: weight
+        - name: IPProtocol
+          type: string
+          key: ipprotocol
+        - name: Name
+          type: string
+          key: name
+        - name: Description
+          type: string
+          key: descr
+        - name: MonitorDisable
+          type: api.BoolLike # booleans can arrive as true/false OR "1"/"0" -> keep BoolLike for known ambiguous fields
+          key: monitor_disable
+        - name: GatewayInterface
+          type: bool
+          key: gateway_interface
+        - name: Iface
+          type: string
+          key: if
+        - name: Dynamic
+          type: bool
+          key: dynamic
+        - name: Virtual
+          type: bool
+          key: virtual
+        - name: Priority
+          type: api.IntLike # numeric-ish values can be int or string
+          key: priority
+        - name: Attribute
+          type: api.IntLike
+          key: attribute
+        - name: Gateway
+          type: string
+          key: gateway
+        - name: UUID
+          type: string
+          key: uuid
+        - name: Disabled
+          type: bool
+          key: disabled
+        - name: Upstream
+          type: bool
+          key: upstream
+        - name: DefaultGW
+          type: bool
+          key: defaultgw
+        - name: InterfaceDescr
+          type: string
+          key: interface_descr
+        - name: Status
+          type: string
+          key: status
+        - name: Delay
+          type: string
+          key: delay
+        - name: StdDev
+          type: string
+          key: stddev
+        - name: Loss
+          type: string
+          key: loss
+        - name: LabelClass
+          type: string
+          key: label_class
+        - name: FarGW
+          type: string
+          key: fargw
+        - name: MonitorNoRoute
+          type: string
+          key: monitor_noroute
+        - name: MonitorKillStates
+          type: string
+          key: monitor_killstates
+        - name: MonitorKillStatesPriority
+          type: string
+          key: monitor_killstates_priority
+        - name: Monitor
+          type: string
+          key: monitor
+        - name: ForceDown
+          type: string
+          key: force_down
+        - name: LatencyLow
+          type: api.IntLike
+          key: latencylow
+        - name: CurrentLatencyLow
+          type: api.IntLike
+          key: current_latencylow
+        - name: LatencyHigh
+          type: api.IntLike
+          key: latencyhigh
+        - name: CurrentLatencyHigh
+          type: api.IntLike
+          key: current_latencyhigh
+
+        - name: LossLow
+          type: api.IntLike
+          key: losslow
+        - name: CurrentLossLow
+          type: api.IntLike
+          key: current_losslow
+        - name: LossHigh
+          type: api.IntLike
+          key: losshigh
+        - name: CurrentLossHigh
+          type: api.IntLike
+          key: current_losshigh
+
+        - name: Interval
+          type: api.IntLike
+          key: interval
+        - name: CurrentInterval
+          type: api.IntLike
+          key: current_interval
+        - name: TimePeriod
+          type: api.IntLike
+          key: time_period
+        - name: CurrentTimePeriod
+          type: api.IntLike
+          key: current_time_period
+        - name: LossInterval
+          type: api.IntLike
+          key: loss_interval
+        - name: CurrentLossInterval
+          type: api.IntLike
+          key: current_loss_interval
+        - name: DataLength
+          type: api.IntLike
+          key: data_length
+        - name: CurrentDataLength
+          type: api.IntLike
+          key: current_data_length
+
+      GatewayRequest:
+        - name: Disabled
+          type: string
+          key: disabled
+        - name: Name
+          type: string
+          key: name
+        - name: Interface
+          type: string
+          key: interface
+        - name: IPProtocol
+          type: string
+          key: ipprotocol
+        - name: Priority
+          type: string
+          key: priority
+        - name: Gateway
+          type: string
+          key: gateway
+        - name: DefaultGW
+          type: string
+          key: defaultgw
+        - name: FarGW
+          type: string
+          key: fargw
+        - name: MonitorDisable
+          type: string
+          key: monitor_disable
+        - name: MonitorNoRoute
+          type: string
+          key: monitor_noroute
+        - name: MonitorKillStates
+          type: string
+          key: monitor_killstates
+        - name: MonitorKillStatesPriority
+          type: string
+          key: monitor_killstates_priority
+        - name: Monitor
+          type: string
+          key: monitor
+        - name: ForceDown
+          type: string
+          key: force_down
+        - name: Weight
+          type: string
+          key: weight
+        - name: LatencyLow
+          type: string
+          key: latencylow
+        - name: LatencyHigh
+          type: string
+          key: latencyhigh
+        - name: LossLow
+          type: string
+          key: losslow
+        - name: LossHigh
+          type: string
+          key: losshigh
+        - name: Interval
+          type: string
+          key: interval
+        - name: TimePeriod
+          type: string
+          key: time_period
+        - name: LossInterval
+          type: string
+          key: loss_interval
+        - name: DataLength
+          type: string
+          key: data_length
+        - name: Description
+          type: string
+          key: descr
+
+      SearchResponse:
+        - name: Total
+          type: int
+          key: total
+        - name: RowCount
+          type: int
+          key: rowCount
+        - name: Current
+          type: int
+          key: current
+        - name: Rows
+          type: "[]Item"
+          key: rows
+    rpc_calls:
+      - name: "AddGateway"
+        method: "POST"
+        endpoint: "/routing/settings/add_gateway"
+        result_type: "api.ActionResult"
+        params:
+          - name: "gateway_item"
+            optional: false
+            type: "GatewayRequest"
+            bodyParameter: true
+      - name: "SetGateway"
+        method: "POST"
+        endpoint: "/routing/settings/set_gateway"
+        result_type: "api.ActionResult"
+        params:
+          - name: "gateway_item"
+            optional: false
+            type: "GatewayRequest"
+            bodyParameter: true
+          - name: "uuid"
+            optional: false
+      - name: "SearchGateways"
+        method: "POST"
+        endpoint: "/routing/settings/search_gateway"
+        result_type: "SearchResponse"
+      - name: "GetGateway"
+        method: "POST"
+        endpoint: "/routing/settings/get_gateway"
+        result_type: "GetGatewayResponse"
+        params:
+          - name: "uuid"
+            optional: false
+      - name: "DeleteGateway"
+        method: "POST"
+        endpoint: "/routing/settings/del_gateway"
+        result_type: "api.ActionResult"
+        params:
+          - name: "uuid"
+            optional: false
+      - name: "ApplyGateways"
+        method: "POST"
+        endpoint: "/routing/settings/reconfigure"
+        result_type: "api.ActionResult"

@@ -11,6 +11,7 @@ import (
 	"github.com/browningluke/opnsense-go/pkg/diagnostics"
 	"github.com/browningluke/opnsense-go/pkg/firewall"
 	"github.com/browningluke/opnsense-go/pkg/firmware"
+	"github.com/browningluke/opnsense-go/pkg/gateway"
 	"github.com/browningluke/opnsense-go/pkg/interfaces"
 	"github.com/browningluke/opnsense-go/pkg/ipsec"
 	"github.com/browningluke/opnsense-go/pkg/kea"
@@ -30,6 +31,7 @@ type Client interface {
 	Diagnostics() *diagnostics.Controller
 	Firewall() *firewall.Controller
 	Firmware() *firmware.Controller
+	Gateway() *gateway.Controller
 	Interfaces() *interfaces.Controller
 	Ipsec() *ipsec.Controller
 	Kea() *kea.Controller
@@ -75,6 +77,10 @@ func (c *client) Firewall() *firewall.Controller {
 
 func (c *client) Firmware() *firmware.Controller {
 	return &firmware.Controller{Api: c.a}
+}
+
+func (c *client) Gateway() *gateway.Controller {
+	return &gateway.Controller{Api: c.a}
 }
 
 func (c *client) Interfaces() *interfaces.Controller {
