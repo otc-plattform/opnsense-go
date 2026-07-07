@@ -12,6 +12,7 @@ import (
 	"github.com/browningluke/opnsense-go/pkg/firewall"
 	"github.com/browningluke/opnsense-go/pkg/firmware"
 	"github.com/browningluke/opnsense-go/pkg/gateway"
+	"github.com/browningluke/opnsense-go/pkg/haproxy"
 	"github.com/browningluke/opnsense-go/pkg/interfaces"
 	"github.com/browningluke/opnsense-go/pkg/ipsec"
 	"github.com/browningluke/opnsense-go/pkg/kea"
@@ -32,6 +33,7 @@ type Client interface {
 	Firewall() *firewall.Controller
 	Firmware() *firmware.Controller
 	Gateway() *gateway.Controller
+	HAProxy() *haproxy.Controller
 	Interfaces() *interfaces.Controller
 	Ipsec() *ipsec.Controller
 	Kea() *kea.Controller
@@ -81,6 +83,10 @@ func (c *client) Firmware() *firmware.Controller {
 
 func (c *client) Gateway() *gateway.Controller {
 	return &gateway.Controller{Api: c.a}
+}
+
+func (c *client) HAProxy() *haproxy.Controller {
+	return &haproxy.Controller{Api: c.a}
 }
 
 func (c *client) Interfaces() *interfaces.Controller {
