@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/url"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -197,4 +198,121 @@ func (o *FieldOptions) UnmarshalJSON(b []byte) error {
 	default:
 		return fmt.Errorf("Options: invalid JSON starting with %q", b[0])
 	}
+}
+
+// StringList handles JSON that may encode a list of strings in any of the
+// shapes OPNsense uses for Multiple/list fields, depending on field type and
+// API version (see the acmeclient validations GET):
+//
+//	null / missing           -> empty list
+//	["a","b"]                -> ["a","b"]                  (plain array)
+//	{"a":"a","b":"b"}        -> ["a","b"]                  (MultiSelect: key == value)
+//	{"<uuid>":"label"}       -> ["<uuid>"]                 (relation: key == UUID)
+//	{"0":"a","1":"b"}        -> ["a","b"]                  (index -> value)
+//	"a,b"                    -> ["a","b"]                  (raw CSV string)
+//	"a"                      -> ["a"]                      (single entry)
+//
+// OPNsense otherwise serializes some of these fields as JSON objects, which
+// breaks strict []string decoding.
+type StringList []string
+
+// UnmarshalJSON implements json.Unmarshaler for StringList.
+func (l *StringList) UnmarshalJSON(data []byte) error {
+	trimmed := bytes.TrimSpace(data)
+
+	if bytes.Equal(trimmed, []byte("null")) {
+		*l = nil
+		return nil
+	}
+
+	// Plain array of strings.
+	var arr []string
+	if err := json.Unmarshal(trimmed, &arr); err == nil {
+		*l = arr
+		return nil
+	}
+
+	// Raw CSV string (defensive: some endpoints return the joined list).
+	var str string
+	if err := json.Unmarshal(trimmed, &str); err == nil {
+		*l = splitCSVList(str)
+		return nil
+	}
+
+	// Object form: {"00..9": value} (index -> value) or {"key": value}
+	// (MultiSelect value -> value / relation UUID -> label).
+	var objStr map[string]string
+	if err := json.Unmarshal(trimmed, &objStr); err == nil {
+		*l = stringListFromMap(objStr)
+		return nil
+	}
+
+	// Object with non-string values: treat the keys as the values.
+	var objAny map[string]json.RawMessage
+	if err := json.Unmarshal(trimmed, &objAny); err == nil {
+		keys := make([]string, 0, len(objAny))
+		for k := range objAny {
+			keys = append(keys, k)
+		}
+		// keys are unordered; reuse the map helper for a deterministic result
+		m := make(map[string]string, len(keys))
+		for _, k := range keys {
+			m[k] = k
+		}
+		*l = stringListFromMap(m)
+		return nil
+	}
+
+	return fmt.Errorf("StringList: unsupported JSON value %s", trimmed)
+}
+
+// stringListFromMap converts an object-shaped list of strings to a slice.
+// Keys that are all pure integers are treated as indexes into the values
+// ({"0":"a","1":"b"} -> ["a","b"], ordered by index); otherwise the keys
+// themselves are the values (MultiSelect value->value, relation UUID->label),
+// sorted for a deterministic result.
+func stringListFromMap(m map[string]string) StringList {
+	if len(m) == 0 {
+		return StringList{}
+	}
+
+	keys := make([]string, 0, len(m))
+	allInteger := true
+	for k := range m {
+		keys = append(keys, k)
+		if _, err := strconv.Atoi(k); err != nil {
+			allInteger = false
+		}
+	}
+
+	out := make(StringList, 0, len(m))
+	if allInteger {
+		sort.Slice(keys, func(i, j int) bool {
+			ki, _ := strconv.Atoi(keys[i])
+			kj, _ := strconv.Atoi(keys[j])
+			return ki < kj
+		})
+		for _, k := range keys {
+			out = append(out, m[k])
+		}
+		return out
+	}
+
+	sort.Strings(keys)
+	for _, k := range keys {
+		out = append(out, k)
+	}
+	return out
+}
+
+// splitCSVList splits a comma-separated string into a list, dropping empty
+// entries.
+func splitCSVList(s string) StringList {
+	out := StringList{}
+	for _, part := range strings.Split(s, ",") {
+		if part = strings.TrimSpace(part); part != "" {
+			out = append(out, part)
+		}
+	}
+	return out
 }
