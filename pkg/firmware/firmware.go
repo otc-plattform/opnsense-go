@@ -44,7 +44,7 @@ type FirmwarePackage struct {
 type FirmwareProductInfo struct {
 	ProductABI            string   `json:"product_abi"`
 	ProductArch           string   `json:"product_arch"`
-	ProductCheck          string   `json:"product_check"`
+	ProductCheck          any      `json:"product_check"`
 	ProductConflicts      string   `json:"product_conflicts"`
 	ProductCopyrightOwner string   `json:"product_copyright_owner"`
 	ProductCopyrightURL   string   `json:"product_copyright_url"`

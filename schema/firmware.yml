@@ -67,7 +67,7 @@ rpc:
           type: string
           key: product_arch
         - name: ProductCheck
-          type: string
+          type: any
           key: product_check
         - name: ProductConflicts
           type: string
