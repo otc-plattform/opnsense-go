@@ -958,13 +958,13 @@ rpc:
           type: "api.FieldOptions"
           key: http_opn_interface
         - name: HTTPOpnIPAddresses
-          type: "[]string"
+          type: "api.StringList"
           key: http_opn_ipaddresses
         - name: HTTPHAProxyInject
           type: string
           key: http_haproxyInject
         - name: HTTPHAProxyFrontends
-          type: "[]string"
+          type: "api.StringList"
           key: http_haproxyFrontends
 
         # TLS-ALPN-01
@@ -978,7 +978,7 @@ rpc:
           type: "api.FieldOptions"
           key: tlsalpn_acme_interface
         - name: TLSALPNAcmeIPAddresses
-          type: "[]string"
+          type: "api.StringList"
           key: tlsalpn_acme_ipaddresses
 
         # DNS-01

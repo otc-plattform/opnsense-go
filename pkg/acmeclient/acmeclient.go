@@ -582,13 +582,13 @@ type ValidationGet struct {
 	HTTPService                 api.FieldOptions `json:"http_service"`
 	HTTPOpnAutodiscovery        string           `json:"http_opn_autodiscovery"`
 	HTTPOpnInterface            api.FieldOptions `json:"http_opn_interface"`
-	HTTPOpnIPAddresses          []string         `json:"http_opn_ipaddresses"`
+	HTTPOpnIPAddresses          api.StringList   `json:"http_opn_ipaddresses"`
 	HTTPHAProxyInject           string           `json:"http_haproxyInject"`
-	HTTPHAProxyFrontends        []string         `json:"http_haproxyFrontends"`
+	HTTPHAProxyFrontends        api.StringList   `json:"http_haproxyFrontends"`
 	TLSALPNService              api.FieldOptions `json:"tlsalpn_service"`
 	TLSALPNAcmeAutodiscovery    string           `json:"tlsalpn_acme_autodiscovery"`
 	TLSALPNAcmeInterface        api.FieldOptions `json:"tlsalpn_acme_interface"`
-	TLSALPNAcmeIPAddresses      []string         `json:"tlsalpn_acme_ipaddresses"`
+	TLSALPNAcmeIPAddresses      api.StringList   `json:"tlsalpn_acme_ipaddresses"`
 	DNSService                  api.FieldOptions `json:"dns_service"`
 	DNSSleep                    string           `json:"dns_sleep"`
 	DNSActive24Token            string           `json:"dns_active24_token"`
