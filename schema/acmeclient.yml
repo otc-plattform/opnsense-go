@@ -2342,6 +2342,14 @@ rpc:
           type: ActionGet
           key: action
 
+      AccountRegisterResponse:
+        - name: Response
+          type: string
+          key: response
+        - name: Result
+          type: string
+          key: result
+
     rpc_calls:
       #
       # Account Calls
@@ -2374,6 +2382,13 @@ rpc:
         method: "GET"
         endpoint: "/acmeclient/accounts/get"
         result_type: "AccountGetResponse"
+        params:
+          - name: "uuid"
+            optional: false
+      - name: "RegisterAccount"
+        method: "POST"
+        endpoint: "/acmeclient/accounts/register"
+        result_type: "AccountRegisterResponse"
         params:
           - name: "uuid"
             optional: false

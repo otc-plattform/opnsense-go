@@ -63,6 +63,11 @@ type AccountGetResponse struct {
 	Account AccountGet `json:"account"`
 }
 
+type AccountRegisterResponse struct {
+	Response string `json:"response"`
+	Result   string `json:"result"`
+}
+
 type AccountSearchResponse struct {
 	Total    int       `json:"total"`
 	RowCount int       `json:"rowCount"`
@@ -916,6 +921,29 @@ func (c *Controller) ACMEClientGetAccount(ctx context.Context, uuid string) (*Ac
 	result, err := api.Call(c.Client(), ctx, callOpts, resultData)
 	if err != nil {
 		return nil, fmt.Errorf("GetAccount call failed: %w", err)
+	}
+	return result, nil
+}
+
+// ACMEClientRegisterAccount executes the RegisterAccount RPC call of the ACMEClient controller
+func (c *Controller) ACMEClientRegisterAccount(ctx context.Context, uuid string) (*AccountRegisterResponse, error) {
+
+	callParams := []string{}
+	bodyParams := make(map[string]interface{})
+
+	callParams = append(callParams, uuid)
+
+	callOpts := api.RPCOpts{
+		BaseEndpoint:   "/acmeclient/accounts/register",
+		Method:         "POST",
+		PathParameters: callParams,
+		BodyParameters: bodyParams,
+	}
+
+	resultData := &AccountRegisterResponse{}
+	result, err := api.Call(c.Client(), ctx, callOpts, resultData)
+	if err != nil {
+		return nil, fmt.Errorf("RegisterAccount call failed: %w", err)
 	}
 	return result, nil
 }
