@@ -5,6 +5,7 @@ package acmeclient
 import (
 	"context"
 	"fmt"
+
 	"github.com/browningluke/opnsense-go/pkg/api"
 )
 
@@ -834,18 +835,20 @@ type ValidationGetResponse struct {
 }
 
 // ACMEClientAddAccount executes the AddAccount RPC call of the ACMEClient controller
-func (c *Controller) ACMEClientAddAccount(ctx context.Context, account AccountCreateRequest) (*api.ActionResult, error) {
+func (c *Controller) ACMEClientAddAccount(ctx context.Context, account *AccountCreateRequest) (*api.ActionResult, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	bodyParams["account"] = account
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/acmeclient/accounts/add",
-		Method:         "POST",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/acmeclient/accounts/add",
+		Method:          "POST",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &api.ActionResult{}
@@ -857,9 +860,10 @@ func (c *Controller) ACMEClientAddAccount(ctx context.Context, account AccountCr
 }
 
 // ACMEClientEditAccount executes the EditAccount RPC call of the ACMEClient controller
-func (c *Controller) ACMEClientEditAccount(ctx context.Context, uuid string, account AccountEditRequest) (*api.ActionResult, error) {
+func (c *Controller) ACMEClientEditAccount(ctx context.Context, uuid string, account *AccountEditRequest) (*api.ActionResult, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	callParams = append(callParams, uuid)
@@ -867,10 +871,11 @@ func (c *Controller) ACMEClientEditAccount(ctx context.Context, uuid string, acc
 	bodyParams["account"] = account
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/acmeclient/accounts/update",
-		Method:         "POST",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/acmeclient/accounts/update",
+		Method:          "POST",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &api.ActionResult{}
@@ -885,13 +890,15 @@ func (c *Controller) ACMEClientEditAccount(ctx context.Context, uuid string, acc
 func (c *Controller) ACMEClientSearchAccount(ctx context.Context) (*AccountSearchResponse, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/acmeclient/accounts/search",
-		Method:         "POST",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/acmeclient/accounts/search",
+		Method:          "POST",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &AccountSearchResponse{}
@@ -906,15 +913,17 @@ func (c *Controller) ACMEClientSearchAccount(ctx context.Context) (*AccountSearc
 func (c *Controller) ACMEClientGetAccount(ctx context.Context, uuid string) (*AccountGetResponse, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	callParams = append(callParams, uuid)
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/acmeclient/accounts/get",
-		Method:         "GET",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/acmeclient/accounts/get",
+		Method:          "GET",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &AccountGetResponse{}
@@ -929,15 +938,17 @@ func (c *Controller) ACMEClientGetAccount(ctx context.Context, uuid string) (*Ac
 func (c *Controller) ACMEClientRegisterAccount(ctx context.Context, uuid string) (*AccountRegisterResponse, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	callParams = append(callParams, uuid)
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/acmeclient/accounts/register",
-		Method:         "POST",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/acmeclient/accounts/register",
+		Method:          "POST",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &AccountRegisterResponse{}
@@ -952,15 +963,17 @@ func (c *Controller) ACMEClientRegisterAccount(ctx context.Context, uuid string)
 func (c *Controller) ACMEClientDeleteAccount(ctx context.Context, uuid string) (*api.ActionResult, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	callParams = append(callParams, uuid)
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/acmeclient/accounts/del",
-		Method:         "POST",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/acmeclient/accounts/del",
+		Method:          "POST",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &api.ActionResult{}
@@ -972,18 +985,20 @@ func (c *Controller) ACMEClientDeleteAccount(ctx context.Context, uuid string) (
 }
 
 // ACMEClientAddChallengeType executes the AddChallengeType RPC call of the ACMEClient controller
-func (c *Controller) ACMEClientAddChallengeType(ctx context.Context, validation Validation) (*api.ActionResult, error) {
+func (c *Controller) ACMEClientAddChallengeType(ctx context.Context, validation *Validation) (*api.ActionResult, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	bodyParams["validation"] = validation
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/acmeclient/validations/add",
-		Method:         "POST",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/acmeclient/validations/add",
+		Method:          "POST",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &api.ActionResult{}
@@ -998,13 +1013,15 @@ func (c *Controller) ACMEClientAddChallengeType(ctx context.Context, validation 
 func (c *Controller) ACMEClientSearchChallengeType(ctx context.Context) (*ChallengeSearchResponse, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/acmeclient/validations/search",
-		Method:         "POST",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/acmeclient/validations/search",
+		Method:          "POST",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &ChallengeSearchResponse{}
@@ -1019,15 +1036,17 @@ func (c *Controller) ACMEClientSearchChallengeType(ctx context.Context) (*Challe
 func (c *Controller) ACMEClientGetChallengeType(ctx context.Context, uuid string) (*ValidationGetResponse, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	callParams = append(callParams, uuid)
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/acmeclient/validations/get",
-		Method:         "GET",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/acmeclient/validations/get",
+		Method:          "GET",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &ValidationGetResponse{}
@@ -1042,15 +1061,17 @@ func (c *Controller) ACMEClientGetChallengeType(ctx context.Context, uuid string
 func (c *Controller) ACMEClientDeleteChallengeType(ctx context.Context, uuid string) (*api.ActionResult, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	callParams = append(callParams, uuid)
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/acmeclient/validations/del",
-		Method:         "POST",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/acmeclient/validations/del",
+		Method:          "POST",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &api.ActionResult{}
@@ -1062,9 +1083,10 @@ func (c *Controller) ACMEClientDeleteChallengeType(ctx context.Context, uuid str
 }
 
 // ACMEClientEditChallengeType executes the EditChallengeType RPC call of the ACMEClient controller
-func (c *Controller) ACMEClientEditChallengeType(ctx context.Context, uuid string, validation Validation) (*api.ActionResult, error) {
+func (c *Controller) ACMEClientEditChallengeType(ctx context.Context, uuid string, validation *Validation) (*api.ActionResult, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	callParams = append(callParams, uuid)
@@ -1072,10 +1094,11 @@ func (c *Controller) ACMEClientEditChallengeType(ctx context.Context, uuid strin
 	bodyParams["validation"] = validation
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/acmeclient/validations/update",
-		Method:         "POST",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/acmeclient/validations/update",
+		Method:          "POST",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &api.ActionResult{}
@@ -1087,18 +1110,20 @@ func (c *Controller) ACMEClientEditChallengeType(ctx context.Context, uuid strin
 }
 
 // ACMEClientAddCert executes the AddCert RPC call of the ACMEClient controller
-func (c *Controller) ACMEClientAddCert(ctx context.Context, certificate Certificate) (*api.ActionResult, error) {
+func (c *Controller) ACMEClientAddCert(ctx context.Context, certificate *Certificate) (*api.ActionResult, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	bodyParams["certificate"] = certificate
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/acmeclient/certificates/add",
-		Method:         "POST",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/acmeclient/certificates/add",
+		Method:          "POST",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &api.ActionResult{}
@@ -1113,13 +1138,15 @@ func (c *Controller) ACMEClientAddCert(ctx context.Context, certificate Certific
 func (c *Controller) ACMEClientSearchCert(ctx context.Context) (*CertificateSearchResult, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/acmeclient/certificates/search",
-		Method:         "POST",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/acmeclient/certificates/search",
+		Method:          "POST",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &CertificateSearchResult{}
@@ -1131,9 +1158,10 @@ func (c *Controller) ACMEClientSearchCert(ctx context.Context) (*CertificateSear
 }
 
 // ACMEClientEditCert executes the EditCert RPC call of the ACMEClient controller
-func (c *Controller) ACMEClientEditCert(ctx context.Context, uuid string, certificate Certificate) (*api.ActionResult, error) {
+func (c *Controller) ACMEClientEditCert(ctx context.Context, uuid string, certificate *Certificate) (*api.ActionResult, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	callParams = append(callParams, uuid)
@@ -1141,10 +1169,11 @@ func (c *Controller) ACMEClientEditCert(ctx context.Context, uuid string, certif
 	bodyParams["certificate"] = certificate
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/acmeclient/certificates/update",
-		Method:         "POST",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/acmeclient/certificates/update",
+		Method:          "POST",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &api.ActionResult{}
@@ -1159,15 +1188,17 @@ func (c *Controller) ACMEClientEditCert(ctx context.Context, uuid string, certif
 func (c *Controller) ACMEClientDeleteCert(ctx context.Context, uuid string) (*api.ActionResult, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	callParams = append(callParams, uuid)
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/acmeclient/certificates/del",
-		Method:         "POST",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/acmeclient/certificates/del",
+		Method:          "POST",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &api.ActionResult{}
@@ -1182,15 +1213,17 @@ func (c *Controller) ACMEClientDeleteCert(ctx context.Context, uuid string) (*ap
 func (c *Controller) ACMEClientGetCert(ctx context.Context, uuid string) (*CertificateGetResponse, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	callParams = append(callParams, uuid)
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/acmeclient/certificates/get",
-		Method:         "GET",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/acmeclient/certificates/get",
+		Method:          "GET",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &CertificateGetResponse{}
@@ -1205,13 +1238,15 @@ func (c *Controller) ACMEClientGetCert(ctx context.Context, uuid string) (*Certi
 func (c *Controller) ACMEClientGetSettings(ctx context.Context) (*SettingsGetResponse, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/acmeclient/settings/get",
-		Method:         "GET",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/acmeclient/settings/get",
+		Method:          "GET",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &SettingsGetResponse{}
@@ -1223,18 +1258,20 @@ func (c *Controller) ACMEClientGetSettings(ctx context.Context) (*SettingsGetRes
 }
 
 // ACMEClientSetSettings executes the SetSettings RPC call of the ACMEClient controller
-func (c *Controller) ACMEClientSetSettings(ctx context.Context, acmeclient SettingsSetRequest) (*api.ActionResult, error) {
+func (c *Controller) ACMEClientSetSettings(ctx context.Context, acmeclient *SettingsSetRequest) (*api.ActionResult, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	bodyParams["acmeclient"] = acmeclient
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/acmeclient/settings/set",
-		Method:         "POST",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/acmeclient/settings/set",
+		Method:          "POST",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &api.ActionResult{}
@@ -1246,18 +1283,20 @@ func (c *Controller) ACMEClientSetSettings(ctx context.Context, acmeclient Setti
 }
 
 // ACMEClientAddAutomation executes the AddAutomation RPC call of the ACMEClient controller
-func (c *Controller) ACMEClientAddAutomation(ctx context.Context, action Action) (*api.ActionResult, error) {
+func (c *Controller) ACMEClientAddAutomation(ctx context.Context, action *Action) (*api.ActionResult, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	bodyParams["action"] = action
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/acmeclient/actions/add",
-		Method:         "POST",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/acmeclient/actions/add",
+		Method:          "POST",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &api.ActionResult{}
@@ -1272,13 +1311,15 @@ func (c *Controller) ACMEClientAddAutomation(ctx context.Context, action Action)
 func (c *Controller) ACMEClientSearchAutomation(ctx context.Context) (*ActionSearchResult, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/acmeclient/actions/search",
-		Method:         "POST",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/acmeclient/actions/search",
+		Method:          "POST",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &ActionSearchResult{}
@@ -1290,9 +1331,10 @@ func (c *Controller) ACMEClientSearchAutomation(ctx context.Context) (*ActionSea
 }
 
 // ACMEClientEditAutomation executes the EditAutomation RPC call of the ACMEClient controller
-func (c *Controller) ACMEClientEditAutomation(ctx context.Context, uuid string, action Action) (*api.ActionResult, error) {
+func (c *Controller) ACMEClientEditAutomation(ctx context.Context, uuid string, action *Action) (*api.ActionResult, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	callParams = append(callParams, uuid)
@@ -1300,10 +1342,11 @@ func (c *Controller) ACMEClientEditAutomation(ctx context.Context, uuid string, 
 	bodyParams["action"] = action
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/acmeclient/actions/update",
-		Method:         "POST",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/acmeclient/actions/update",
+		Method:          "POST",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &api.ActionResult{}
@@ -1318,15 +1361,17 @@ func (c *Controller) ACMEClientEditAutomation(ctx context.Context, uuid string, 
 func (c *Controller) ACMEClientDeleteAutomation(ctx context.Context, uuid string) (*api.ActionResult, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	callParams = append(callParams, uuid)
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/acmeclient/actions/del",
-		Method:         "POST",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/acmeclient/actions/del",
+		Method:          "POST",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &api.ActionResult{}
@@ -1341,15 +1386,17 @@ func (c *Controller) ACMEClientDeleteAutomation(ctx context.Context, uuid string
 func (c *Controller) ACMEClientGetAutomation(ctx context.Context, uuid string) (*ActionGetResponse, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	callParams = append(callParams, uuid)
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/acmeclient/actions/get",
-		Method:         "GET",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/acmeclient/actions/get",
+		Method:          "GET",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &ActionGetResponse{}

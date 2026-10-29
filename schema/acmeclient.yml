@@ -2361,7 +2361,7 @@ rpc:
         params:
           - name: "account"
             optional: false
-            type: "AccountCreateRequest"
+            customType: "AccountCreateRequest"
             bodyParameter: true
       - name: "EditAccount"
         method: "POST"
@@ -2372,7 +2372,7 @@ rpc:
             optional: false
           - name: "account"
             optional: false
-            type: "AccountEditRequest"
+            customType: "AccountEditRequest"
             bodyParameter: true
       - name: "SearchAccount"
         method: "POST"
@@ -2410,7 +2410,7 @@ rpc:
         params:
           - name: "validation"
             optional: false
-            type: "Validation"
+            customType: "Validation"
             bodyParameter: true
       - name: "SearchChallengeType"
         method: "POST"
@@ -2439,7 +2439,7 @@ rpc:
             optional: false
           - name: "validation"
             optional: false
-            type: "Validation"
+            customType: "Validation"
             bodyParameter: true
 
       #
@@ -2452,7 +2452,7 @@ rpc:
         params:
           - name: "certificate"
             optional: false
-            type: "Certificate"
+            customType: "Certificate"
             bodyParameter: true
       - name: "SearchCert"
         method: "POST"
@@ -2467,7 +2467,7 @@ rpc:
             optional: false
           - name: "certificate"
             optional: false
-            type: "Certificate"
+            customType: "Certificate"
             bodyParameter: true
       - name: "DeleteCert"
         method: "POST"
@@ -2498,7 +2498,7 @@ rpc:
         params:
           - name: "acmeclient"
             optional: false
-            type: "SettingsSetRequest"
+            customType: "SettingsSetRequest"
             bodyParameter: true
 
       #
@@ -2511,7 +2511,7 @@ rpc:
         params:
           - name: "action"
             optional: false
-            type: "Action"
+            customType: "Action"
             bodyParameter: true
       - name: "SearchAutomation"
         method: "POST"
@@ -2526,7 +2526,7 @@ rpc:
             optional: false
           - name: "action"
             optional: false
-            type: "Action"
+            customType: "Action"
             bodyParameter: true
       - name: "DeleteAutomation"
         method: "POST"

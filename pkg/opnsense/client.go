@@ -5,10 +5,13 @@ package opnsense
 import (
 	"github.com/browningluke/opnsense-go/pkg/acmeclient"
 	"github.com/browningluke/opnsense-go/pkg/api"
+	"github.com/browningluke/opnsense-go/pkg/auth"
 	"github.com/browningluke/opnsense-go/pkg/bind"
 	"github.com/browningluke/opnsense-go/pkg/core"
 	"github.com/browningluke/opnsense-go/pkg/cron"
 	"github.com/browningluke/opnsense-go/pkg/diagnostics"
+	"github.com/browningluke/opnsense-go/pkg/dnsmasq"
+	"github.com/browningluke/opnsense-go/pkg/dyndns"
 	"github.com/browningluke/opnsense-go/pkg/firewall"
 	"github.com/browningluke/opnsense-go/pkg/firmware"
 	"github.com/browningluke/opnsense-go/pkg/gateway"
@@ -16,9 +19,13 @@ import (
 	"github.com/browningluke/opnsense-go/pkg/interfaces"
 	"github.com/browningluke/opnsense-go/pkg/ipsec"
 	"github.com/browningluke/opnsense-go/pkg/kea"
+	"github.com/browningluke/opnsense-go/pkg/monit"
 	"github.com/browningluke/opnsense-go/pkg/nginx"
+	"github.com/browningluke/opnsense-go/pkg/openvpn"
 	"github.com/browningluke/opnsense-go/pkg/quagga"
 	"github.com/browningluke/opnsense-go/pkg/routes"
+	"github.com/browningluke/opnsense-go/pkg/syslog"
+	"github.com/browningluke/opnsense-go/pkg/trust"
 	"github.com/browningluke/opnsense-go/pkg/unbound"
 	"github.com/browningluke/opnsense-go/pkg/wireguard"
 )
@@ -26,10 +33,13 @@ import (
 // Client defines a client interface for the Proxmox Virtual Environment API.
 type Client interface {
 	Acmeclient() *acmeclient.Controller
+	Auth() *auth.Controller
 	Bind() *bind.Controller
 	Core() *core.Controller
 	Cron() *cron.Controller
 	Diagnostics() *diagnostics.Controller
+	Dnsmasq() *dnsmasq.Controller
+	Dyndns() *dyndns.Controller
 	Firewall() *firewall.Controller
 	Firmware() *firmware.Controller
 	Gateway() *gateway.Controller
@@ -37,9 +47,13 @@ type Client interface {
 	Interfaces() *interfaces.Controller
 	Ipsec() *ipsec.Controller
 	Kea() *kea.Controller
+	Monit() *monit.Controller
 	Nginx() *nginx.Controller
+	Openvpn() *openvpn.Controller
 	Quagga() *quagga.Controller
 	Routes() *routes.Controller
+	Syslog() *syslog.Controller
+	Trust() *trust.Controller
 	Unbound() *unbound.Controller
 	Wireguard() *wireguard.Controller
 }
@@ -57,6 +71,10 @@ func (c *client) Acmeclient() *acmeclient.Controller {
 	return &acmeclient.Controller{Api: c.a}
 }
 
+func (c *client) Auth() *auth.Controller {
+	return &auth.Controller{Api: c.a}
+}
+
 func (c *client) Bind() *bind.Controller {
 	return &bind.Controller{Api: c.a}
 }
@@ -71,6 +89,14 @@ func (c *client) Cron() *cron.Controller {
 
 func (c *client) Diagnostics() *diagnostics.Controller {
 	return &diagnostics.Controller{Api: c.a}
+}
+
+func (c *client) Dnsmasq() *dnsmasq.Controller {
+	return &dnsmasq.Controller{Api: c.a}
+}
+
+func (c *client) Dyndns() *dyndns.Controller {
+	return &dyndns.Controller{Api: c.a}
 }
 
 func (c *client) Firewall() *firewall.Controller {
@@ -101,8 +127,16 @@ func (c *client) Kea() *kea.Controller {
 	return &kea.Controller{Api: c.a}
 }
 
+func (c *client) Monit() *monit.Controller {
+	return &monit.Controller{Api: c.a}
+}
+
 func (c *client) Nginx() *nginx.Controller {
 	return &nginx.Controller{Api: c.a}
+}
+
+func (c *client) Openvpn() *openvpn.Controller {
+	return &openvpn.Controller{Api: c.a}
 }
 
 func (c *client) Quagga() *quagga.Controller {
@@ -111,6 +145,14 @@ func (c *client) Quagga() *quagga.Controller {
 
 func (c *client) Routes() *routes.Controller {
 	return &routes.Controller{Api: c.a}
+}
+
+func (c *client) Syslog() *syslog.Controller {
+	return &syslog.Controller{Api: c.a}
+}
+
+func (c *client) Trust() *trust.Controller {
+	return &trust.Controller{Api: c.a}
 }
 
 func (c *client) Unbound() *unbound.Controller {

@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/url"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -32,10 +33,11 @@ type deleteResp struct {
 
 // RCP Options
 type RPCOpts struct {
-	BaseEndpoint   string
-	Method         string
-	PathParameters []string
-	BodyParameters map[string]interface{}
+	BaseEndpoint    string
+	Method          string
+	PathParameters  []string
+	QueryParameters map[string]string
+	BodyParameters  map[string]interface{}
 }
 
 func (p *RPCOpts) EndpointURL() string {
@@ -50,6 +52,27 @@ func (p *RPCOpts) EndpointURL() string {
 		} else {
 			currentPath += "/" + escapedParam
 		}
+	}
+
+	if len(p.QueryParameters) > 0 {
+		keys := make([]string, 0, len(p.QueryParameters))
+		for k := range p.QueryParameters {
+			keys = append(keys, k)
+		}
+		// Sort so the URL is deterministic — important for any test that
+		// asserts on the request URL and for caches/loggers that key on it.
+		sort.Strings(keys)
+
+		values := url.Values{}
+		for _, k := range keys {
+			values.Set(k, p.QueryParameters[k])
+		}
+
+		separator := "?"
+		if strings.Contains(currentPath, "?") {
+			separator = "&"
+		}
+		currentPath += separator + values.Encode()
 	}
 	return currentPath
 }
@@ -82,9 +105,7 @@ type FieldOptions map[string]Option
 type BoolLike bool
 
 func (b *BoolLike) UnmarshalJSON(data []byte) error {
-	// trim quotes if present
-	s := string(data)
-	switch s {
+	switch string(data) {
 	case "true", "false":
 		var v bool
 		if err := json.Unmarshal(data, &v); err != nil {
@@ -94,7 +115,6 @@ func (b *BoolLike) UnmarshalJSON(data []byte) error {
 		return nil
 	}
 
-	// handle strings: "1","0","true","false",""
 	var str string
 	if err := json.Unmarshal(data, &str); err == nil {
 		switch strings.ToLower(strings.TrimSpace(str)) {
@@ -107,7 +127,6 @@ func (b *BoolLike) UnmarshalJSON(data []byte) error {
 		}
 	}
 
-	// handle numbers 0/1 (rare)
 	var n int
 	if err := json.Unmarshal(data, &n); err == nil {
 		*b = BoolLike(n != 0)
@@ -117,31 +136,23 @@ func (b *BoolLike) UnmarshalJSON(data []byte) error {
 	return fmt.Errorf("BoolLike: unsupported value %s", string(data))
 }
 
-// Bool returns the concrete bool value.
 func (b BoolLike) Bool() bool { return bool(b) }
 
-// IntLike handles JSON that may encode an integer as either a number or a string.
-// Examples it will accept: 254, "254", "", "  254  ".
-// Empty string and null decode to 0.
+// IntLike accepts JSON integers encoded as numbers or strings. Empty strings
+// and null decode to zero, matching the OPNsense API's optional fields.
 type IntLike int
 
-// UnmarshalJSON implements json.Unmarshaler for IntLike.
 func (i *IntLike) UnmarshalJSON(data []byte) error {
-	// Fast path: genuine JSON number
-	// We try json.Number first to avoid float rounding.
 	var num json.Number
-	if err := json.Unmarshal(data, &num); err == nil {
-		if numStr := num.String(); numStr != "" {
-			v, err := strconv.Atoi(numStr)
-			if err != nil {
-				return fmt.Errorf("IntLike: invalid numeric value %q: %w", numStr, err)
-			}
-			*i = IntLike(v)
-			return nil
+	if err := json.Unmarshal(data, &num); err == nil && num.String() != "" {
+		v, err := strconv.Atoi(num.String())
+		if err != nil {
+			return fmt.Errorf("IntLike: invalid numeric value %q: %w", num.String(), err)
 		}
+		*i = IntLike(v)
+		return nil
 	}
 
-	// Handle string-encoded numbers (or empty)
 	var s string
 	if err := json.Unmarshal(data, &s); err == nil {
 		s = strings.TrimSpace(s)
@@ -157,7 +168,6 @@ func (i *IntLike) UnmarshalJSON(data []byte) error {
 		return nil
 	}
 
-	// Treat explicit null as zero
 	if string(data) == "null" {
 		*i = 0
 		return nil
@@ -166,35 +176,34 @@ func (i *IntLike) UnmarshalJSON(data []byte) error {
 	return fmt.Errorf("IntLike: unsupported JSON token %s", string(data))
 }
 
-// Int returns the concrete int value.
 func (i IntLike) Int() int { return int(i) }
 
-func (o *FieldOptions) UnmarshalJSON(b []byte) error {
-	b = bytes.TrimSpace(b)
-
-	if bytes.Equal(b, []byte("null")) || len(b) == 0 {
+func (o *FieldOptions) UnmarshalJSON(data []byte) error {
+	data = bytes.TrimSpace(data)
+	if bytes.Equal(data, []byte("null")) || len(data) == 0 {
 		*o = nil
 		return nil
 	}
 
-	switch b[0] {
+	switch data[0] {
 	case '{':
 		var m map[string]Option
-		if err := json.Unmarshal(b, &m); err != nil {
+		if err := json.Unmarshal(data, &m); err != nil {
 			return err
 		}
 		*o = m
 		return nil
-
 	case '[':
-		// Accept exactly the empty array as "empty map"
-		if bytes.Equal(b, []byte("[]")) {
+		if bytes.Equal(data, []byte("[]")) {
 			*o = FieldOptions{}
 			return nil
 		}
-		return fmt.Errorf("Options: expected object or empty array, got %s", b)
-
+		return fmt.Errorf("FieldOptions: expected object or empty array, got %s", data)
 	default:
-		return fmt.Errorf("Options: invalid JSON starting with %q", b[0])
+		return fmt.Errorf("FieldOptions: invalid JSON starting with %q", data[0])
 	}
+}
+
+type ReconfigureStatusResult struct {
+	Status string `json:"status"`
 }

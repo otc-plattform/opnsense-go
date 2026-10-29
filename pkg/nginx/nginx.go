@@ -5,6 +5,7 @@ package nginx
 import (
 	"context"
 	"fmt"
+
 	"github.com/browningluke/opnsense-go/pkg/api"
 )
 
@@ -71,17 +72,17 @@ type HTTPServerGetResponse struct {
 
 type HTTPServerGetServer struct {
 	ServerName                     api.FieldOptions `json:"servername"`
-	SyslogTargets                  []string         `json:"syslog_targets"`
+	SyslogTargets                  api.StringList   `json:"syslog_targets"`
 	ListenHTTPAddress              api.FieldOptions `json:"listen_http_address"`
 	ListenHTTPSAddress             api.FieldOptions `json:"listen_https_address"`
 	DefaultServer                  string           `json:"default_server"`
 	TLSRejectHandshake             string           `json:"tls_reject_handshake"`
 	ProxyProtocol                  string           `json:"proxy_protocol"`
-	TrustedProxies                 []string         `json:"trusted_proxies"`
+	TrustedProxies                 api.StringList   `json:"trusted_proxies"`
 	TrustedProxiesAlias            api.FieldOptions `json:"trusted_proxies_alias"`
 	RealIPSource                   api.FieldOptions `json:"real_ip_source"`
 	Locations                      api.FieldOptions `json:"locations"`
-	Rewrites                       []string         `json:"rewrites"`
+	Rewrites                       api.StringList   `json:"rewrites"`
 	Root                           string           `json:"root"`
 	Certificate                    api.FieldOptions `json:"certificate"`
 	CA                             api.FieldOptions `json:"ca"`
@@ -102,21 +103,21 @@ type HTTPServerGetServer struct {
 	BlockNonpublicData             string           `json:"block_nonpublic_data"`
 	DisableBotProtection           string           `json:"disable_bot_protection"`
 	DisableGzip                    string           `json:"disable_gzip"`
-	NaxsiWhitelistSrcIP            []string         `json:"naxsi_whitelist_srcip"`
+	NaxsiWhitelistSrcIP            api.StringList   `json:"naxsi_whitelist_srcip"`
 	NaxsiExtensiveLog              string           `json:"naxsi_extensive_log"`
 	Sendfile                       string           `json:"sendfile"`
 	ClientHeaderBufferSize         string           `json:"client_header_buffer_size"`
 	LargeClientHeaderBuffersNumber string           `json:"large_client_header_buffers_number"`
 	LargeClientHeaderBuffersSize   string           `json:"large_client_header_buffers_size"`
 	SecurityHeader                 api.FieldOptions `json:"security_header"`
-	LimitRequestConnections        []string         `json:"limit_request_connections"`
+	LimitRequestConnections        api.StringList   `json:"limit_request_connections"`
 	MaxBodySize                    string           `json:"max_body_size"`
 	BodyBufferSize                 string           `json:"body_buffer_size"`
 	IPACL                          api.FieldOptions `json:"ip_acl"`
 	AdvancedACLServer              api.FieldOptions `json:"advanced_acl_server"`
 	Satisfy                        api.FieldOptions `json:"satisfy"`
 	ZeroRTT                        string           `json:"zero_rtt"`
-	ErrorPages                     []string         `json:"errorpages"`
+	ErrorPages                     api.StringList   `json:"errorpages"`
 }
 
 type HTTPServerSearchItem struct {
@@ -199,7 +200,7 @@ type LocationGetLocation struct {
 	SecRulesErrorPage       api.FieldOptions `json:"secrules_errorpage"`
 	XSSBlockScore           string           `json:"xss_block_score"`
 	SQLiBlockScore          string           `json:"sqli_block_score"`
-	CustomPolicy            []string         `json:"custom_policy"`
+	CustomPolicy            api.StringList   `json:"custom_policy"`
 	Upstream                api.FieldOptions `json:"upstream"`
 	PathPrefix              string           `json:"path_prefix"`
 	CachePath               api.FieldOptions `json:"cache_path"`
@@ -211,8 +212,8 @@ type LocationGetLocation struct {
 	CacheLock               string           `json:"cache_lock"`
 	CacheRevalidate         string           `json:"cache_revalidate"`
 	Root                    string           `json:"root"`
-	Rewrites                []string         `json:"rewrites"`
-	Index                   []string         `json:"index"`
+	Rewrites                api.StringList   `json:"rewrites"`
+	Index                   api.StringList   `json:"index"`
 	AutoIndex               string           `json:"autoindex"`
 	AuthBasic               string           `json:"authbasic"`
 	AuthBasicUserFile       api.FieldOptions `json:"authbasicuserfile"`
@@ -220,7 +221,7 @@ type LocationGetLocation struct {
 	ForceHTTPS              string           `json:"force_https"`
 	PHPEnable               string           `json:"php_enable"`
 	PHPOverrideScriptName   string           `json:"php_override_scriptname"`
-	LimitRequestConnections []string         `json:"limit_request_connections"`
+	LimitRequestConnections api.StringList   `json:"limit_request_connections"`
 	MaxBodySize             string           `json:"max_body_size"`
 	BodyBufferSize          string           `json:"body_buffer_size"`
 	Honeypot                string           `json:"honeypot"`
@@ -239,7 +240,7 @@ type LocationGetLocation struct {
 	Satisfy                 api.FieldOptions `json:"satisfy"`
 	ProxyMaxTempFileSize    string           `json:"proxy_max_temp_file_size"`
 	ProxySSLServerName      string           `json:"proxy_ssl_server_name"`
-	ErrorPages              []string         `json:"errorpages"`
+	ErrorPages              api.StringList   `json:"errorpages"`
 }
 
 type LocationGetResponse struct {
@@ -387,13 +388,15 @@ type UpstreamServerSearchResult struct {
 func (c *Controller) NginxGetSettings(ctx context.Context) (*SettingsGetResponse, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/nginx/settings/get",
-		Method:         "GET",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/nginx/settings/get",
+		Method:          "GET",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &SettingsGetResponse{}
@@ -405,18 +408,20 @@ func (c *Controller) NginxGetSettings(ctx context.Context) (*SettingsGetResponse
 }
 
 // NginxSetSettings executes the SetSettings RPC call of the Nginx controller
-func (c *Controller) NginxSetSettings(ctx context.Context, nginx SettingsSetRequest) (*api.ActionResult, error) {
+func (c *Controller) NginxSetSettings(ctx context.Context, nginx *SettingsSetRequest) (*api.ActionResult, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	bodyParams["nginx"] = nginx
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/nginx/settings/set",
-		Method:         "POST",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/nginx/settings/set",
+		Method:          "POST",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &api.ActionResult{}
@@ -428,18 +433,20 @@ func (c *Controller) NginxSetSettings(ctx context.Context, nginx SettingsSetRequ
 }
 
 // NginxAddLocation executes the AddLocation RPC call of the Nginx controller
-func (c *Controller) NginxAddLocation(ctx context.Context, location Location) (*api.ActionResult, error) {
+func (c *Controller) NginxAddLocation(ctx context.Context, location *Location) (*api.ActionResult, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	bodyParams["location"] = location
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/nginx/settings/addlocation",
-		Method:         "POST",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/nginx/settings/addlocation",
+		Method:          "POST",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &api.ActionResult{}
@@ -454,13 +461,15 @@ func (c *Controller) NginxAddLocation(ctx context.Context, location Location) (*
 func (c *Controller) NginxSearchLocation(ctx context.Context) (*LocationSearchResult, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/nginx/settings/searchlocation",
-		Method:         "POST",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/nginx/settings/searchlocation",
+		Method:          "POST",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &LocationSearchResult{}
@@ -475,15 +484,17 @@ func (c *Controller) NginxSearchLocation(ctx context.Context) (*LocationSearchRe
 func (c *Controller) NginxGetLocation(ctx context.Context, uuid string) (*LocationGetResponse, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	callParams = append(callParams, uuid)
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/nginx/settings/getlocation",
-		Method:         "GET",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/nginx/settings/getlocation",
+		Method:          "GET",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &LocationGetResponse{}
@@ -495,9 +506,10 @@ func (c *Controller) NginxGetLocation(ctx context.Context, uuid string) (*Locati
 }
 
 // NginxEditLocation executes the EditLocation RPC call of the Nginx controller
-func (c *Controller) NginxEditLocation(ctx context.Context, uuid string, location Location) (*api.ActionResult, error) {
+func (c *Controller) NginxEditLocation(ctx context.Context, uuid string, location *Location) (*api.ActionResult, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	callParams = append(callParams, uuid)
@@ -505,10 +517,11 @@ func (c *Controller) NginxEditLocation(ctx context.Context, uuid string, locatio
 	bodyParams["location"] = location
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/nginx/settings/setlocation",
-		Method:         "POST",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/nginx/settings/setlocation",
+		Method:          "POST",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &api.ActionResult{}
@@ -523,15 +536,17 @@ func (c *Controller) NginxEditLocation(ctx context.Context, uuid string, locatio
 func (c *Controller) NginxDeleteLocation(ctx context.Context, uuid string) (*api.ActionResult, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	callParams = append(callParams, uuid)
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/nginx/settings/dellocation",
-		Method:         "POST",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/nginx/settings/dellocation",
+		Method:          "POST",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &api.ActionResult{}
@@ -543,18 +558,20 @@ func (c *Controller) NginxDeleteLocation(ctx context.Context, uuid string) (*api
 }
 
 // NginxAddHTTPServer executes the AddHTTPServer RPC call of the Nginx controller
-func (c *Controller) NginxAddHTTPServer(ctx context.Context, httpserver HTTPServer) (*api.ActionResult, error) {
+func (c *Controller) NginxAddHTTPServer(ctx context.Context, httpserver *HTTPServer) (*api.ActionResult, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	bodyParams["httpserver"] = httpserver
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/nginx/settings/addhttpserver",
-		Method:         "POST",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/nginx/settings/addhttpserver",
+		Method:          "POST",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &api.ActionResult{}
@@ -569,13 +586,15 @@ func (c *Controller) NginxAddHTTPServer(ctx context.Context, httpserver HTTPServ
 func (c *Controller) NginxSearchHTTPServer(ctx context.Context) (*HTTPServerSearchResult, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/nginx/settings/searchhttpserver",
-		Method:         "POST",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/nginx/settings/searchhttpserver",
+		Method:          "POST",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &HTTPServerSearchResult{}
@@ -590,15 +609,17 @@ func (c *Controller) NginxSearchHTTPServer(ctx context.Context) (*HTTPServerSear
 func (c *Controller) NginxGetHTTPServer(ctx context.Context, uuid string) (*HTTPServerGetResponse, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	callParams = append(callParams, uuid)
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/nginx/settings/gethttpserver",
-		Method:         "GET",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/nginx/settings/gethttpserver",
+		Method:          "GET",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &HTTPServerGetResponse{}
@@ -610,9 +631,10 @@ func (c *Controller) NginxGetHTTPServer(ctx context.Context, uuid string) (*HTTP
 }
 
 // NginxEditHTTPServer executes the EditHTTPServer RPC call of the Nginx controller
-func (c *Controller) NginxEditHTTPServer(ctx context.Context, uuid string, httpserver HTTPServer) (*api.ActionResult, error) {
+func (c *Controller) NginxEditHTTPServer(ctx context.Context, uuid string, httpserver *HTTPServer) (*api.ActionResult, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	callParams = append(callParams, uuid)
@@ -620,10 +642,11 @@ func (c *Controller) NginxEditHTTPServer(ctx context.Context, uuid string, https
 	bodyParams["httpserver"] = httpserver
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/nginx/settings/sethttpserver",
-		Method:         "POST",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/nginx/settings/sethttpserver",
+		Method:          "POST",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &api.ActionResult{}
@@ -638,15 +661,17 @@ func (c *Controller) NginxEditHTTPServer(ctx context.Context, uuid string, https
 func (c *Controller) NginxDeleteHTTPServer(ctx context.Context, uuid string) (*api.ActionResult, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	callParams = append(callParams, uuid)
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/nginx/settings/delhttpserver",
-		Method:         "POST",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/nginx/settings/delhttpserver",
+		Method:          "POST",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &api.ActionResult{}
@@ -658,18 +683,20 @@ func (c *Controller) NginxDeleteHTTPServer(ctx context.Context, uuid string) (*a
 }
 
 // NginxAddUpstreamServer executes the AddUpstreamServer RPC call of the Nginx controller
-func (c *Controller) NginxAddUpstreamServer(ctx context.Context, upstream_server UpstreamServer) (*api.ActionResult, error) {
+func (c *Controller) NginxAddUpstreamServer(ctx context.Context, upstream_server *UpstreamServer) (*api.ActionResult, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	bodyParams["upstream_server"] = upstream_server
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/nginx/settings/addupstreamserver",
-		Method:         "POST",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/nginx/settings/addupstreamserver",
+		Method:          "POST",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &api.ActionResult{}
@@ -684,13 +711,15 @@ func (c *Controller) NginxAddUpstreamServer(ctx context.Context, upstream_server
 func (c *Controller) NginxSearchUpstreamServer(ctx context.Context) (*UpstreamServerSearchResult, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/nginx/settings/searchupstreamserver",
-		Method:         "POST",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/nginx/settings/searchupstreamserver",
+		Method:          "POST",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &UpstreamServerSearchResult{}
@@ -705,15 +734,17 @@ func (c *Controller) NginxSearchUpstreamServer(ctx context.Context) (*UpstreamSe
 func (c *Controller) NginxDeleteUpstreamServer(ctx context.Context, uuid string) (*api.ActionResult, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	callParams = append(callParams, uuid)
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/nginx/settings/delupstreamserver",
-		Method:         "POST",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/nginx/settings/delupstreamserver",
+		Method:          "POST",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &api.ActionResult{}
@@ -725,9 +756,10 @@ func (c *Controller) NginxDeleteUpstreamServer(ctx context.Context, uuid string)
 }
 
 // NginxEditUpstreamServer executes the EditUpstreamServer RPC call of the Nginx controller
-func (c *Controller) NginxEditUpstreamServer(ctx context.Context, uuid string, upstream_server UpstreamServer) (*api.ActionResult, error) {
+func (c *Controller) NginxEditUpstreamServer(ctx context.Context, uuid string, upstream_server *UpstreamServer) (*api.ActionResult, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	callParams = append(callParams, uuid)
@@ -735,10 +767,11 @@ func (c *Controller) NginxEditUpstreamServer(ctx context.Context, uuid string, u
 	bodyParams["upstream_server"] = upstream_server
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/nginx/settings/setupstreamserver",
-		Method:         "POST",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/nginx/settings/setupstreamserver",
+		Method:          "POST",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &api.ActionResult{}
@@ -753,15 +786,17 @@ func (c *Controller) NginxEditUpstreamServer(ctx context.Context, uuid string, u
 func (c *Controller) NginxGetUpstreamServer(ctx context.Context, uuid string) (*UpstreamServerGetResponse, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	callParams = append(callParams, uuid)
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/nginx/settings/getupstreamserver",
-		Method:         "GET",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/nginx/settings/getupstreamserver",
+		Method:          "GET",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &UpstreamServerGetResponse{}
@@ -773,18 +808,20 @@ func (c *Controller) NginxGetUpstreamServer(ctx context.Context, uuid string) (*
 }
 
 // NginxAddUpstream executes the AddUpstream RPC call of the Nginx controller
-func (c *Controller) NginxAddUpstream(ctx context.Context, upstream Upstream) (*api.ActionResult, error) {
+func (c *Controller) NginxAddUpstream(ctx context.Context, upstream *Upstream) (*api.ActionResult, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	bodyParams["upstream"] = upstream
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/nginx/settings/addupstream",
-		Method:         "POST",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/nginx/settings/addupstream",
+		Method:          "POST",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &api.ActionResult{}
@@ -799,13 +836,15 @@ func (c *Controller) NginxAddUpstream(ctx context.Context, upstream Upstream) (*
 func (c *Controller) NginxSearchUpstream(ctx context.Context) (*UpstreamSearchResult, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/nginx/settings/searchupstream",
-		Method:         "POST",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/nginx/settings/searchupstream",
+		Method:          "POST",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &UpstreamSearchResult{}
@@ -820,15 +859,17 @@ func (c *Controller) NginxSearchUpstream(ctx context.Context) (*UpstreamSearchRe
 func (c *Controller) NginxDeleteUpstream(ctx context.Context, uuid string) (*api.ActionResult, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	callParams = append(callParams, uuid)
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/nginx/settings/delupstream",
-		Method:         "POST",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/nginx/settings/delupstream",
+		Method:          "POST",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &api.ActionResult{}
@@ -840,9 +881,10 @@ func (c *Controller) NginxDeleteUpstream(ctx context.Context, uuid string) (*api
 }
 
 // NginxEditUpstream executes the EditUpstream RPC call of the Nginx controller
-func (c *Controller) NginxEditUpstream(ctx context.Context, uuid string, upstream Upstream) (*api.ActionResult, error) {
+func (c *Controller) NginxEditUpstream(ctx context.Context, uuid string, upstream *Upstream) (*api.ActionResult, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	callParams = append(callParams, uuid)
@@ -850,10 +892,11 @@ func (c *Controller) NginxEditUpstream(ctx context.Context, uuid string, upstrea
 	bodyParams["upstream"] = upstream
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/nginx/settings/setupstream",
-		Method:         "POST",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/nginx/settings/setupstream",
+		Method:          "POST",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &api.ActionResult{}
@@ -868,15 +911,17 @@ func (c *Controller) NginxEditUpstream(ctx context.Context, uuid string, upstrea
 func (c *Controller) NginxGetUpstream(ctx context.Context, uuid string) (*UpstreamGetResponse, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	callParams = append(callParams, uuid)
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/nginx/settings/getupstream",
-		Method:         "GET",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/nginx/settings/getupstream",
+		Method:          "GET",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &UpstreamGetResponse{}

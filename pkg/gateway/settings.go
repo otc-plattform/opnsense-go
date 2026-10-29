@@ -5,6 +5,7 @@ package gateway
 import (
 	"context"
 	"fmt"
+
 	"github.com/browningluke/opnsense-go/pkg/api"
 )
 
@@ -124,18 +125,20 @@ type SearchResponse struct {
 }
 
 // SettingsAddGateway executes the AddGateway RPC call of the Settings controller
-func (c *Controller) SettingsAddGateway(ctx context.Context, gateway_item GatewayRequest) (*api.ActionResult, error) {
+func (c *Controller) SettingsAddGateway(ctx context.Context, gateway_item *GatewayRequest) (*api.ActionResult, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	bodyParams["gateway_item"] = gateway_item
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/routing/settings/add_gateway",
-		Method:         "POST",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/routing/settings/add_gateway",
+		Method:          "POST",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &api.ActionResult{}
@@ -147,9 +150,10 @@ func (c *Controller) SettingsAddGateway(ctx context.Context, gateway_item Gatewa
 }
 
 // SettingsSetGateway executes the SetGateway RPC call of the Settings controller
-func (c *Controller) SettingsSetGateway(ctx context.Context, gateway_item GatewayRequest, uuid string) (*api.ActionResult, error) {
+func (c *Controller) SettingsSetGateway(ctx context.Context, gateway_item *GatewayRequest, uuid string) (*api.ActionResult, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	bodyParams["gateway_item"] = gateway_item
@@ -157,10 +161,11 @@ func (c *Controller) SettingsSetGateway(ctx context.Context, gateway_item Gatewa
 	callParams = append(callParams, uuid)
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/routing/settings/set_gateway",
-		Method:         "POST",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/routing/settings/set_gateway",
+		Method:          "POST",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &api.ActionResult{}
@@ -175,13 +180,15 @@ func (c *Controller) SettingsSetGateway(ctx context.Context, gateway_item Gatewa
 func (c *Controller) SettingsSearchGateways(ctx context.Context) (*SearchResponse, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/routing/settings/search_gateway",
-		Method:         "POST",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/routing/settings/search_gateway",
+		Method:          "POST",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &SearchResponse{}
@@ -196,15 +203,17 @@ func (c *Controller) SettingsSearchGateways(ctx context.Context) (*SearchRespons
 func (c *Controller) SettingsGetGateway(ctx context.Context, uuid string) (*GetGatewayResponse, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	callParams = append(callParams, uuid)
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/routing/settings/get_gateway",
-		Method:         "POST",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/routing/settings/get_gateway",
+		Method:          "POST",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &GetGatewayResponse{}
@@ -219,15 +228,17 @@ func (c *Controller) SettingsGetGateway(ctx context.Context, uuid string) (*GetG
 func (c *Controller) SettingsDeleteGateway(ctx context.Context, uuid string) (*api.ActionResult, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	callParams = append(callParams, uuid)
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/routing/settings/del_gateway",
-		Method:         "POST",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/routing/settings/del_gateway",
+		Method:          "POST",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &api.ActionResult{}
@@ -242,13 +253,15 @@ func (c *Controller) SettingsDeleteGateway(ctx context.Context, uuid string) (*a
 func (c *Controller) SettingsApplyGateways(ctx context.Context) (*api.ActionResult, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/routing/settings/reconfigure",
-		Method:         "POST",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/routing/settings/reconfigure",
+		Method:          "POST",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &api.ActionResult{}

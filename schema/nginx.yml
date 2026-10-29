@@ -257,7 +257,7 @@ rpc:
           type: string
           key: sqli_block_score
         - name: CustomPolicy
-          type: "[]string"
+          type: api.StringList
           key: custom_policy
         - name: Upstream
           type: "api.FieldOptions"
@@ -293,10 +293,10 @@ rpc:
           type: string
           key: root
         - name: Rewrites
-          type: "[]string"
+          type: api.StringList
           key: rewrites
         - name: Index
-          type: "[]string"
+          type: api.StringList
           key: index
         - name: AutoIndex
           type: string
@@ -320,7 +320,7 @@ rpc:
           type: string
           key: php_override_scriptname
         - name: LimitRequestConnections
-          type: "[]string"
+          type: api.StringList
           key: limit_request_connections
         - name: MaxBodySize
           type: string
@@ -377,7 +377,7 @@ rpc:
           type: string
           key: proxy_ssl_server_name
         - name: ErrorPages
-          type: "[]string"
+          type: api.StringList
           key: errorpages
 
       LocationGetResponse:
@@ -533,7 +533,7 @@ rpc:
           type: "api.FieldOptions"
           key: servername
         - name: SyslogTargets
-          type: "[]string"
+          type: api.StringList
           key: syslog_targets
         - name: ListenHTTPAddress
           type: "api.FieldOptions"
@@ -551,7 +551,7 @@ rpc:
           type: string
           key: proxy_protocol
         - name: TrustedProxies
-          type: "[]string"
+          type: api.StringList
           key: trusted_proxies
         - name: TrustedProxiesAlias
           type: "api.FieldOptions"
@@ -563,7 +563,7 @@ rpc:
           type: "api.FieldOptions"
           key: locations
         - name: Rewrites
-          type: "[]string"
+          type: api.StringList
           key: rewrites
         - name: Root
           type: string
@@ -626,7 +626,7 @@ rpc:
           type: string
           key: disable_gzip
         - name: NaxsiWhitelistSrcIP
-          type: "[]string"
+          type: api.StringList
           key: naxsi_whitelist_srcip
         - name: NaxsiExtensiveLog
           type: string
@@ -647,7 +647,7 @@ rpc:
           type: "api.FieldOptions"
           key: security_header
         - name: LimitRequestConnections
-          type: "[]string"
+          type: api.StringList
           key: limit_request_connections
         - name: MaxBodySize
           type: string
@@ -668,7 +668,7 @@ rpc:
           type: string
           key: zero_rtt
         - name: ErrorPages
-          type: "[]string"
+          type: api.StringList
           key: errorpages
 
       HTTPServerGetResponse:
@@ -970,7 +970,7 @@ rpc:
         params:
           - name: "nginx"
             optional: false
-            type: "SettingsSetRequest"
+            customType: "SettingsSetRequest"
             bodyParameter: true
 
       #
@@ -983,7 +983,7 @@ rpc:
         params:
           - name: "location"
             optional: false
-            type: "Location"
+            customType: "Location"
             bodyParameter: true
       - name: "SearchLocation"
         method: "POST"
@@ -1005,7 +1005,7 @@ rpc:
             optional: false
           - name: "location"
             optional: false
-            type: "Location"
+            customType: "Location"
             bodyParameter: true
       - name: "DeleteLocation"
         method: "POST"
@@ -1025,7 +1025,7 @@ rpc:
         params:
           - name: "httpserver"
             optional: false
-            type: "HTTPServer"
+            customType: "HTTPServer"
             bodyParameter: true
       - name: "SearchHTTPServer"
         method: "POST"
@@ -1047,7 +1047,7 @@ rpc:
             optional: false
           - name: "httpserver"
             optional: false
-            type: "HTTPServer"
+            customType: "HTTPServer"
             bodyParameter: true
       - name: "DeleteHTTPServer"
         method: "POST"
@@ -1067,7 +1067,7 @@ rpc:
         params:
           - name: "upstream_server"
             optional: false
-            type: "UpstreamServer"
+            customType: "UpstreamServer"
             bodyParameter: true
       - name: "SearchUpstreamServer"
         method: "POST"
@@ -1089,7 +1089,7 @@ rpc:
             optional: false
           - name: "upstream_server"
             optional: false
-            type: "UpstreamServer"
+            customType: "UpstreamServer"
             bodyParameter: true
       - name: "GetUpstreamServer"
         method: "GET"
@@ -1109,7 +1109,7 @@ rpc:
         params:
           - name: "upstream"
             optional: false
-            type: "Upstream"
+            customType: "Upstream"
             bodyParameter: true
       - name: "SearchUpstream"
         method: "POST"
@@ -1131,7 +1131,7 @@ rpc:
             optional: false
           - name: "upstream"
             optional: false
-            type: "Upstream"
+            customType: "Upstream"
             bodyParameter: true
       - name: "GetUpstream"
         method: "GET"

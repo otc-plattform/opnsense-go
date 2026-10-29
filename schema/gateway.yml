@@ -317,7 +317,7 @@ rpc:
         params:
           - name: "gateway_item"
             optional: false
-            type: "GatewayRequest"
+            customType: "GatewayRequest"
             bodyParameter: true
       - name: "SetGateway"
         method: "POST"
@@ -326,7 +326,7 @@ rpc:
         params:
           - name: "gateway_item"
             optional: false
-            type: "GatewayRequest"
+            customType: "GatewayRequest"
             bodyParameter: true
           - name: "uuid"
             optional: false
