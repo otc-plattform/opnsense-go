@@ -1,4 +1,8 @@
-modules := $(notdir $(basename $(wildcard schema/*.yml)))
+# HAProxy uses a handwritten generic-object/action client. Its schema exists
+# solely to register HAProxy() in the aggregate client, not to generate a
+# controller implementation.
+handwritten_modules := haproxy
+modules := $(filter-out $(handwritten_modules),$(notdir $(basename $(wildcard schema/*.yml))))
 generator := $(shell find internal/generate)
 
 PKG ?=

@@ -58,10 +58,10 @@ jobs:
               "dnsmasq":  ["dnsmasq"],
               "ipsec":    ["ipsec"],
               "firewall": ["firewall"],
-              "other":    ["api", "auth", "bind", "core", "cron", "diagnostics",
-                           "dyndns", "interfaces", "kea", "monit", "openvpn",
-                           "quagga", "routes", "syslog", "trust", "unbound",
-                           "wireguard"],
+              "other":    ["acmeclient", "api", "auth", "bind", "core", "cron",
+                           "diagnostics", "dyndns", "firmware", "gateway", "haproxy",
+                           "interfaces", "kea", "monit", "nginx", "openvpn", "quagga",
+                           "routes", "syslog", "trust", "unbound", "wireguard"],
           }
           # pkg/ directories that are infrastructure/generated — excluded from
           # the must-be-assigned check because they are not OPNsense services.

@@ -5,6 +5,7 @@ package firmware
 import (
 	"context"
 	"fmt"
+
 	"github.com/browningluke/opnsense-go/pkg/api"
 )
 
@@ -70,13 +71,15 @@ type FirmwareProductInfo struct {
 func (c *Controller) FirmwareInfo(ctx context.Context) (*FirmwareInfoResponse, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/core/firmware/info",
-		Method:         "GET",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/core/firmware/info",
+		Method:          "GET",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &FirmwareInfoResponse{}
@@ -91,15 +94,17 @@ func (c *Controller) FirmwareInfo(ctx context.Context) (*FirmwareInfoResponse, e
 func (c *Controller) FirmwareInstall(ctx context.Context, pkg string) (*api.ActionResult, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	callParams = append(callParams, pkg)
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/core/firmware/install",
-		Method:         "POST",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/core/firmware/install",
+		Method:          "POST",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &api.ActionResult{}
@@ -114,15 +119,17 @@ func (c *Controller) FirmwareInstall(ctx context.Context, pkg string) (*api.Acti
 func (c *Controller) FirmwareRemove(ctx context.Context, pkg string) (*api.ActionResult, error) {
 
 	callParams := []string{}
+	queryParams := make(map[string]string)
 	bodyParams := make(map[string]interface{})
 
 	callParams = append(callParams, pkg)
 
 	callOpts := api.RPCOpts{
-		BaseEndpoint:   "/core/firmware/remove",
-		Method:         "POST",
-		PathParameters: callParams,
-		BodyParameters: bodyParams,
+		BaseEndpoint:    "/core/firmware/remove",
+		Method:          "POST",
+		PathParameters:  callParams,
+		QueryParameters: queryParams,
+		BodyParameters:  bodyParams,
 	}
 
 	resultData := &api.ActionResult{}
