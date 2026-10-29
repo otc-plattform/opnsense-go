@@ -1,0 +1,190 @@
+name: Run go tests (reusable)
+
+on:
+  workflow_call:
+    inputs:
+      packages:
+        description: 'Go packages to test (e.g. ./... or ./pkg/firewall/...)'
+        type: string
+        default: './...'
+
+permissions:
+  contents: read
+
+env:
+  OPNSENSE_VERSION: "26.1"
+  OPNSENSE_URL: "https://files.bsd.ac/opnsense-qemu/opnsense-26.1.qcow2"
+  OPNSENSE_SHA1: 2266a644b1669be1a8d916a0a79fc91ba4be4733
+  OPNSENSE_SSH_PORT: 8022
+  OPNSENSE_WEB_PORT: 8443
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Compute test shards
+        id: plan
+        env:
+          PACKAGES: ${{ inputs.packages }}
+        run: |
+          python3 << 'EOF'
+          import json, os, sys
+
+          # Each shard runs on its own runner with its own OPNsense VM, so
+          # shards run in parallel while tests within a shard stay serial.
+          # Long-running suites get a dedicated shard; everything else shares
+          # "other". Every pkg/<service> directory with integration tests MUST
+          # be assigned to a shard — the check below fails the run otherwise.
+          #
+          # Timing evidence from run 27878904613 (2026-06-20):
+          #   dnsmasq:  539s  → dedicated shard
+          #   ipsec:    226s  → dedicated shard
+          #   firewall: 166s  → dedicated shard
+          #   openvpn:   74s  → other
+          #   trust:     41s  → other
+          #   unbound:   39s  → other
+          #   kea:       32s  → other
+          #   cron:      21s  → other
+          #   auth:      14s  → other
+          #   interfaces:12s  → other
+          #   wireguard:  3s  → other
+          #   api:       <1s  → other (unit tests only, no VM needed)
+          #   monit, syslog: added in #81, not yet timed → other
+          SHARDS = {
+              "dnsmasq":  ["dnsmasq"],
+              "ipsec":    ["ipsec"],
+              "firewall": ["firewall"],
+              "other":    ["api", "auth", "bind", "core", "cron", "diagnostics",
+                           "dyndns", "interfaces", "kea", "monit", "openvpn",
+                           "quagga", "routes", "syslog", "trust", "unbound",
+                           "wireguard"],
+          }
+          # pkg/ directories that are infrastructure/generated — excluded from
+          # the must-be-assigned check because they are not OPNsense services.
+          NON_SERVICE = {"errs", "opnsense"}
+
+          assigned = {p for pkgs in SHARDS.values() for p in pkgs}
+          on_disk = {d for d in os.listdir("pkg")
+                     if os.path.isdir(os.path.join("pkg", d))}
+          service_pkgs = on_disk - NON_SERVICE
+          unassigned = sorted(service_pkgs - assigned)
+          if unassigned:
+              sys.exit("pkg/ service packages not assigned to any shard: "
+                       f"{unassigned}. Add them to SHARDS in "
+                       ".github/workflows/go-test-reusable.yml.")
+
+          requested = os.environ["PACKAGES"].split()
+          matrix = []
+          if requested == ["./..."]:
+              for name, pkgs in SHARDS.items():
+                  paths = [f"./pkg/{p}/..." for p in pkgs]
+                  matrix.append({"name": name, "packages": " ".join(paths)})
+          else:
+              services = []
+              for path in requested:
+                  parts = path.split("/")
+                  if parts[:1] != ["."] or parts[1:2] != ["pkg"] or len(parts) < 4:
+                      sys.exit(f"unexpected package path: {path}")
+                  services.append(parts[2])
+              unknown = sorted(set(services) - assigned)
+              if unknown:
+                  sys.exit(f"requested packages not assigned to any shard: {unknown}")
+              for name, pkgs in SHARDS.items():
+                  hit = [p for p in pkgs if p in services]
+                  if hit:
+                      matrix.append({"name": name,
+                                     "packages": " ".join(f"./pkg/{p}/..." for p in hit)})
+
+          if not matrix:
+              sys.exit("no test shards matched the requested packages")
+          print(json.dumps(matrix, indent=2))
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              f.write("matrix=" + json.dumps(matrix) + "\n")
+          EOF
+
+  test:
+    name: test (${{ matrix.name }})
+    runs-on: ubuntu-latest
+    needs:
+      - plan
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(needs.plan.outputs.matrix) }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: Create opnsense image directory
+        run: mkdir -p opnsense-images
+
+      - name: Download OPNsense image
+        run: curl -L "$OPNSENSE_URL" -o opnsense-images/opnsense.qcow2
+
+      - name: Verify OPNsense image
+        run: echo "$OPNSENSE_SHA1  opnsense-images/opnsense.qcow2" | sha1sum -c -
+
+      - name: Disable triggers
+        run: |
+          mkdir -p /etc/dpkg/dpkg.cfg.d
+          sudo tee /etc/dpkg/dpkg.cfg.d/01_nodoc > /dev/null << 'EOF'
+          path-exclude /usr/share/doc/*
+          path-exclude /usr/share/man/*
+          path-exclude /usr/share/info/*
+          EOF
+
+      - name: Install qemu
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y qemu-system-x86
+
+      - name: Start opnsense VM
+        id: start-vm
+        run: |
+          qemu-system-x86_64 -m 6144 -smp 2 -hda opnsense-images/opnsense.qcow2 \
+          -netdev user,id=user.0,hostfwd=tcp::${{ env.OPNSENSE_SSH_PORT }}-:22,hostfwd=tcp::${{ env.OPNSENSE_WEB_PORT }}-:443 \
+          -device virtio-net,netdev=user.0 \
+          -chardev socket,path=/tmp/qemu-isa-serial.sock,server=on,wait=off,id=qga0 \
+          -device isa-serial,chardev=qga0 \
+          -device virtio-serial \
+          -chardev socket,path=/tmp/qemu-virtconsole.sock,server=on,wait=off,id=qvt0 \
+          -device virtconsole,chardev=qvt0 \
+          -chardev socket,path=/tmp/qemu-virtserialport.sock,server=on,wait=off,id=qvsp0 \
+          -device virtserialport,chardev=qvsp0,name=org.qemu.guest_agent.0 \
+          -nographic &
+          QEMU_PID="$!"
+          echo "qemu-pid=${QEMU_PID}" >> "$GITHUB_OUTPUT"
+          sleep 180 # Wait for the VM to boot
+          [ -d "/proc/${QEMU_PID}" ] || (echo "QEMU process not found" && exit 1)
+
+      - name: Create API key
+        id: apikey
+        run: python3 scripts/create-apikey.py 2> "$GITHUB_OUTPUT"
+
+      - name: Setup env vars for tests
+        run: |
+          {
+            echo "OPNSENSE_API_KEY=${{ steps.apikey.outputs.key }}";
+            echo "OPNSENSE_API_SECRET=${{ steps.apikey.outputs.secret }}";
+            echo "OPNSENSE_URI=https://localhost:${{ env.OPNSENSE_WEB_PORT }}";
+            echo "OPNSENSE_ALLOW_INSECURE=true";
+          } >> "$GITHUB_ENV"
+
+      - name: Configure OPNsense for tests
+        run: python3 scripts/configure-opnsense.py
+
+      - name: Run tests
+        run: go test -p 1 -v -timeout 120m ${{ matrix.packages }}
+
+      - name: Stop opnsense VM
+        if: always()
+        run: kill -9 ${{ steps.start-vm.outputs.qemu-pid }} || true

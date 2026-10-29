@@ -4,6 +4,8 @@ package cron
 
 import "github.com/browningluke/opnsense-go/pkg/api"
 
+const cronReconfigureEndpoint = "/cron/service/reconfigure"
+
 // Controller for cron
 type Controller struct {
 	Api *api.Client

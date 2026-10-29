@@ -4,6 +4,7 @@ package routes
 
 import (
 	"context"
+
 	"github.com/browningluke/opnsense-go/pkg/api"
 )
 
@@ -19,6 +20,7 @@ var RouteOpts = api.ReqOpts{
 // Data structs
 
 type Route struct {
+	Enabled     string          `json:"enabled"`
 	Disabled    string          `json:"disabled"`
 	Description string          `json:"descr"`
 	Gateway     api.SelectedMap `json:"gateway"`

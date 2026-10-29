@@ -4,14 +4,15 @@ package unbound
 
 import (
 	"context"
+
 	"github.com/browningluke/opnsense-go/pkg/api"
 )
 
 var ForwardOpts = api.ReqOpts{
-	AddEndpoint:         "/unbound/settings/addDot",
-	GetEndpoint:         "/unbound/settings/getDot",
-	UpdateEndpoint:      "/unbound/settings/setDot",
-	DeleteEndpoint:      "/unbound/settings/delDot",
+	AddEndpoint:         "/unbound/settings/addForward",
+	GetEndpoint:         "/unbound/settings/getForward",
+	UpdateEndpoint:      "/unbound/settings/setForward",
+	DeleteEndpoint:      "/unbound/settings/delForward",
 	ReconfigureEndpoint: unboundReconfigureEndpoint,
 	Monad:               "dot",
 }
