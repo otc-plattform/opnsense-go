@@ -3,6 +3,7 @@
 package opnsense
 
 import (
+	"github.com/browningluke/opnsense-go/pkg/acmeclient"
 	"github.com/browningluke/opnsense-go/pkg/api"
 	"github.com/browningluke/opnsense-go/pkg/auth"
 	"github.com/browningluke/opnsense-go/pkg/bind"
@@ -12,10 +13,14 @@ import (
 	"github.com/browningluke/opnsense-go/pkg/dnsmasq"
 	"github.com/browningluke/opnsense-go/pkg/dyndns"
 	"github.com/browningluke/opnsense-go/pkg/firewall"
+	"github.com/browningluke/opnsense-go/pkg/firmware"
+	"github.com/browningluke/opnsense-go/pkg/gateway"
+	"github.com/browningluke/opnsense-go/pkg/haproxy"
 	"github.com/browningluke/opnsense-go/pkg/interfaces"
 	"github.com/browningluke/opnsense-go/pkg/ipsec"
 	"github.com/browningluke/opnsense-go/pkg/kea"
 	"github.com/browningluke/opnsense-go/pkg/monit"
+	"github.com/browningluke/opnsense-go/pkg/nginx"
 	"github.com/browningluke/opnsense-go/pkg/openvpn"
 	"github.com/browningluke/opnsense-go/pkg/quagga"
 	"github.com/browningluke/opnsense-go/pkg/routes"
@@ -27,6 +32,7 @@ import (
 
 // Client defines a client interface for the Proxmox Virtual Environment API.
 type Client interface {
+	Acmeclient() *acmeclient.Controller
 	Auth() *auth.Controller
 	Bind() *bind.Controller
 	Core() *core.Controller
@@ -35,10 +41,14 @@ type Client interface {
 	Dnsmasq() *dnsmasq.Controller
 	Dyndns() *dyndns.Controller
 	Firewall() *firewall.Controller
+	Firmware() *firmware.Controller
+	Gateway() *gateway.Controller
+	HAProxy() *haproxy.Controller
 	Interfaces() *interfaces.Controller
 	Ipsec() *ipsec.Controller
 	Kea() *kea.Controller
 	Monit() *monit.Controller
+	Nginx() *nginx.Controller
 	Openvpn() *openvpn.Controller
 	Quagga() *quagga.Controller
 	Routes() *routes.Controller
@@ -55,6 +65,10 @@ type client struct {
 // NewClient creates a new API client.
 func NewClient(a *api.Client) Client {
 	return &client{a: a}
+}
+
+func (c *client) Acmeclient() *acmeclient.Controller {
+	return &acmeclient.Controller{Api: c.a}
 }
 
 func (c *client) Auth() *auth.Controller {
@@ -89,6 +103,18 @@ func (c *client) Firewall() *firewall.Controller {
 	return &firewall.Controller{Api: c.a}
 }
 
+func (c *client) Firmware() *firmware.Controller {
+	return &firmware.Controller{Api: c.a}
+}
+
+func (c *client) Gateway() *gateway.Controller {
+	return &gateway.Controller{Api: c.a}
+}
+
+func (c *client) HAProxy() *haproxy.Controller {
+	return &haproxy.Controller{Api: c.a}
+}
+
 func (c *client) Interfaces() *interfaces.Controller {
 	return &interfaces.Controller{Api: c.a}
 }
@@ -103,6 +129,10 @@ func (c *client) Kea() *kea.Controller {
 
 func (c *client) Monit() *monit.Controller {
 	return &monit.Controller{Api: c.a}
+}
+
+func (c *client) Nginx() *nginx.Controller {
+	return &nginx.Controller{Api: c.a}
 }
 
 func (c *client) Openvpn() *openvpn.Controller {

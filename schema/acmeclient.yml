@@ -1,0 +1,2544 @@
+---
+name: acmeclient
+rpc:
+  - name: "ACMEClient"
+    filename: acmeclient
+    customTypes:
+      #
+      # Account Types
+      #
+      Account:
+        - name: UUID
+          type: string
+          key: id
+        - name: Enabled
+          type: string
+          key: enabled
+        - name: Name
+          type: string
+          key: name
+        - name: Description
+          type: string
+          key: description
+        - name: Email
+          type: string
+          key: email
+        - name: CA
+          type: string
+          key: ca
+        - name: CustomCA
+          type: string
+          key: custom_ca
+        - name: EABKID
+          type: string
+          key: eab_kid
+        - name: EABHMAC
+          type: string
+          key: eab_hmac
+
+      AccountCreateRequest:
+        - name: Enabled
+          type: string
+          key: enabled
+        - name: Name
+          type: string
+          key: name
+        - name: Description
+          type: string
+          key: description
+        - name: Email
+          type: string
+          key: email
+        - name: CA
+          type: string
+          key: ca
+        - name: CustomCA
+          type: string
+          key: custom_ca
+        - name: EABKID
+          type: string
+          key: eab_kid
+        - name: EABHMAC
+          type: string
+          key: eab_hmac
+
+      AccountEditRequest:
+        - name: Enabled
+          type: string
+          key: enabled
+        - name: Name
+          type: string
+          key: name
+        - name: Description
+          type: string
+          key: description
+        - name: Email
+          type: string
+          key: email
+        - name: CA
+          type: string
+          key: ca
+        - name: CustomCA
+          type: string
+          key: custom_ca
+        - name: EABKID
+          type: string
+          key: eab_kid
+        - name: EABHMAC
+          type: string
+          key: eab_hmac
+
+      AccountGet:
+        - name: ID
+          type: string
+          key: id
+        - name: Enabled
+          type: string
+          key: enabled
+        - name: Name
+          type: string
+          key: name
+        - name: Description
+          type: string
+          key: description
+        - name: Email
+          type: string
+          key: email
+        - name: CA
+          type: "api.FieldOptions"
+          key: ca
+        - name: CustomCA
+          type: string
+          key: custom_ca
+        - name: EABKID
+          type: string
+          key: eab_kid
+        - name: EABHMAC
+          type: string
+          key: eab_hmac
+        - name: Key
+          type: string
+          key: key
+        - name: StatusCode
+          type: string
+          key: statusCode
+        - name: StatusLastUpdate
+          type: string
+          key: statusLastUpdate
+
+      AccountGetResponse:
+        - name: Account
+          type: AccountGet
+          key: account
+
+      AccountSearchResponse:
+        - name: Total
+          type: int
+          key: total
+        - name: RowCount
+          type: int
+          key: rowCount
+        - name: Current
+          type: int
+          key: current
+        - name: Rows
+          type: "[]Account"
+          key: rows
+
+      #
+      # Challenge Types
+      #
+      Validation:
+        - name: Enabled
+          type: string
+          key: enabled
+        - name: Name
+          type: string
+          key: name
+        - name: Description
+          type: string
+          key: description
+        - name: Method
+          type: string
+          key: method
+
+        # HTTP-01 options
+        - name: HTTPService
+          type: string
+          key: http_service
+        - name: HTTPOpnAutodiscovery
+          type: string
+          key: http_opn_autodiscovery
+        - name: HTTPOpnInterface
+          type: string
+          key: http_opn_interface
+        - name: HTTPOpnIPAddresses
+          type: string
+          key: http_opn_ipaddresses
+        - name: HTTPHAProxyInject
+          type: string
+          key: http_haproxyInject
+        - name: HTTPHAProxyFrontends
+          type: string
+          key: http_haproxyFrontends
+
+        # TLS-ALPN-01 options
+        - name: TLSALPNService
+          type: string
+          key: tlsalpn_service
+        - name: TLSALPNAcmeAutodiscovery
+          type: string
+          key: tlsalpn_acme_autodiscovery
+        - name: TLSALPNAcmeInterface
+          type: string
+          key: tlsalpn_acme_interface
+        - name: TLSALPNAcmeIPAddresses
+          type: string
+          key: tlsalpn_acme_ipaddresses
+
+        # DNS-01 common options
+        - name: DNSService
+          type: string
+          key: dns_service
+        - name: DNSSleep
+          type: string
+          key: dns_sleep
+
+        # DNS provider credentials / settings (as provided in sample)
+        - name: DNSActive24Token
+          type: string
+          key: dns_active24_token
+        - name: DNSAdKey
+          type: string
+          key: dns_ad_key
+        - name: DNSAliKey
+          type: string
+          key: dns_ali_key
+        - name: DNSAliSecret
+          type: string
+          key: dns_ali_secret
+        - name: DNSAutodnsUser
+          type: string
+          key: dns_autodns_user
+        - name: DNSAutodnsPassword
+          type: string
+          key: dns_autodns_password
+        - name: DNSAutodnsContext
+          type: string
+          key: dns_autodns_context
+        - name: DNSAwsID
+          type: string
+          key: dns_aws_id
+        - name: DNSAwsSecret
+          type: string
+          key: dns_aws_secret
+        - name: DNSAzureSubscriptionID
+          type: string
+          key: dns_azuredns_subscriptionid
+        - name: DNSAzureTenantID
+          type: string
+          key: dns_azuredns_tenantid
+        - name: DNSAzureAppID
+          type: string
+          key: dns_azuredns_appid
+        - name: DNSAzureClientSecret
+          type: string
+          key: dns_azuredns_clientsecret
+        - name: DNSBunnyAPIKey
+          type: string
+          key: dns_bunny_api_key
+        - name: DNSCFEmail
+          type: string
+          key: dns_cf_email
+        - name: DNSCFKey
+          type: string
+          key: dns_cf_key
+        - name: DNSCFAccountID
+          type: string
+          key: dns_cf_account_id
+        - name: DNSCFToken
+          type: string
+          key: dns_cf_token
+        - name: DNSCFZoneID
+          type: string
+          key: dns_cf_zone_id
+        - name: DNSClouDNSAuthID
+          type: string
+          key: dns_cloudns_auth_id
+        - name: DNSClouDNSSubAuthID
+          type: string
+          key: dns_cloudns_sub_auth_id
+        - name: DNSClouDNSAuthPassword
+          type: string
+          key: dns_cloudns_auth_password
+        - name: DNSCXKey
+          type: string
+          key: dns_cx_key
+        - name: DNSCXSecret
+          type: string
+          key: dns_cx_secret
+        - name: DNSCyonUser
+          type: string
+          key: dns_cyon_user
+        - name: DNSCyonPassword
+          type: string
+          key: dns_cyon_password
+        - name: DNSDDNSSToken
+          type: string
+          key: dns_ddnss_token
+        - name: DNSDAKey
+          type: string
+          key: dns_da_key
+        - name: DNSDAInsecure
+          type: string
+          key: dns_da_insecure
+        - name: DNSDGoNKey
+          type: string
+          key: dns_dgon_key
+        - name: DNSDNSEXITAuthUser
+          type: string
+          key: dns_dnsexit_auth_user
+        - name: DNSDNSEXITAuthPass
+          type: string
+          key: dns_dnsexit_auth_pass
+        - name: DNSDNSEXITAPI
+          type: string
+          key: dns_dnsexit_api
+        - name: DNSDNSHomePassword
+          type: string
+          key: dns_dnshome_password
+        - name: DNSDNSHomeSubdomain
+          type: string
+          key: dns_dnshome_subdomain
+        - name: DNSDNSimpleToken
+          type: string
+          key: dns_dnsimple_token
+        - name: DNSDNSServicesUser
+          type: string
+          key: dns_dnsservices_user
+        - name: DNSDNSServicesPassword
+          type: string
+          key: dns_dnsservices_password
+        - name: DNSDOAPIToken
+          type: string
+          key: dns_doapi_token
+        - name: DNSDOPID
+          type: string
+          key: dns_do_pid
+        - name: DNSDOPassword
+          type: string
+          key: dns_do_password
+        - name: DNSDomeneshopToken
+          type: string
+          key: dns_domeneshop_token
+        - name: DNSDomeneshopSecret
+          type: string
+          key: dns_domeneshop_secret
+        - name: DNSDPID
+          type: string
+          key: dns_dp_id
+        - name: DNSDPKey
+          type: string
+          key: dns_dp_key
+        - name: DNSDHKey
+          type: string
+          key: dns_dh_key
+        - name: DNSDuckDNSToken
+          type: string
+          key: dns_duckdns_token
+        - name: DNSDynCustomer
+          type: string
+          key: dns_dyn_customer
+        - name: DNSDynUser
+          type: string
+          key: dns_dyn_user
+        - name: DNSDynPassword
+          type: string
+          key: dns_dyn_password
+        - name: DNSDynuClientID
+          type: string
+          key: dns_dynu_clientid
+        - name: DNSDynuSecret
+          type: string
+          key: dns_dynu_secret
+        - name: DNSFreeDNSTokenUser
+          type: string
+          key: dns_freedns_user
+        - name: DNSFreeDNSPassword
+          type: string
+          key: dns_freedns_password
+        - name: DNSFornexAPIKey
+          type: string
+          key: dns_fornex_api_key
+        - name: DNSGandiLiveDNSToken
+          type: string
+          key: dns_gandi_livedns_token
+        - name: DNSGandiLiveDNSKey
+          type: string
+          key: dns_gandi_livedns_key
+        - name: DNSGCloudKey
+          type: string
+          key: dns_gcloud_key
+        - name: DNSGoDaddyKey
+          type: string
+          key: dns_gd_key
+        - name: DNSGoDaddySecret
+          type: string
+          key: dns_gd_secret
+        - name: DNSGoogleDomainsAccessToken
+          type: string
+          key: dns_googledomains_access_token
+        - name: DNSGoogleDomainsZone
+          type: string
+          key: dns_googledomains_zone
+        - name: DNSHostingDEServer
+          type: string
+          key: dns_hostingde_server
+        - name: DNSHostingDEAPIKey
+          type: string
+          key: dns_hostingde_apiKey
+        - name: DNSHEUser
+          type: string
+          key: dns_he_user
+        - name: DNSHEPassword
+          type: string
+          key: dns_he_password
+        - name: DNSInfobloxCredentials
+          type: string
+          key: dns_infoblox_credentials
+        - name: DNSInfobloxServer
+          type: string
+          key: dns_infoblox_server
+        - name: DNSINWXUser
+          type: string
+          key: dns_inwx_user
+        - name: DNSINWXPassword
+          type: string
+          key: dns_inwx_password
+        - name: DNSINWXSharedSecret
+          type: string
+          key: dns_inwx_shared_secret
+        - name: DNSIonosPrefix
+          type: string
+          key: dns_ionos_prefix
+        - name: DNSIonosSecret
+          type: string
+          key: dns_ionos_secret
+        - name: DNSIPv64Token
+          type: string
+          key: dns_ipv64_token
+        - name: DNSISPConfigUser
+          type: string
+          key: dns_ispconfig_user
+        - name: DNSISPConfigPassword
+          type: string
+          key: dns_ispconfig_password
+        - name: DNSISPConfigAPI
+          type: string
+          key: dns_ispconfig_api
+        - name: DNSISPConfigInsecure
+          type: string
+          key: dns_ispconfig_insecure
+        - name: DNSJDID
+          type: string
+          key: dns_jd_id
+        - name: DNSJDRegion
+          type: string
+          key: dns_jd_region
+        - name: DNSJDSecret
+          type: string
+          key: dns_jd_secret
+        - name: DNSJokerUsername
+          type: string
+          key: dns_joker_username
+        - name: DNSJokerPassword
+          type: string
+          key: dns_joker_password
+        - name: DNSKinghostUsername
+          type: string
+          key: dns_kinghost_username
+        - name: DNSKinghostPassword
+          type: string
+          key: dns_kinghost_password
+        - name: DNSKnotServer
+          type: string
+          key: dns_knot_server
+        - name: DNSKnotKey
+          type: string
+          key: dns_knot_key
+        - name: DNSLexiconProvider
+          type: string
+          key: dns_lexicon_provider
+        - name: DNSLexiconUser
+          type: string
+          key: dns_lexicon_user
+        - name: DNSLexiconToken
+          type: string
+          key: dns_lexicon_token
+        - name: DNSLimacityAPIKey
+          type: string
+          key: dns_limacity_apikey
+        - name: DNSLinodeKey
+          type: string
+          key: dns_linode_key
+        - name: DNSLinodeV4Key
+          type: string
+          key: dns_linode_v4_key
+        - name: DNSLoopiaAPI
+          type: string
+          key: dns_loopia_api
+        - name: DNSLoopiaUser
+          type: string
+          key: dns_loopia_user
+        - name: DNSLoopiaPassword
+          type: string
+          key: dns_loopia_password
+        - name: DNSLuaEmail
+          type: string
+          key: dns_lua_email
+        - name: DNSLuaKey
+          type: string
+          key: dns_lua_key
+        - name: DNSMEKey
+          type: string
+          key: dns_me_key
+        - name: DNSMESecret
+          type: string
+          key: dns_me_secret
+        - name: DNSMIABUser
+          type: string
+          key: dns_miab_user
+        - name: DNSMIABPassword
+          type: string
+          key: dns_miab_password
+        - name: DNSMIABServer
+          type: string
+          key: dns_miab_server
+        - name: DNSMyDNSJPMasterID
+          type: string
+          key: dns_mydnsjp_masterid
+        - name: DNSMyDNSJPPassword
+          type: string
+          key: dns_mydnsjp_password
+        - name: DNSMythicBeastsKey
+          type: string
+          key: dns_mythic_beasts_key
+        - name: DNSMythicBeastsSecret
+          type: string
+          key: dns_mythic_beasts_secret
+        - name: DNSNamecheapUser
+          type: string
+          key: dns_namecheap_user
+        - name: DNSNamecheapAPI
+          type: string
+          key: dns_namecheap_api
+        - name: DNSNamecheapSourceIP
+          type: string
+          key: dns_namecheap_sourceip
+        - name: DNSNamecomUser
+          type: string
+          key: dns_namecom_user
+        - name: DNSNamecomToken
+          type: string
+          key: dns_namecom_token
+        - name: DNSNamesiloKey
+          type: string
+          key: dns_namesilo_key
+        - name: DNSNetcupCID
+          type: string
+          key: dns_netcup_cid
+        - name: DNSNetcupKey
+          type: string
+          key: dns_netcup_key
+        - name: DNSNetcupPW
+          type: string
+          key: dns_netcup_pw
+        - name: DNSNjallaToken
+          type: string
+          key: dns_njalla_token
+        - name: DNSNSOneKey
+          type: string
+          key: dns_nsone_key
+        - name: DNSNSUpdateServer
+          type: string
+          key: dns_nsupdate_server
+        - name: DNSNSUpdateKey
+          type: string
+          key: dns_nsupdate_key
+        - name: DNSNSUpdateZone
+          type: string
+          key: dns_nsupdate_zone
+        - name: DNSOnlineKey
+          type: string
+          key: dns_online_key
+        - name: DNSOPNsenseHost
+          type: string
+          key: dns_opnsense_host
+        - name: DNSOPNsensePort
+          type: string
+          key: dns_opnsense_port
+        - name: DNSOPNsenseKey
+          type: string
+          key: dns_opnsense_key
+        - name: DNSOPNsenseToken
+          type: string
+          key: dns_opnsense_token
+        - name: DNSOPNsenseInsecure
+          type: string
+          key: dns_opnsense_insecure
+        - name: DNSOCIUser
+          type: string
+          key: dns_oci_cli_user
+        - name: DNSOCITenancy
+          type: string
+          key: dns_oci_cli_tenancy
+        - name: DNSOCIRegion
+          type: string
+          key: dns_oci_cli_region
+        - name: DNSOCIKey
+          type: string
+          key: dns_oci_cli_key
+        - name: DNSOVHAppKey
+          type: string
+          key: dns_ovh_app_key
+        - name: DNSOVHAppSecret
+          type: string
+          key: dns_ovh_app_secret
+        - name: DNSOVHConsumerKey
+          type: string
+          key: dns_ovh_consumer_key
+        - name: DNSOVHEndpoint
+          type: string
+          key: dns_ovh_endpoint
+        - name: DNSPDNSURL
+          type: string
+          key: dns_pdns_url
+        - name: DNSPDNSServerID
+          type: string
+          key: dns_pdns_serverid
+        - name: DNSPDNSToken
+          type: string
+          key: dns_pdns_token
+        - name: DNSSLKey
+          type: string
+          key: dns_sl_key
+        - name: DNSSelfhostUser
+          type: string
+          key: dns_selfhost_user
+        - name: DNSSelfhostPassword
+          type: string
+          key: dns_selfhost_password
+        - name: DNSSelfhostMap
+          type: string
+          key: dns_selfhost_map
+        - name: DNSServercowUsername
+          type: string
+          key: dns_servercow_username
+        - name: DNSServercowPassword
+          type: string
+          key: dns_servercow_password
+        - name: DNSTransIPUsername
+          type: string
+          key: dns_transip_username
+        - name: DNSTransIPKey
+          type: string
+          key: dns_transip_key
+        - name: DNSUDRUser
+          type: string
+          key: dns_udr_user
+        - name: DNSUDRPassword
+          type: string
+          key: dns_udr_password
+        - name: DNSUnoKey
+          type: string
+          key: dns_uno_key
+        - name: DNSUnoUser
+          type: string
+          key: dns_uno_user
+        - name: DNSSimplyAPIKey
+          type: string
+          key: dns_simply_api_key
+        - name: DNSSimplyAccountName
+          type: string
+          key: dns_simply_account_name
+        - name: DNSVScaleKey
+          type: string
+          key: dns_vscale_key
+        - name: DNSVultrKey
+          type: string
+          key: dns_vultr_key
+        - name: DNSYandexToken
+          type: string
+          key: dns_yandex_token
+        - name: DNSPleskXMLUser
+          type: string
+          key: dns_pleskxml_user
+        - name: DNSPleskXMLPass
+          type: string
+          key: dns_pleskxml_pass
+        - name: DNSPleskXMLURI
+          type: string
+          key: dns_pleskxml_uri
+        - name: DNSZiloreKey
+          type: string
+          key: dns_zilore_key
+        - name: DNSZMKey
+          type: string
+          key: dns_zm_key
+        - name: DNSGDNSDKUser
+          type: string
+          key: dns_gdnsdk_user
+        - name: DNSGDNSDKPassword
+          type: string
+          key: dns_gdnsdk_password
+        - name: DNSAcmeDNSUser
+          type: string
+          key: dns_acmedns_user
+        - name: DNSAcmeDNSPassword
+          type: string
+          key: dns_acmedns_password
+        - name: DNSAcmeDNSSubdomain
+          type: string
+          key: dns_acmedns_subdomain
+        - name: DNSAcmeDNSBaseURL
+          type: string
+          key: dns_acmedns_baseurl
+        - name: DNSAcmeProxyEndpoint
+          type: string
+          key: dns_acmeproxy_endpoint
+        - name: DNSAcmeProxyUsername
+          type: string
+          key: dns_acmeproxy_username
+        - name: DNSAcmeProxyPassword
+          type: string
+          key: dns_acmeproxy_password
+        - name: DNSVariomediaKey
+          type: string
+          key: dns_variomedia_key
+        - name: DNSSchlundTechUser
+          type: string
+          key: dns_schlundtech_user
+        - name: DNSSchlundTechPassword
+          type: string
+          key: dns_schlundtech_password
+        - name: DNSEasyDNSAPIToken
+          type: string
+          key: dns_easydns_apitoken
+        - name: DNSEasyDNSAPIKey
+          type: string
+          key: dns_easydns_apikey
+        - name: DNSEuservUser
+          type: string
+          key: dns_euserv_user
+        - name: DNSEuservPassword
+          type: string
+          key: dns_euserv_password
+        - name: DNSLeasewebKey
+          type: string
+          key: dns_leaseweb_key
+        - name: DNSCNUser
+          type: string
+          key: dns_cn_user
+        - name: DNSCNPassword
+          type: string
+          key: dns_cn_password
+        - name: DNSArvanToken
+          type: string
+          key: dns_arvan_token
+        - name: DNSArtfilesUsername
+          type: string
+          key: dns_artfiles_username
+        - name: DNSArtfilesPassword
+          type: string
+          key: dns_artfiles_password
+        - name: DNSHetznerToken
+          type: string
+          key: dns_hetzner_token
+        - name: DNS1984HostingUser
+          type: string
+          key: dns_1984hosting_user
+        - name: DNS1984HostingPassword
+          type: string
+          key: dns_1984hosting_password
+        - name: DNSKasLogin
+          type: string
+          key: dns_kas_login
+        - name: DNSKasAuthData
+          type: string
+          key: dns_kas_authdata
+        - name: DNSKasAuthType
+          type: string
+          key: dns_kas_authtype
+        - name: DNSDeSECtoken
+          type: string
+          key: dns_desec_token
+        - name: DNSDeSECname
+          type: string
+          key: dns_desec_name
+        - name: DNSHexonetLogin
+          type: string
+          key: dns_hexonet_login
+        - name: DNSHexonetPassword
+          type: string
+          key: dns_hexonet_password
+        - name: DNSInfomaniakToken
+          type: string
+          key: dns_infomaniak_token
+        - name: DNSZoneUsername
+          type: string
+          key: dns_zone_username
+        - name: DNSZoneKey
+          type: string
+          key: dns_zone_key
+        - name: DNSNederhostKey
+          type: string
+          key: dns_nederhost_key
+        - name: DNSPorkbunKey
+          type: string
+          key: dns_porkbun_key
+        - name: DNSPorkbunSecret
+          type: string
+          key: dns_porkbun_secret
+        - name: DNSDynv6Token
+          type: string
+          key: dns_dynv6_token
+        - name: DNSCPanelUser
+          type: string
+          key: dns_cpanel_user
+        - name: DNSCPanelToken
+          type: string
+          key: dns_cpanel_token
+        - name: DNSCPanelHostname
+          type: string
+          key: dns_cpanel_hostname
+        - name: DNSRegruUsername
+          type: string
+          key: dns_regru_username
+        - name: DNSRegruPassword
+          type: string
+          key: dns_regru_password
+        - name: DNSNICUsername
+          type: string
+          key: dns_nic_username
+        - name: DNSNICPassword
+          type: string
+          key: dns_nic_password
+        - name: DNSNICClient
+          type: string
+          key: dns_nic_client
+        - name: DNSNICSecret
+          type: string
+          key: dns_nic_secret
+        - name: DNSWorld4YouUsername
+          type: string
+          key: dns_world4you_username
+        - name: DNSWorld4YouPassword
+          type: string
+          key: dns_world4you_password
+        - name: DNSAuroraKey
+          type: string
+          key: dns_aurora_key
+        - name: DNSAuroraSecret
+          type: string
+          key: dns_aurora_secret
+        - name: DNSConoHaUser
+          type: string
+          key: dns_conoha_user
+        - name: DNSConoHaPassword
+          type: string
+          key: dns_conoha_password
+        - name: DNSConoHaTenantID
+          type: string
+          key: dns_conoha_tenantid
+        - name: DNSConoHaIDAPI
+          type: string
+          key: dns_conoha_idapi
+        - name: DNSConstellixKey
+          type: string
+          key: dns_constellix_key
+        - name: DNSConstellixSecret
+          type: string
+          key: dns_constellix_secret
+        - name: DNSExoscaleKey
+          type: string
+          key: dns_exoscale_key
+        - name: DNSExoscaleSecret
+          type: string
+          key: dns_exoscale_secret
+        - name: DNSInternetBSKey
+          type: string
+          key: dns_internetbs_key
+        - name: DNSInternetBSPassword
+          type: string
+          key: dns_internetbs_password
+        - name: DNSPointHQKey
+          type: string
+          key: dns_pointhq_key
+        - name: DNSPointHQEmail
+          type: string
+          key: dns_pointhq_email
+        - name: DNSRackspaceUser
+          type: string
+          key: dns_rackspace_user
+        - name: DNSRackspaceKey
+          type: string
+          key: dns_rackspace_key
+        - name: DNSRage4User
+          type: string
+          key: dns_rage4_user
+        - name: DNSRage4Token
+          type: string
+          key: dns_rage4_token
+        - name: DNSScalewayToken
+          type: string
+          key: dns_scaleway_token
+
+      ChallengeCreateRequest:
+        - name: Validation
+          type: Validation
+          key: validation
+
+      ChallengeSearchItem:
+        - name: UUID
+          type: string
+          key: uuid
+        - name: Enabled
+          type: string
+          key: enabled
+        - name: Name
+          type: string
+          key: name
+        - name: Method
+          type: string
+          key: method
+        - name: Description
+          type: string
+          key: description
+
+      ChallengeSearchResponse:
+        - name: Total
+          type: int
+          key: total
+        - name: RowCount
+          type: int
+          key: rowCount
+        - name: Current
+          type: int
+          key: current
+        - name: Rows
+          type: "[]ChallengeSearchItem"
+          key: rows
+
+      ValidationGet:
+        - name: ID
+          type: string
+          key: id
+        - name: Enabled
+          type: string
+          key: enabled
+        - name: Name
+          type: string
+          key: name
+        - name: Description
+          type: string
+          key: description
+
+        - name: Method
+          type: "api.FieldOptions"
+          key: method
+
+        # HTTP-01
+        - name: HTTPService
+          type: "api.FieldOptions"
+          key: http_service
+        - name: HTTPOpnAutodiscovery
+          type: string
+          key: http_opn_autodiscovery
+        - name: HTTPOpnInterface
+          type: "api.FieldOptions"
+          key: http_opn_interface
+        - name: HTTPOpnIPAddresses
+          type: "api.StringList"
+          key: http_opn_ipaddresses
+        - name: HTTPHAProxyInject
+          type: string
+          key: http_haproxyInject
+        - name: HTTPHAProxyFrontends
+          type: "api.StringList"
+          key: http_haproxyFrontends
+
+        # TLS-ALPN-01
+        - name: TLSALPNService
+          type: "api.FieldOptions"
+          key: tlsalpn_service
+        - name: TLSALPNAcmeAutodiscovery
+          type: string
+          key: tlsalpn_acme_autodiscovery
+        - name: TLSALPNAcmeInterface
+          type: "api.FieldOptions"
+          key: tlsalpn_acme_interface
+        - name: TLSALPNAcmeIPAddresses
+          type: "api.StringList"
+          key: tlsalpn_acme_ipaddresses
+
+        # DNS-01
+        - name: DNSService
+          type: "api.FieldOptions"
+          key: dns_service
+        - name: DNSSleep
+          type: string
+          key: dns_sleep
+
+        # Credentials / settings (strings unless shown otherwise)
+        - name: DNSActive24Token
+          type: string
+          key: dns_active24_token
+        - name: DNSAdKey
+          type: string
+          key: dns_ad_key
+        - name: DNSAliKey
+          type: string
+          key: dns_ali_key
+        - name: DNSAliSecret
+          type: string
+          key: dns_ali_secret
+        - name: DNSAutodnsUser
+          type: string
+          key: dns_autodns_user
+        - name: DNSAutodnsPassword
+          type: string
+          key: dns_autodns_password
+        - name: DNSAutodnsContext
+          type: string
+          key: dns_autodns_context
+        - name: DNSAwsID
+          type: string
+          key: dns_aws_id
+        - name: DNSAwsSecret
+          type: string
+          key: dns_aws_secret
+        - name: DNSAzureSubscriptionID
+          type: string
+          key: dns_azuredns_subscriptionid
+        - name: DNSAzureTenantID
+          type: string
+          key: dns_azuredns_tenantid
+        - name: DNSAzureAppID
+          type: string
+          key: dns_azuredns_appid
+        - name: DNSAzureClientSecret
+          type: string
+          key: dns_azuredns_clientsecret
+        - name: DNSBunnyAPIKey
+          type: string
+          key: dns_bunny_api_key
+        - name: DNSCFEmail
+          type: string
+          key: dns_cf_email
+        - name: DNSCFKey
+          type: string
+          key: dns_cf_key
+        - name: DNSCFToken
+          type: string
+          key: dns_cf_token
+        - name: DNSCFAccountID
+          type: string
+          key: dns_cf_account_id
+        - name: DNSCFZoneID
+          type: string
+          key: dns_cf_zone_id
+        - name: DNSClouDNSAuthID
+          type: string
+          key: dns_cloudns_auth_id
+        - name: DNSClouDNSSubAuthID
+          type: string
+          key: dns_cloudns_sub_auth_id
+        - name: DNSClouDNSAuthPassword
+          type: string
+          key: dns_cloudns_auth_password
+        - name: DNSCXKey
+          type: string
+          key: dns_cx_key
+        - name: DNSCXSecret
+          type: string
+          key: dns_cx_secret
+        - name: DNSCyonUser
+          type: string
+          key: dns_cyon_user
+        - name: DNSCyonPassword
+          type: string
+          key: dns_cyon_password
+        - name: DNSDAKey
+          type: string
+          key: dns_da_key
+        - name: DNSDAInsecure
+          type: string
+          key: dns_da_insecure
+        - name: DNSDDNSSToken
+          type: string
+          key: dns_ddnss_token
+        - name: DNSDGoNKey
+          type: string
+          key: dns_dgon_key
+        - name: DNSDNSEXITAuthUser
+          type: string
+          key: dns_dnsexit_auth_user
+        - name: DNSDNSEXITAuthPass
+          type: string
+          key: dns_dnsexit_auth_pass
+        - name: DNSDNSEXITAPI
+          type: string
+          key: dns_dnsexit_api
+        - name: DNSDNSHomePassword
+          type: string
+          key: dns_dnshome_password
+        - name: DNSDNSHomeSubdomain
+          type: string
+          key: dns_dnshome_subdomain
+        - name: DNSDNSimpleToken
+          type: string
+          key: dns_dnsimple_token
+        - name: DNSDNSServicesUser
+          type: string
+          key: dns_dnsservices_user
+        - name: DNSDNSServicesPassword
+          type: string
+          key: dns_dnsservices_password
+        - name: DNSDOAPIToken
+          type: string
+          key: dns_doapi_token
+        - name: DNSDOPID
+          type: string
+          key: dns_do_pid
+        - name: DNSDOPassword
+          type: string
+          key: dns_do_password
+        - name: DNSDomeneshopToken
+          type: string
+          key: dns_domeneshop_token
+        - name: DNSDomeneshopSecret
+          type: string
+          key: dns_domeneshop_secret
+        - name: DNSDPID
+          type: string
+          key: dns_dp_id
+        - name: DNSDPKey
+          type: string
+          key: dns_dp_key
+        - name: DNSDHKey
+          type: string
+          key: dns_dh_key
+        - name: DNSDuckDNSToken
+          type: string
+          key: dns_duckdns_token
+        - name: DNSDynCustomer
+          type: string
+          key: dns_dyn_customer
+        - name: DNSDynUser
+          type: string
+          key: dns_dyn_user
+        - name: DNSDynPassword
+          type: string
+          key: dns_dyn_password
+        - name: DNSDynuClientID
+          type: string
+          key: dns_dynu_clientid
+        - name: DNSDynuSecret
+          type: string
+          key: dns_dynu_secret
+        - name: DNSFreeDNSUser
+          type: string
+          key: dns_freedns_user
+        - name: DNSFreeDNSPassword
+          type: string
+          key: dns_freedns_password
+        - name: DNSFornexAPIKey
+          type: string
+          key: dns_fornex_api_key
+        - name: DNSGandiLiveDNSKey
+          type: string
+          key: dns_gandi_livedns_key
+        - name: DNSGandiLiveDNSToken
+          type: string
+          key: dns_gandi_livedns_token
+        - name: DNSGCloudKey
+          type: string
+          key: dns_gcloud_key
+        - name: DNSGoogleDomainsAccessToken
+          type: string
+          key: dns_googledomains_access_token
+        - name: DNSGoogleDomainsZone
+          type: string
+          key: dns_googledomains_zone
+        - name: DNSGoDaddyKey
+          type: string
+          key: dns_gd_key
+        - name: DNSGoDaddySecret
+          type: string
+          key: dns_gd_secret
+        - name: DNSHostingDEServer
+          type: string
+          key: dns_hostingde_server
+        - name: DNSHostingDEAPIKey
+          type: string
+          key: dns_hostingde_apiKey
+        - name: DNSHEUser
+          type: string
+          key: dns_he_user
+        - name: DNSHEPassword
+          type: string
+          key: dns_he_password
+        - name: DNSInfobloxCredentials
+          type: string
+          key: dns_infoblox_credentials
+        - name: DNSInfobloxServer
+          type: string
+          key: dns_infoblox_server
+        - name: DNSINWXUser
+          type: string
+          key: dns_inwx_user
+        - name: DNSINWSPassword
+          type: string
+          key: dns_inws_password
+        - name: DNSINWXPassword
+          type: string
+          key: dns_inwx_password
+        - name: DNSINWXSharedSecret
+          type: string
+          key: dns_inwx_shared_secret
+        - name: DNSIonosPrefix
+          type: string
+          key: dns_ionos_prefix
+        - name: DNSIonosSecret
+          type: string
+          key: dns_ionos_secret
+        - name: DNSIPv64Token
+          type: string
+          key: dns_ipv64_token
+        - name: DNSISPConfigUser
+          type: string
+          key: dns_ispconfig_user
+        - name: DNSISPConfigPassword
+          type: string
+          key: dns_ispconfig_password
+        - name: DNSISPConfigAPI
+          type: string
+          key: dns_ispconfig_api
+        - name: DNSISPConfigInsecure
+          type: string
+          key: dns_ispconfig_insecure
+        - name: DNSJDID
+          type: string
+          key: dns_jd_id
+        - name: DNSJDRegion
+          type: string
+          key: dns_jd_region
+        - name: DNSJDSecret
+          type: string
+          key: dns_jd_secret
+        - name: DNSJokerUsername
+          type: string
+          key: dns_joker_username
+        - name: DNSJokerPassword
+          type: string
+          key: dns_joker_password
+        - name: DNSKinghostUsername
+          type: string
+          key: dns_kinghost_username
+        - name: DNSKinghostPassword
+          type: string
+          key: dns_kinghost_password
+        - name: DNSKnotServer
+          type: string
+          key: dns_knot_server
+        - name: DNSKnotKey
+          type: string
+          key: dns_knot_key
+
+        - name: DNSLexiconProvider
+          type: "api.FieldOptions"
+          key: dns_lexicon_provider
+        - name: DNSLexiconUser
+          type: string
+          key: dns_lexicon_user
+        - name: DNSLexiconToken
+          type: string
+          key: dns_lexicon_token
+
+        - name: DNSLimacityAPIKey
+          type: string
+          key: dns_limacity_apikey
+        - name: DNSLinodeKey
+          type: string
+          key: dns_linode_key
+        - name: DNSLinodeV4Key
+          type: string
+          key: dns_linode_v4_key
+        - name: DNSLoopiaAPI
+          type: string
+          key: dns_loopia_api
+        - name: DNSLoopiaUser
+          type: string
+          key: dns_loopia_user
+        - name: DNSLoopiaPassword
+          type: string
+          key: dns_loopia_password
+        - name: DNSLuaEmail
+          type: string
+          key: dns_lua_email
+        - name: DNSLuaKey
+          type: string
+          key: dns_lua_key
+        - name: DNSMEKey
+          type: string
+          key: dns_me_key
+        - name: DNSMESecret
+          type: string
+          key: dns_me_secret
+        - name: DNSMIABUser
+          type: string
+          key: dns_miab_user
+        - name: DNSMIABPassword
+          type: string
+          key: dns_miab_password
+        - name: DNSMIABServer
+          type: string
+          key: dns_miab_server
+        - name: DNSMyDNSJPMasterID
+          type: string
+          key: dns_mydnsjp_masterid
+        - name: DNSMyDNSJPPassword
+          type: string
+          key: dns_mydnsjp_password
+        - name: DNSMythicBeastsKey
+          type: string
+          key: dns_mythic_beasts_key
+        - name: DNSMythicBeastsSecret
+          type: string
+          key: dns_mythic_beasts_secret
+        - name: DNSNamecheapUser
+          type: string
+          key: dns_namecheap_user
+        - name: DNSNamecheapAPI
+          type: string
+          key: dns_namecheap_api
+        - name: DNSNamecheapSourceIP
+          type: string
+          key: dns_namecheap_sourceip
+        - name: DNSNamecomUser
+          type: string
+          key: dns_namecom_user
+        - name: DNSNamecomToken
+          type: string
+          key: dns_namecom_token
+        - name: DNSNamesiloKey
+          type: string
+          key: dns_namesilo_key
+        - name: DNSNederhostKey
+          type: string
+          key: dns_nederhost_key
+        - name: DNSNetcupCID
+          type: string
+          key: dns_netcup_cid
+        - name: DNSNetcupKey
+          type: string
+          key: dns_netcup_key
+        - name: DNSNetcupPW
+          type: string
+          key: dns_netcup_pw
+        - name: DNSNjallaToken
+          type: string
+          key: dns_njalla_token
+        - name: DNSNSOneKey
+          type: string
+          key: dns_nsone_key
+        - name: DNSNSUpdateServer
+          type: string
+          key: dns_nsupdate_server
+        - name: DNSNSUpdateZone
+          type: string
+          key: dns_nsupdate_zone
+        - name: DNSNSUpdateKey
+          type: string
+          key: dns_nsupdate_key
+        - name: DNSOCIUser
+          type: string
+          key: dns_oci_cli_user
+        - name: DNSOCITenancy
+          type: string
+          key: dns_oci_cli_tenancy
+        - name: DNSOCIRegion
+          type: string
+          key: dns_oci_cli_region
+        - name: DNSOCIKey
+          type: string
+          key: dns_oci_cli_key
+        - name: DNSOnlineKey
+          type: string
+          key: dns_online_key
+        - name: DNSOPNsenseHost
+          type: string
+          key: dns_opnsense_host
+        - name: DNSOPNsensePort
+          type: string
+          key: dns_opnsense_port
+        - name: DNSOPNsenseKey
+          type: string
+          key: dns_opnsense_key
+        - name: DNSOPNsenseToken
+          type: string
+          key: dns_opnsense_token
+        - name: DNSOPNsenseInsecure
+          type: string
+          key: dns_opnsense_insecure
+        - name: DNSOVHAppKey
+          type: string
+          key: dns_ovh_app_key
+        - name: DNSOVHAppSecret
+          type: string
+          key: dns_ovh_app_secret
+        - name: DNSOVHConsumerKey
+          type: string
+          key: dns_ovh_consumer_key
+        - name: DNSOVHEndpoint
+          type: string
+          key: dns_ovh_endpoint
+        - name: DNSPleskXMLUser
+          type: string
+          key: dns_pleskxml_user
+        - name: DNSPleskXMLPass
+          type: string
+          key: dns_pleskxml_pass
+        - name: DNSPleskXMLURI
+          type: string
+          key: dns_pleskxml_uri
+        - name: DNSPDNSURL
+          type: string
+          key: dns_pdns_url
+        - name: DNSPDNSServerID
+          type: string
+          key: dns_pdns_serverid
+        - name: DNSPDNSToken
+          type: string
+          key: dns_pdns_token
+        - name: DNSPorkbunKey
+          type: string
+          key: dns_porkbun_key
+        - name: DNSPorkbunSecret
+          type: string
+          key: dns_porkbun_secret
+        - name: DNSSLKey
+          type: string
+          key: dns_sl_key
+        - name: DNSSelfhostUser
+          type: string
+          key: dns_selfhost_user
+        - name: DNSSelfhostPassword
+          type: string
+          key: dns_selfhost_password
+        - name: DNSSelfhostMap
+          type: string
+          key: dns_selfhost_map
+        - name: DNSServercowUsername
+          type: string
+          key: dns_servercow_username
+        - name: DNSServercowPassword
+          type: string
+          key: dns_servercow_password
+        - name: DNSSimplyAPIKey
+          type: string
+          key: dns_simply_api_key
+        - name: DNSSimplyAccountName
+          type: string
+          key: dns_simply_account_name
+        - name: DNSTransIPUsername
+          type: string
+          key: dns_transip_username
+        - name: DNSTransIPKey
+          type: string
+          key: dns_transip_key
+        - name: DNSUDRUser
+          type: string
+          key: dns_udr_user
+        - name: DNSUDRPassword
+          type: string
+          key: dns_udr_password
+        - name: DNSUnoKey
+          type: string
+          key: dns_uno_key
+        - name: DNSUnoUser
+          type: string
+          key: dns_uno_user
+        - name: DNSVScaleKey
+          type: string
+          key: dns_vscale_key
+        - name: DNSVultrKey
+          type: string
+          key: dns_vultr_key
+        - name: DNSYandexToken
+          type: string
+          key: dns_yandex_token
+        - name: DNSZiloreKey
+          type: string
+          key: dns_zilore_key
+        - name: DNSZMKey
+          type: string
+          key: dns_zm_key
+        - name: DNSGDNSDKUser
+          type: string
+          key: dns_gdnsdk_user
+        - name: DNSGDNSDKPassword
+          type: string
+          key: dns_gdnsdk_password
+        - name: DNSAcmeDNSUser
+          type: string
+          key: dns_acmedns_user
+        - name: DNSAcmeDNSPassword
+          type: string
+          key: dns_acmedns_password
+        - name: DNSAcmeDNSSubdomain
+          type: string
+          key: dns_acmedns_subdomain
+        - name: DNSAcmeDNSUpdateURL
+          type: string
+          key: dns_acmedns_updateurl
+        - name: DNSAcmeDNSBaseURL
+          type: string
+          key: dns_acmedns_baseurl
+        - name: DNSAcmeProxyEndpoint
+          type: string
+          key: dns_acmeproxy_endpoint
+        - name: DNSAcmeProxyUsername
+          type: string
+          key: dns_acmeproxy_username
+        - name: DNSAcmeProxyPassword
+          type: string
+          key: dns_acmeproxy_password
+        - name: DNSVariomediaKey
+          type: string
+          key: dns_variomedia_key
+        - name: DNSSchlundTechUser
+          type: string
+          key: dns_schlundtech_user
+        - name: DNSSchlundTechPassword
+          type: string
+          key: dns_schlundtech_password
+        - name: DNSEasyDNSAPIToken
+          type: string
+          key: dns_easydns_apitoken
+        - name: DNSEasyDNSAPIKey
+          type: string
+          key: dns_easydns_apikey
+        - name: DNSEuservUser
+          type: string
+          key: dns_euserv_user
+        - name: DNSEuservPassword
+          type: string
+          key: dns_euserv_password
+        - name: DNSLeasewebKey
+          type: string
+          key: dns_leaseweb_key
+        - name: DNSCNUser
+          type: string
+          key: dns_cn_user
+        - name: DNSCNPassword
+          type: string
+          key: dns_cn_password
+        - name: DNSArvanToken
+          type: string
+          key: dns_arvan_token
+        - name: DNSArtfilesUsername
+          type: string
+          key: dns_artfiles_username
+        - name: DNSArtfilesPassword
+          type: string
+          key: dns_artfiles_password
+        - name: DNSHetznerToken
+          type: string
+          key: dns_hetzner_token
+        - name: DNSHexonetLogin
+          type: string
+          key: dns_hexonet_login
+        - name: DNSHexonetPassword
+          type: string
+          key: dns_hexonet_password
+        - name: DNS1984HostingUser
+          type: string
+          key: dns_1984hosting_user
+        - name: DNS1984HostingPassword
+          type: string
+          key: dns_1984hosting_password
+        - name: DNSKasLogin
+          type: string
+          key: dns_kas_login
+        - name: DNSKasAuthData
+          type: string
+          key: dns_kas_authdata
+        - name: DNSKasAuthType
+          type: "api.FieldOptions"
+          key: dns_kas_authtype
+        - name: DNSDeSECToken
+          type: string
+          key: dns_desec_token
+        - name: DNSDeSECName
+          type: string
+          key: dns_desec_name
+        - name: DNSInfomaniakToken
+          type: string
+          key: dns_infomaniak_token
+        - name: DNSZoneUsername
+          type: string
+          key: dns_zone_username
+        - name: DNSZoneKey
+          type: string
+          key: dns_zone_key
+        - name: DNSDynv6Token
+          type: string
+          key: dns_dynv6_token
+        - name: DNSCPanelUser
+          type: string
+          key: dns_cpanel_user
+        - name: DNSCPanelToken
+          type: string
+          key: dns_cpanel_token
+        - name: DNSCPanelHostname
+          type: string
+          key: dns_cpanel_hostname
+        - name: DNSRegruUsername
+          type: string
+          key: dns_regru_username
+        - name: DNSRegruPassword
+          type: string
+          key: dns_regru_password
+        - name: DNSNICUsername
+          type: string
+          key: dns_nic_username
+        - name: DNSNICPassword
+          type: string
+          key: dns_nic_password
+        - name: DNSNICClient
+          type: string
+          key: dns_nic_client
+        - name: DNSNICSecret
+          type: string
+          key: dns_nic_secret
+        - name: DNSWorld4YouUsername
+          type: string
+          key: dns_world4you_username
+        - name: DNSWorld4YouPassword
+          type: string
+          key: dns_world4you_password
+        - name: DNSAuroraKey
+          type: string
+          key: dns_aurora_key
+        - name: DNSAuroraSecret
+          type: string
+          key: dns_aurora_secret
+        - name: DNSConoHaUser
+          type: string
+          key: dns_conoha_user
+        - name: DNSConoHaPassword
+          type: string
+          key: dns_conoha_password
+        - name: DNSConoHaTenantID
+          type: string
+          key: dns_conoha_tenantid
+        - name: DNSConoHaIDAPI
+          type: string
+          key: dns_conoha_idapi
+        - name: DNSConstellixKey
+          type: string
+          key: dns_constellix_key
+        - name: DNSConstellixSecret
+          type: string
+          key: dns_constellix_secret
+        - name: DNSExoscaleKey
+          type: string
+          key: dns_exoscale_key
+        - name: DNSExoscaleSecret
+          type: string
+          key: dns_exoscale_secret
+        - name: DNSInternetBSKey
+          type: string
+          key: dns_internetbs_key
+        - name: DNSInternetBSPassword
+          type: string
+          key: dns_internetbs_password
+        - name: DNSPointHQKey
+          type: string
+          key: dns_pointhq_key
+        - name: DNSPointHQEmail
+          type: string
+          key: dns_pointhq_email
+        - name: DNSRackspaceUser
+          type: string
+          key: dns_rackspace_user
+        - name: DNSRackspaceKey
+          type: string
+          key: dns_rackspace_key
+        - name: DNSRage4Token
+          type: string
+          key: dns_rage4_token
+        - name: DNSRage4User
+          type: string
+          key: dns_rage4_user
+        - name: DNSScalewayToken
+          type: string
+          key: dns_scaleway_token
+
+      ValidationGetResponse:
+        - name: Validation
+          type: ValidationGet
+          key: validation
+
+      Certificate:
+        - name: Enabled
+          type: string
+          key: enabled
+        - name: Name
+          type: string
+          key: name
+        - name: Description
+          type: string
+          key: description
+        - name: AltNames
+          type: string
+          key: altNames
+        - name: Account
+          type: string
+          key: account
+        - name: ValidationMethod
+          type: string
+          key: validationMethod
+        - name: AutoRenewal
+          type: string
+          key: autoRenewal
+        - name: RenewInterval
+          type: string
+          key: renewInterval
+        - name: KeyLength
+          type: string
+          key: keyLength
+        - name: OCSP
+          type: string
+          key: ocsp
+        - name: RestartActions
+          type: string
+          key: restartActions
+        - name: AliasMode
+          type: string
+          key: aliasmode
+        - name: DomainAlias
+          type: string
+          key: domainalias
+        - name: ChallengeAlias
+          type: string
+          key: challengealias
+
+      CertificateSearchItem:
+        - name: UUID
+          type: string
+          key: uuid
+        - name: Enabled
+          type: string
+          key: enabled
+        - name: Name
+          type: string
+          key: name
+        - name: AltNames
+          type: string
+          key: altNames
+        - name: Description
+          type: string
+          key: description
+        - name: LastUpdate
+          type: string
+          key: lastUpdate
+        - name: StatusCode
+          type: string
+          key: statusCode
+        - name: StatusLastUpdate
+          type: string
+          key: statusLastUpdate
+
+      CertificateSearchResult:
+        - name: Rows
+          type: "[]CertificateSearchItem"
+          key: rows
+        - name: RowCount
+          type: int
+          key: rowCount
+        - name: Total
+          type: int
+          key: total
+        - name: Current
+          type: int
+          key: current
+
+      CertificateGet:
+        - name: ID
+          type: string
+          key: id
+        - name: Enabled
+          type: string
+          key: enabled
+        - name: Name
+          type: string
+          key: name
+        - name: Description
+          type: string
+          key: description
+        - name: AltNames
+          type: "api.FieldOptions"
+          key: altNames
+        - name: Account
+          type: "api.FieldOptions"
+          key: account
+        - name: ValidationMethod
+          type: "api.FieldOptions"
+          key: validationMethod
+        - name: KeyLength
+          type: "api.FieldOptions"
+          key: keyLength
+        - name: OCSP
+          type: string
+          key: ocsp
+        - name: RestartActions
+          type: "api.FieldOptions"
+          key: restartActions
+        - name: AutoRenewal
+          type: string
+          key: autoRenewal
+        - name: RenewInterval
+          type: string
+          key: renewInterval
+        - name: AliasMode
+          type: "api.FieldOptions"
+          key: aliasmode
+        - name: DomainAlias
+          type: string
+          key: domainalias
+        - name: ChallengeAlias
+          type: string
+          key: challengealias
+        - name: CertRefID
+          type: string
+          key: certRefId
+        - name: LastUpdate
+          type: string
+          key: lastUpdate
+        - name: StatusCode
+          type: string
+          key: statusCode
+        - name: StatusLastUpdate
+          type: string
+          key: statusLastUpdate
+
+      CertificateGetResponse:
+        - name: Certificate
+          type: CertificateGet
+          key: certificate
+
+      #
+      # Settings Types
+      #
+      Settings:
+        - name: Enabled
+          type: string
+          key: enabled
+        - name: AutoRenewal
+          type: string
+          key: autoRenewal
+        - name: UpdateCron
+          type: "api.FieldOptions"
+          key: UpdateCron
+        - name: Environment
+          type: "api.FieldOptions"
+          key: environment
+        - name: ChallengePort
+          type: string
+          key: challengePort
+        - name: TLSChallengePort
+          type: string
+          key: TLSchallengePort
+        - name: RestartTimeout
+          type: string
+          key: restartTimeout
+        - name: HAProxyIntegration
+          type: string
+          key: haproxyIntegration
+        - name: HAProxyAclRef
+          type: "api.FieldOptions"
+          key: haproxyAclRef
+        - name: HAProxyActionRef
+          type: "api.FieldOptions"
+          key: haproxyActionRef
+        - name: HAProxyServerRef
+          type: "api.FieldOptions"
+          key: haproxyServerRef
+        - name: HAProxyBackendRef
+          type: "api.FieldOptions"
+          key: haproxyBackendRef
+        - name: LogLevel
+          type: "api.FieldOptions"
+          key: logLevel
+        - name: ShowIntro
+          type: string
+          key: showIntro
+
+      SettingsContainer:
+        - name: Settings
+          type: Settings
+          key: settings
+
+      SettingsGetResponse:
+        - name: ACMEClient
+          type: SettingsContainer
+          key: acmeclient
+        # TODO: other values
+
+      SettingsSetSettings:
+        - name: Enabled
+          type: string
+          key: enabled
+        - name: AutoRenewal
+          type: string
+          key: autoRenewal
+        - name: HAProxyIntegration
+          type: string
+          key: haproxyIntegration
+        - name: LogLevel
+          type: string
+          key: logLevel
+        - name: ShowIntro
+          type: string
+          key: showIntro
+        - name: ChallengePort
+          type: string
+          key: challengePort
+        - name: TLSChallengePort
+          type: string
+          key: TLSchallengePort
+        - name: RestartTimeout
+          type: string
+          key: restartTimeout
+
+      SettingsSetRequest:
+        - name: Settings
+          type: SettingsSetSettings
+          key: settings
+
+      #
+      # Automation Types
+      #
+      Action:
+        - name: Enabled
+          type: string
+          key: enabled
+        - name: Name
+          type: string
+          key: name
+        - name: Description
+          type: string
+          key: description
+        - name: Type
+          type: string
+          key: type
+
+        # SFTP upload
+        - name: SFTPHost
+          type: string
+          key: sftp_host
+        - name: SFTPPort
+          type: string
+          key: sftp_port
+        - name: SFTPHostKey
+          type: string
+          key: sftp_host_key
+        - name: SFTPUser
+          type: string
+          key: sftp_user
+        - name: SFTPIdentityType
+          type: string
+          key: sftp_identity_type
+        - name: SFTPRemotePath
+          type: string
+          key: sftp_remote_path
+        - name: SFTPChmod
+          type: string
+          key: sftp_chmod
+        - name: SFTPChmodKey
+          type: string
+          key: sftp_chmod_key
+        - name: SFTPChgrp
+          type: string
+          key: sftp_chgrp
+        - name: SFTPFilenameCert
+          type: string
+          key: sftp_filename_cert
+        - name: SFTPFilenameKey
+          type: string
+          key: sftp_filename_key
+        - name: SFTPFilenameCA
+          type: string
+          key: sftp_filename_ca
+        - name: SFTPFilenameFullchain
+          type: string
+          key: sftp_filename_fullchain
+
+        # Remote SSH
+        - name: RemoteSSHHost
+          type: string
+          key: remote_ssh_host
+        - name: RemoteSSHPort
+          type: string
+          key: remote_ssh_port
+        - name: RemoteSSHKey
+          type: string
+          key: remote_ssh_key
+        - name: RemoteSSHUser
+          type: string
+          key: remote_ssh_user
+        - name: RemoteSSHIdentityType
+          type: string
+          key: remote_ssh_identity_type
+        - name: RemoteSSHCommand
+          type: string
+          key: remote_ssh_command
+
+        # configd generic command
+        - name: ConfigdGenericCommand
+          type: string
+          key: configd_generic_command
+
+        # Synology DSM
+        - name: SynologyDSMHostname
+          type: string
+          key: acme_synology_dsm_hostname
+        - name: SynologyDSMPort
+          type: string
+          key: acme_synology_dsm_port
+        - name: SynologyDSMScheme
+          type: string
+          key: acme_synology_dsm_scheme
+        - name: SynologyDSMUsername
+          type: string
+          key: acme_synology_dsm_username
+        - name: SynologyDSMPassword
+          type: string
+          key: acme_synology_dsm_password
+        - name: SynologyDSMDeviceID
+          type: string
+          key: acme_synology_dsm_deviceid
+        - name: SynologyDSMDeviceName
+          type: string
+          key: acme_synology_dsm_devicename
+        - name: SynologyDSMOTPCode
+          type: string
+          key: acme_synology_dsm_otpcode
+        - name: SynologyDSMCreate
+          type: string
+          key: acme_synology_dsm_create
+
+        # FRITZ!Box
+        - name: FritzBoxURL
+          type: string
+          key: acme_fritzbox_url
+        - name: FritzBoxUsername
+          type: string
+          key: acme_fritzbox_username
+        - name: FritzBoxPassword
+          type: string
+          key: acme_fritzbox_password
+
+        # Palo Alto Networks
+        - name: PANOSUsername
+          type: string
+          key: acme_panos_username
+        - name: PANOSPassword
+          type: string
+          key: acme_panos_password
+        - name: PANOSHost
+          type: string
+          key: acme_panos_host
+
+        # Proxmox VE
+        - name: ProxmoxVEUser
+          type: string
+          key: acme_proxmoxve_user
+        - name: ProxmoxVEServer
+          type: string
+          key: acme_proxmoxve_server
+        - name: ProxmoxVEPort
+          type: string
+          key: acme_proxmoxve_port
+        - name: ProxmoxVENodeName
+          type: string
+          key: acme_proxmoxve_nodename
+        - name: ProxmoxVERealm
+          type: string
+          key: acme_proxmoxve_realm
+        - name: ProxmoxVETokenID
+          type: string
+          key: acme_proxmoxve_tokenid
+        - name: ProxmoxVETokenKey
+          type: string
+          key: acme_proxmoxve_tokenkey
+
+        # TrueNAS
+        - name: TrueNASAPIKey
+          type: string
+          key: acme_truenas_apikey
+        - name: TrueNASHostname
+          type: string
+          key: acme_truenas_hostname
+        - name: TrueNASScheme
+          type: string
+          key: acme_truenas_scheme
+
+        # Unifi
+        - name: UnifiKeystore
+          type: string
+          key: acme_unifi_keystore
+
+        # HashiCorp Vault
+        - name: VaultURL
+          type: string
+          key: acme_vault_url
+        - name: VaultPrefix
+          type: string
+          key: acme_vault_prefix
+        - name: VaultToken
+          type: string
+          key: acme_vault_token
+        - name: VaultKVV2
+          type: string
+          key: acme_vault_kvv2
+
+      ActionGet:
+        - name: ID
+          type: string
+          key: id
+        - name: Enabled
+          type: string
+          key: enabled
+        - name: Name
+          type: string
+          key: name
+        - name: Description
+          type: string
+          key: description
+
+        - name: Type
+          type: "api.FieldOptions"
+          key: type
+
+        # SFTP upload
+        - name: SFTPHost
+          type: string
+          key: sftp_host
+        - name: SFTPHostKey
+          type: string
+          key: sftp_host_key
+        - name: SFTPPort
+          type: string
+          key: sftp_port
+        - name: SFTPUser
+          type: string
+          key: sftp_user
+        - name: SFTPIdentityType
+          type: "api.FieldOptions"
+          key: sftp_identity_type
+        - name: SFTPRemotePath
+          type: string
+          key: sftp_remote_path
+        - name: SFTPChgrp
+          type: string
+          key: sftp_chgrp
+        - name: SFTPChmod
+          type: string
+          key: sftp_chmod
+        - name: SFTPChmodKey
+          type: string
+          key: sftp_chmod_key
+        - name: SFTPFilenameCert
+          type: string
+          key: sftp_filename_cert
+        - name: SFTPFilenameKey
+          type: string
+          key: sftp_filename_key
+        - name: SFTPFilenameCA
+          type: string
+          key: sftp_filename_ca
+        - name: SFTPFilenameFullchain
+          type: string
+          key: sftp_filename_fullchain
+
+        # Remote SSH
+        - name: RemoteSSHHost
+          type: string
+          key: remote_ssh_host
+        - name: RemoteSSHHostKey
+          type: string
+          key: remote_ssh_host_key
+        - name: RemoteSSHPort
+          type: string
+          key: remote_ssh_port
+        - name: RemoteSSHUser
+          type: string
+          key: remote_ssh_user
+        - name: RemoteSSHIdentityType
+          type: "api.FieldOptions"
+          key: remote_ssh_identity_type
+        - name: RemoteSSHCommand
+          type: string
+          key: remote_ssh_command
+
+        # configd actions
+        - name: Configd
+          type: "api.FieldOptions"
+          key: configd
+        - name: ConfigdGenericCommand
+          type: "api.FieldOptions"
+          key: configd_generic_command
+
+        # Synology DSM
+        - name: SynologyDSMHostname
+          type: string
+          key: acme_synology_dsm_hostname
+        - name: SynologyDSMPort
+          type: string
+          key: acme_synology_dsm_port
+        - name: SynologyDSMScheme
+          type: "api.FieldOptions"
+          key: acme_synology_dsm_scheme
+        - name: SynologyDSMUsername
+          type: string
+          key: acme_synology_dsm_username
+        - name: SynologyDSMPassword
+          type: string
+          key: acme_synology_dsm_password
+        - name: SynologyDSMCreate
+          type: string
+          key: acme_synology_dsm_create
+        - name: SynologyDSMDeviceID
+          type: string
+          key: acme_synology_dsm_deviceid
+        - name: SynologyDSMDeviceName
+          type: string
+          key: acme_synology_dsm_devicename
+        - name: SynologyDSMOTPCode
+          type: string
+          key: acme_synology_dsm_otpcode
+
+        # FRITZ!Box
+        - name: FritzBoxURL
+          type: string
+          key: acme_fritzbox_url
+        - name: FritzBoxUsername
+          type: string
+          key: acme_fritzbox_username
+        - name: FritzBoxPassword
+          type: string
+          key: acme_fritzbox_password
+
+        # Palo Alto Networks
+        - name: PANOSUsername
+          type: string
+          key: acme_panos_username
+        - name: PANOSPassword
+          type: string
+          key: acme_panos_password
+        - name: PANOSHost
+          type: string
+          key: acme_panos_host
+
+        # Proxmox VE
+        - name: ProxmoxVEUser
+          type: string
+          key: acme_proxmoxve_user
+        - name: ProxmoxVEServer
+          type: string
+          key: acme_proxmoxve_server
+        - name: ProxmoxVEPort
+          type: string
+          key: acme_proxmoxve_port
+        - name: ProxmoxVENodeName
+          type: string
+          key: acme_proxmoxve_nodename
+        - name: ProxmoxVERealm
+          type: string
+          key: acme_proxmoxve_realm
+        - name: ProxmoxVETokenID
+          type: string
+          key: acme_proxmoxve_tokenid
+        - name: ProxmoxVETokenKey
+          type: string
+          key: acme_proxmoxve_tokenkey
+
+        # TrueNAS
+        - name: TrueNASAPIKey
+          type: string
+          key: acme_truenas_apikey
+        - name: TrueNASHostname
+          type: string
+          key: acme_truenas_hostname
+        - name: TrueNASScheme
+          type: "api.FieldOptions"
+          key: acme_truenas_scheme
+
+        # Unifi
+        - name: UnifiKeystore
+          type: string
+          key: acme_unifi_keystore
+
+        # HashiCorp Vault
+        - name: VaultURL
+          type: string
+          key: acme_vault_url
+        - name: VaultPrefix
+          type: string
+          key: acme_vault_prefix
+        - name: VaultToken
+          type: string
+          key: acme_vault_token
+        - name: VaultKVV2
+          type: string
+          key: acme_vault_kvv2
+
+      ActionSearchItem:
+        - name: UUID
+          type: string
+          key: uuid
+        - name: Enabled
+          type: string
+          key: enabled
+        - name: Name
+          type: string
+          key: name
+        - name: Type
+          type: string
+          key: type
+        - name: Description
+          type: string
+          key: description
+
+      ActionSearchResult:
+        - name: Total
+          type: int
+          key: total
+        - name: RowCount
+          type: int
+          key: rowCount
+        - name: Current
+          type: int
+          key: current
+        - name: Rows
+          type: "[]ActionSearchItem"
+          key: rows
+
+      ActionGetResponse:
+        - name: Action
+          type: ActionGet
+          key: action
+
+      AccountRegisterResponse:
+        - name: Response
+          type: string
+          key: response
+        - name: Result
+          type: string
+          key: result
+
+    rpc_calls:
+      #
+      # Account Calls
+      #
+      - name: "AddAccount"
+        method: "POST"
+        endpoint: "/acmeclient/accounts/add"
+        result_type: "api.ActionResult"
+        params:
+          - name: "account"
+            optional: false
+            type: "AccountCreateRequest"
+            bodyParameter: true
+      - name: "EditAccount"
+        method: "POST"
+        endpoint: "/acmeclient/accounts/update"
+        result_type: "api.ActionResult"
+        params:
+          - name: "uuid"
+            optional: false
+          - name: "account"
+            optional: false
+            type: "AccountEditRequest"
+            bodyParameter: true
+      - name: "SearchAccount"
+        method: "POST"
+        endpoint: "/acmeclient/accounts/search"
+        result_type: "AccountSearchResponse"
+      - name: "GetAccount"
+        method: "GET"
+        endpoint: "/acmeclient/accounts/get"
+        result_type: "AccountGetResponse"
+        params:
+          - name: "uuid"
+            optional: false
+      - name: "RegisterAccount"
+        method: "POST"
+        endpoint: "/acmeclient/accounts/register"
+        result_type: "AccountRegisterResponse"
+        params:
+          - name: "uuid"
+            optional: false
+      - name: "DeleteAccount"
+        method: "POST"
+        endpoint: "/acmeclient/accounts/del"
+        result_type: "api.ActionResult"
+        params:
+          - name: "uuid"
+            optional: false
+
+      #
+      # Account Calls
+      #
+      - name: "AddChallengeType"
+        method: "POST"
+        endpoint: "/acmeclient/validations/add"
+        result_type: "api.ActionResult"
+        params:
+          - name: "validation"
+            optional: false
+            type: "Validation"
+            bodyParameter: true
+      - name: "SearchChallengeType"
+        method: "POST"
+        endpoint: "/acmeclient/validations/search"
+        result_type: "ChallengeSearchResponse"
+      - name: "GetChallengeType"
+        method: "GET"
+        endpoint: "/acmeclient/validations/get"
+        result_type: "ValidationGetResponse"
+        params:
+          - name: "uuid"
+            optional: false
+      - name: "DeleteChallengeType"
+        method: "POST"
+        endpoint: "/acmeclient/validations/del"
+        result_type: "api.ActionResult"
+        params:
+          - name: "uuid"
+            optional: false
+      - name: "EditChallengeType"
+        method: "POST"
+        endpoint: "/acmeclient/validations/update"
+        result_type: "api.ActionResult"
+        params:
+          - name: "uuid"
+            optional: false
+          - name: "validation"
+            optional: false
+            type: "Validation"
+            bodyParameter: true
+
+      #
+      # Cert Calls
+      #
+      - name: "AddCert"
+        method: "POST"
+        endpoint: "/acmeclient/certificates/add"
+        result_type: "api.ActionResult"
+        params:
+          - name: "certificate"
+            optional: false
+            type: "Certificate"
+            bodyParameter: true
+      - name: "SearchCert"
+        method: "POST"
+        endpoint: "/acmeclient/certificates/search"
+        result_type: "CertificateSearchResult"
+      - name: "EditCert"
+        method: "POST"
+        endpoint: "/acmeclient/certificates/update"
+        result_type: "api.ActionResult"
+        params:
+          - name: "uuid"
+            optional: false
+          - name: "certificate"
+            optional: false
+            type: "Certificate"
+            bodyParameter: true
+      - name: "DeleteCert"
+        method: "POST"
+        endpoint: "/acmeclient/certificates/del"
+        result_type: "api.ActionResult"
+        params:
+          - name: "uuid"
+            optional: false
+      - name: "GetCert"
+        method: "GET"
+        endpoint: "/acmeclient/certificates/get"
+        result_type: "CertificateGetResponse"
+        params:
+          - name: "uuid"
+            optional: false
+
+      #
+      # Settings
+      #
+      - name: "GetSettings"
+        method: "GET"
+        endpoint: "/acmeclient/settings/get"
+        result_type: "SettingsGetResponse"
+      - name: "SetSettings"
+        method: "POST"
+        endpoint: "/acmeclient/settings/set"
+        result_type: "api.ActionResult"
+        params:
+          - name: "acmeclient"
+            optional: false
+            type: "SettingsSetRequest"
+            bodyParameter: true
+
+      #
+      # Automation Calls
+      #
+      - name: "AddAutomation"
+        method: "POST"
+        endpoint: "/acmeclient/actions/add"
+        result_type: "api.ActionResult"
+        params:
+          - name: "action"
+            optional: false
+            type: "Action"
+            bodyParameter: true
+      - name: "SearchAutomation"
+        method: "POST"
+        endpoint: "/acmeclient/actions/search"
+        result_type: "ActionSearchResult"
+      - name: "EditAutomation"
+        method: "POST"
+        endpoint: "/acmeclient/actions/update"
+        result_type: "api.ActionResult"
+        params:
+          - name: "uuid"
+            optional: false
+          - name: "action"
+            optional: false
+            type: "Action"
+            bodyParameter: true
+      - name: "DeleteAutomation"
+        method: "POST"
+        endpoint: "/acmeclient/actions/del"
+        result_type: "api.ActionResult"
+        params:
+          - name: "uuid"
+            optional: false
+      - name: "GetAutomation"
+        method: "GET"
+        endpoint: "/acmeclient/actions/get"
+        result_type: "ActionGetResponse"
+        params:
+          - name: "uuid"
+            optional: false

@@ -1,10 +1,12 @@
 package api
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"net/url"
 	"sort"
+	"strconv"
 	"strings"
 )
 
@@ -87,7 +89,119 @@ func (p *RPCOpts) Body() (string, error) {
 }
 
 type ActionResult struct {
-	Result string `json:"result"`
+	Status      string            `json:"status"`
+	Result      string            `json:"result"`
+	UUID        string            `json:"uuid"`
+	Validations map[string]string `json:"validations"`
+}
+
+type Option struct {
+	Value    string `json:"value"`
+	Selected int    `json:"selected"`
+}
+
+type FieldOptions map[string]Option
+
+type BoolLike bool
+
+func (b *BoolLike) UnmarshalJSON(data []byte) error {
+	switch string(data) {
+	case "true", "false":
+		var v bool
+		if err := json.Unmarshal(data, &v); err != nil {
+			return err
+		}
+		*b = BoolLike(v)
+		return nil
+	}
+
+	var str string
+	if err := json.Unmarshal(data, &str); err == nil {
+		switch strings.ToLower(strings.TrimSpace(str)) {
+		case "1", "true", "yes", "on":
+			*b = BoolLike(true)
+			return nil
+		case "0", "false", "no", "off", "":
+			*b = BoolLike(false)
+			return nil
+		}
+	}
+
+	var n int
+	if err := json.Unmarshal(data, &n); err == nil {
+		*b = BoolLike(n != 0)
+		return nil
+	}
+
+	return fmt.Errorf("BoolLike: unsupported value %s", string(data))
+}
+
+func (b BoolLike) Bool() bool { return bool(b) }
+
+// IntLike accepts JSON integers encoded as numbers or strings. Empty strings
+// and null decode to zero, matching the OPNsense API's optional fields.
+type IntLike int
+
+func (i *IntLike) UnmarshalJSON(data []byte) error {
+	var num json.Number
+	if err := json.Unmarshal(data, &num); err == nil && num.String() != "" {
+		v, err := strconv.Atoi(num.String())
+		if err != nil {
+			return fmt.Errorf("IntLike: invalid numeric value %q: %w", num.String(), err)
+		}
+		*i = IntLike(v)
+		return nil
+	}
+
+	var s string
+	if err := json.Unmarshal(data, &s); err == nil {
+		s = strings.TrimSpace(s)
+		if s == "" {
+			*i = 0
+			return nil
+		}
+		v, err := strconv.Atoi(s)
+		if err != nil {
+			return fmt.Errorf("IntLike: invalid string %q: %w", s, err)
+		}
+		*i = IntLike(v)
+		return nil
+	}
+
+	if string(data) == "null" {
+		*i = 0
+		return nil
+	}
+
+	return fmt.Errorf("IntLike: unsupported JSON token %s", string(data))
+}
+
+func (i IntLike) Int() int { return int(i) }
+
+func (o *FieldOptions) UnmarshalJSON(data []byte) error {
+	data = bytes.TrimSpace(data)
+	if bytes.Equal(data, []byte("null")) || len(data) == 0 {
+		*o = nil
+		return nil
+	}
+
+	switch data[0] {
+	case '{':
+		var m map[string]Option
+		if err := json.Unmarshal(data, &m); err != nil {
+			return err
+		}
+		*o = m
+		return nil
+	case '[':
+		if bytes.Equal(data, []byte("[]")) {
+			*o = FieldOptions{}
+			return nil
+		}
+		return fmt.Errorf("FieldOptions: expected object or empty array, got %s", data)
+	default:
+		return fmt.Errorf("FieldOptions: invalid JSON starting with %q", data[0])
+	}
 }
 
 type ReconfigureStatusResult struct {

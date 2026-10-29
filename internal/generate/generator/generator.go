@@ -21,12 +21,20 @@ func NewGenerator(filename string) *Generator {
 	}
 }
 
+func controllerMethodName(name string) string {
+	// HAProxy is the public API spelling retained for backwards compatibility.
+	if name == "haproxy" {
+		return "HAProxy"
+	}
+	return cases.Title(language.English).String(name)
+}
+
 func parseTemplate(body string, data any) ([]byte, error) {
 	// Parse template
 	tmpl, err := template.New("gen").
 		Funcs(
 			template.FuncMap{
-				"ToTitle": cases.Title(language.English).String,
+				"ToTitle": controllerMethodName,
 			}).
 		Parse(body)
 	if err != nil {
