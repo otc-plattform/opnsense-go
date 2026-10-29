@@ -71,17 +71,17 @@ type HTTPServerGetResponse struct {
 
 type HTTPServerGetServer struct {
 	ServerName                     api.FieldOptions `json:"servername"`
-	SyslogTargets                  []string         `json:"syslog_targets"`
+	SyslogTargets                  api.StringList   `json:"syslog_targets"`
 	ListenHTTPAddress              api.FieldOptions `json:"listen_http_address"`
 	ListenHTTPSAddress             api.FieldOptions `json:"listen_https_address"`
 	DefaultServer                  string           `json:"default_server"`
 	TLSRejectHandshake             string           `json:"tls_reject_handshake"`
 	ProxyProtocol                  string           `json:"proxy_protocol"`
-	TrustedProxies                 []string         `json:"trusted_proxies"`
+	TrustedProxies                 api.StringList   `json:"trusted_proxies"`
 	TrustedProxiesAlias            api.FieldOptions `json:"trusted_proxies_alias"`
 	RealIPSource                   api.FieldOptions `json:"real_ip_source"`
 	Locations                      api.FieldOptions `json:"locations"`
-	Rewrites                       []string         `json:"rewrites"`
+	Rewrites                       api.StringList   `json:"rewrites"`
 	Root                           string           `json:"root"`
 	Certificate                    api.FieldOptions `json:"certificate"`
 	CA                             api.FieldOptions `json:"ca"`
@@ -102,21 +102,21 @@ type HTTPServerGetServer struct {
 	BlockNonpublicData             string           `json:"block_nonpublic_data"`
 	DisableBotProtection           string           `json:"disable_bot_protection"`
 	DisableGzip                    string           `json:"disable_gzip"`
-	NaxsiWhitelistSrcIP            []string         `json:"naxsi_whitelist_srcip"`
+	NaxsiWhitelistSrcIP            api.StringList   `json:"naxsi_whitelist_srcip"`
 	NaxsiExtensiveLog              string           `json:"naxsi_extensive_log"`
 	Sendfile                       string           `json:"sendfile"`
 	ClientHeaderBufferSize         string           `json:"client_header_buffer_size"`
 	LargeClientHeaderBuffersNumber string           `json:"large_client_header_buffers_number"`
 	LargeClientHeaderBuffersSize   string           `json:"large_client_header_buffers_size"`
 	SecurityHeader                 api.FieldOptions `json:"security_header"`
-	LimitRequestConnections        []string         `json:"limit_request_connections"`
+	LimitRequestConnections        api.StringList   `json:"limit_request_connections"`
 	MaxBodySize                    string           `json:"max_body_size"`
 	BodyBufferSize                 string           `json:"body_buffer_size"`
 	IPACL                          api.FieldOptions `json:"ip_acl"`
 	AdvancedACLServer              api.FieldOptions `json:"advanced_acl_server"`
 	Satisfy                        api.FieldOptions `json:"satisfy"`
 	ZeroRTT                        string           `json:"zero_rtt"`
-	ErrorPages                     []string         `json:"errorpages"`
+	ErrorPages                     api.StringList   `json:"errorpages"`
 }
 
 type HTTPServerSearchItem struct {
@@ -199,7 +199,7 @@ type LocationGetLocation struct {
 	SecRulesErrorPage       api.FieldOptions `json:"secrules_errorpage"`
 	XSSBlockScore           string           `json:"xss_block_score"`
 	SQLiBlockScore          string           `json:"sqli_block_score"`
-	CustomPolicy            []string         `json:"custom_policy"`
+	CustomPolicy            api.StringList   `json:"custom_policy"`
 	Upstream                api.FieldOptions `json:"upstream"`
 	PathPrefix              string           `json:"path_prefix"`
 	CachePath               api.FieldOptions `json:"cache_path"`
@@ -211,8 +211,8 @@ type LocationGetLocation struct {
 	CacheLock               string           `json:"cache_lock"`
 	CacheRevalidate         string           `json:"cache_revalidate"`
 	Root                    string           `json:"root"`
-	Rewrites                []string         `json:"rewrites"`
-	Index                   []string         `json:"index"`
+	Rewrites                api.StringList   `json:"rewrites"`
+	Index                   api.StringList   `json:"index"`
 	AutoIndex               string           `json:"autoindex"`
 	AuthBasic               string           `json:"authbasic"`
 	AuthBasicUserFile       api.FieldOptions `json:"authbasicuserfile"`
@@ -220,7 +220,7 @@ type LocationGetLocation struct {
 	ForceHTTPS              string           `json:"force_https"`
 	PHPEnable               string           `json:"php_enable"`
 	PHPOverrideScriptName   string           `json:"php_override_scriptname"`
-	LimitRequestConnections []string         `json:"limit_request_connections"`
+	LimitRequestConnections api.StringList   `json:"limit_request_connections"`
 	MaxBodySize             string           `json:"max_body_size"`
 	BodyBufferSize          string           `json:"body_buffer_size"`
 	Honeypot                string           `json:"honeypot"`
@@ -239,7 +239,7 @@ type LocationGetLocation struct {
 	Satisfy                 api.FieldOptions `json:"satisfy"`
 	ProxyMaxTempFileSize    string           `json:"proxy_max_temp_file_size"`
 	ProxySSLServerName      string           `json:"proxy_ssl_server_name"`
-	ErrorPages              []string         `json:"errorpages"`
+	ErrorPages              api.StringList   `json:"errorpages"`
 }
 
 type LocationGetResponse struct {

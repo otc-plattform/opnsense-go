@@ -61,6 +61,10 @@ func NewClient(options Options) *Client {
 	client.client.HTTPClient.Transport = &http.Transport{
 		Proxy:           http.ProxyFromEnvironment,
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: options.AllowInsecure},
+		// OPNsense 26.7 can return malformed compressed chunk streams from
+		// large API responses such as /core/firmware/info. Leaving responses
+		// uncompressed avoids that server-side encoding defect.
+		DisableCompression: true,
 	}
 
 	//   Set defaults for retries
@@ -120,16 +124,21 @@ func (c *Client) doRequest(ctx context.Context, method, endpoint string, body an
 
 	// Add headers
 	req.Header.Add("Authorization", fmt.Sprintf("Basic %s", c.getAuth()))
+	// OPNsense 26.7 may corrupt large chunked API responses when Go's default
+	// User-Agent is used. Its web-compatible response path is reliable.
+	req.Header.Set("User-Agent", "Mozilla/5.0 (compatible; opnsense-go)")
 	if body != nil {
 		req.Header.Add("Content-Type", "application/json")
 	}
 
-	// Log request
-	reqCopy := req.Clone(req.Context())
-	reqCopy.Header.Set("Authorization", "****************")
-
-	dReq, _ := httputil.DumpRequest(reqCopy, true)
-	logger.Println(fmt.Sprintf("\n%s\n", string(dReq)))
+	// Log the request without exposing credentials. Keep logging optional so
+	// normal client use does not buffer request/response bodies unnecessarily.
+	if c.opts.Logger != nil {
+		reqCopy := req.Clone(req.Context())
+		reqCopy.Header.Set("Authorization", "****************")
+		dReq, _ := httputil.DumpRequest(reqCopy, true)
+		logger.Println(fmt.Sprintf("\n%s\n", string(dReq)))
+	}
 
 	// Do request
 	res, err := c.client.Do(req)
@@ -138,9 +147,13 @@ func (c *Client) doRequest(ctx context.Context, method, endpoint string, body an
 	}
 	defer res.Body.Close()
 
-	// Log response
-	dRes, _ := httputil.DumpResponse(res, true)
-	logger.Println(ctx, fmt.Sprintf("\n%s\n", string(dRes)))
+	// Do not dump the response body: DumpResponse reads it eagerly, which
+	// breaks OPNsense 26.7's large chunked firmware-info response. Headers are
+	// sufficient for opt-in debug logging.
+	if c.opts.Logger != nil {
+		dRes, _ := httputil.DumpResponse(res, false)
+		logger.Println(ctx, fmt.Sprintf("\n%s\n", string(dRes)))
+	}
 
 	// Check for 200
 	if res.StatusCode != http.StatusOK {
